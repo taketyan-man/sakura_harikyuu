@@ -31,4 +31,12 @@
     width: 100%;
     background-color: white;
   }
+
+  .host-login-date {
+    font-size:0;
+    }
+    .host-login-date:before {
+    font-size:14px;
+    content:'◎';
+    }
 }

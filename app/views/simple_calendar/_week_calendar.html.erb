@@ -1,12 +1,12 @@
 <div class="simple-calendar">
   <div class="calendar-heading">
-    <%= link_to t('simple_calendar.previous', default: '前週'), calendar.url_for_previous_view %>
+    <%= link_to t('simple_calendar.previous', default: '前へ'), calendar.url_for_previous_view %>
     <% if calendar.number_of_weeks == 1 %>
       <span class="calendar-title"><%= t('simple_calendar.week', default: '1週間') %></span>
     <% else %>
       <span class="calendar-title"><%= t('simple_calendar.week', default: '1週間') %></span>
     <% end %>
-    <%= link_to t('simple_calendar.next', default: '翌週'), calendar.url_for_next_view %>
+    <%= link_to t('simple_calendar.next', default: '次へ'), calendar.url_for_next_view %>
     <% @reservations %>
   </div>
   <table class="table table-striped">
@@ -42,7 +42,7 @@
                 <% if session[:user_id] == 1 %>
                   <% if check_reservation(@reservations, day, time) %>
                   <% @date_time = day.to_s + time.to_s %>
-                  <%= link_to '予約あり', user_show_path(date_time: @date_time) %>
+                  <%= link_to '予約あり', user_show_path(date_time: @date_time), class: "host-login-date" %>
                   <% elsif  day.to_date < Date.current || day.to_date > (Date.current + 60) %>
                     <%= '-' %>
                   <% elsif day.to_date < (Date.current + 1) %>
