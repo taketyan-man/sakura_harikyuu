@@ -5,11 +5,8 @@ import jquery from "jquery"
 window.$ = jquery
 //= require jquery
 //= require jquery_ujs
-//$(function(){
-  //alert("jQuery 動いた！")
-//})
-
-$(function() {
+$(function () {
+  
   $('.btn').click(function(){
     $('.menu-content').fadeIn();
   });
@@ -22,4 +19,25 @@ $(function() {
     $('.menu-content').fadeOut();
     $('html body').scrollTop(position);
   });
+
+  $('#click').click(function(){
+    var thisCount = $("#count").html();
+      thisCount = Number(thisCount);
+      thisCount = thisCount + 1;
+    if (thisCount > 9){
+      $('.right').hide();
+      $('.host-link').show();
+    };
+    $("#count").html(thisCount);
+     
+  });
+
+  // $('.menu_select').change(function(){
+    //var r = $('#menu option:selected').val();
+    //if (r){
+      //$('#submit').show();
+    //}else {
+      //$('#submit').hide();
+    //}
+  //});
 });

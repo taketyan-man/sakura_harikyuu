@@ -1,0 +1,31 @@
+<div class="container">
+  <%= link_to "HOMEへ", '/', data:{ no_turbolink: true }, class: "link-home" %>
+  <% if flash[:notice] %>
+    <div class="flash">
+      <h2>以下のどれかのせいでエラーになりました</h2>
+      <% flash[:notice].each do |message| %>
+        <div class="message">
+        <li>
+          <%= message %> 
+        </li>
+        </div>
+      <% end %> 
+      <p class="restart-text">最初から入力してください</p>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1>予約画面</h1>
+      <p>2ヶ月先まで予約することができます。</p>
+      <p>当日の場合は電話でご確認ください。</p>
+    </div>
+    <div class="col-12 mt-3">
+      <%= week_calendar events: @reservations do |date, reservations| %>
+        <%= date.month %>
+        <a> /</a>
+        <%= date.day %>
+      <% end %>
+    </div>
+  </div>
+</div>
+<

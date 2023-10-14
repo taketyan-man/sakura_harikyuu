@@ -1,0 +1,46 @@
+<div class="new-container">
+  <div class="row">
+    <div class="col-12 text-center title">
+      <h1>予定入力</h1>
+    </div>
+    <% @reservation.errors.full_messages.each do |message| %>
+      <div class="form-error">
+        <%= message %>
+      </div>
+    <% end %>
+    <div class="col-12 mt-3 host-content">
+      <%= form_with url:host_create_path, class: 'form' do |form| %>
+      <div class="day form-group">
+        <%= form.label :day, '日付' %>
+        <div class="form-box">
+          <%= form.text_field :day, name: 'day', class: 'form-control', value: @day, readonly: true %>
+        </div>
+      </div>
+      <div class="time form-group">
+        <%= form.label :s_time, '開始時間' %>
+        <div class="form-box">
+          <%= form.text_field :s_time, name: 's_time', class: 'form-control', value: @time %>
+        </div>
+      </div>
+      <div class="time form-group">
+        <%= form.label :e_time, '終了時間' %>
+        <div class="form-box">
+          <%= form.text_field :e_time, name: 'e_time', class: 'form-control', value: @time %>
+        </div>
+      </div>
+        <%= form.hidden_field :tell,  value: @tell %>
+        <%= form.hidden_field :name,  value: @name %>
+        <%= form.hidden_field :time,  value: @time %>
+        <%= form.hidden_field :start_time,  value: @start_time %>
+      <div class="menu_select form-group">
+        <div class="host-submit" id="submit">
+          <%= form.submit value: '予定を入れる', class: 'submit_btn' %>
+        </div>
+      </div>
+    <% end %>
+    <div class="col-12 text-right">
+      <%= link_to '戻る', host_path %>
+    </div>
+    </div>
+  </div>
+</div>

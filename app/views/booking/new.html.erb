@@ -1,0 +1,54 @@
+<div class="new-container">
+  <div class="row">
+    <div class="col-12 text-center title">
+      <h1>新規予約画面</h1>
+    </div>
+    <% @reservation.errors.full_messages.each do |message| %>
+      <div class="form-error">
+        <%= message %>
+      </div>
+    <% end %>
+    <div class="col-12 mt-3 content">
+      <%= form_with url:booking_date_create_path, class: 'form' do |form| %>
+      <div class="day form-group">
+        <%= form.label :day, '日付' %>
+        <div class="form-box">
+          <%= form.text_field :day, name: 'day', class: 'form-control', value: @day, readonly: true %>
+        </div>
+      </div>
+      <div class="time form-group">
+        <%= form.label :time, '時間' %>
+        <div class="form-box">
+          <%= form.text_field :time, name: 'time', class: 'form-control', value: @time, readonly: true %>
+        </div>
+      </div>
+      <div class="name form-group">
+        <%= form.label :name,'名前' %>
+        <div class="form-box">
+          <%= form.text_field :tell, name: 'name', class: 'form-control'%>
+        </div>
+      </div>
+      <div class="tell form-group">
+        <%= form.label :tell,'電話番号' %>
+        <div class="form-box">
+          <%= form.text_field :tell, name: 'tell', class: 'form-control', placeholder: '例)08011112222'%>
+        </div>
+      </div>
+      <div class="menu_select form-group">
+        <%= form.label :menu, 'メニュー' %>
+        <div class="menu-form">
+        <%= form.select :menu, {'ボディケア 60分': 0,'ボディケア 90分': 1, '鍼灸マッサージ 60分': 2, '鍼灸マッサージ 90分': 3, '美容鍼 60分': 4, 'アロマオイル 30分': 5}, { include_blank: '選択してください'}, {class: 'menu-select'} %>
+        </div>
+        <p class="time-atent">※時間はあくまで目安です。<p>
+        <%= form.hidden_field :start_time,  value: @start_time %>
+        <div class="submit" id="submit">
+          <%= form.submit value: '予約する', class: 'submit_btn' %>
+        </div>
+      </div>
+    <% end %>
+    <div class="col-12 text-right">
+      <%= link_to '戻る', booking_date_path %>
+    </div>
+    </div>
+  </div>
+</div>

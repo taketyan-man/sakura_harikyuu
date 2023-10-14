@@ -86,10 +86,23 @@ header {
 
 .booking_link {
   font-size: 24px;
-  background-color: #3584bb;
+  background-color: rgb(255, 168, 181);
   color:rgb(255, 255, 255);
   padding: 10px;
   border-radius: 50%;
+}
+
+.flash {
+  width: 100%;
+  margin: auto;
+  padding: 24px;
+  text-align: left;
+  background-color: rgb(246, 251, 255);
+  color: rgb(246, 42, 42);
+}
+
+.message li {
+  list-style-type: disc;
 }
 
 main {
@@ -266,6 +279,9 @@ main {
   text-align: left;
 }
 
+.mail {
+  color: #639bb7;
+}
 
 .map-img {
   width: 70%;
@@ -281,6 +297,15 @@ footer {
   padding: 28px 0;
   background-color: #2d3133;
   text-align: center;
+}
+
+.host-link {
+  color: white;
+  display: none;
+}
+
+#count {
+  display: none;
 }
 
 @media (max-width: 1100px) {
@@ -359,7 +384,7 @@ footer {
     top: 0;
     left: 0;
     z-index: 80;
-    background-color: #3584bb;
+    background-color: #ffffff;
   }
 
   .close {
@@ -372,14 +397,14 @@ footer {
   }
 
   .menu-content ul li {
-    border-bottom: #ffffff 1px solid;
+    border-bottom:  rgb(247, 192, 200) 1px solid;
   }
 
   .menu-content ul li a {
     width: 100%;
-    font-size: 15px;
+    font-size: 20px;
     box-sizing: border-box;
-    color:#ffffff;
+    color:rgb(247, 192, 200);
     text-decoration: none;
     padding: 9px 15px 10px 0;
     position: relative;

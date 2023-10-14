@@ -1,0 +1,73 @@
+<div class="simple-calendar">
+  <div class="calendar-heading">
+    <%= link_to t('simple_calendar.previous', default: '前週'), calendar.url_for_previous_view %>
+    <% if calendar.number_of_weeks == 1 %>
+      <span class="calendar-title"><%= t('simple_calendar.week', default: '1週間') %></span>
+    <% else %>
+      <span class="calendar-title"><%= t('simple_calendar.week', default: '1週間') %></span>
+    <% end %>
+    <%= link_to t('simple_calendar.next', default: '翌週'), calendar.url_for_next_view %>
+    <% @reservations %>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>時間</th>
+        <% date_range.slice(0, 7).each do |day| %>
+          <th><%= t('date.abbr_day_names')[day.wday] %></th>
+        <% end %>
+      </tr>
+    </thead>
+      
+    
+    <tbody>
+      <% date_range.each_slice(7) do |week| %>
+        <tr>
+          <td></td>
+          <% week.each do |day| %>
+            <%= content_tag :td, class: calendar.td_classes_for(day) do %>
+              <% if defined?(Haml) && respond_to?(:block_is_haml?) && block_is_haml?(passed_block) %>
+                <% capture_haml(day, sorted_events.fetch(day, []), &passed_block) %>
+              <% else %>
+                <% passed_block.call day, sorted_events.fetch(day, []) %>
+              <% end %>
+            <% end %>
+          <% end %>
+        </tr>
+        <% times.each do |time| %>
+          <tr>
+            <td><%= time %></td>
+            <% week.each do |day| %>
+              <td>
+                <% if session[:user_id] == 1 %>
+                  <% if check_reservation(@reservations, day, time) %>
+                  <% @date_time = day.to_s + time.to_s %>
+                  <%= link_to '予約あり', user_show_path(date_time: @date_time) %>
+                  <% elsif  day.to_date < Date.current || day.to_date > (Date.current + 60) %>
+                    <%= '-' %>
+                  <% elsif day.to_date < (Date.current + 1) %>
+                    <%= '△' %>
+                  <% else %>
+                    <%= link_to  host_new_path(day: day, time: time) do %>
+                      <%= '○' %>
+                    <% end %>
+                  <% end %>
+                <% else %>
+                  <% if check_reservation(@reservations, day, time) || day.to_date < Date.current || day.to_date > (Date.current + 60) %>
+                    <%= 'x' %>
+                  <% elsif day.to_date < (Date.current + 1) %>
+                    <%= '△' %>
+                  <% else %>
+                    <%= link_to  booking_date_new_path(day: day, time: time) do %>
+                      <%= '○' %>
+                    <% end %>
+                  <% end %>
+                <% end %>
+                </td>
+              <% end %>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+</div>

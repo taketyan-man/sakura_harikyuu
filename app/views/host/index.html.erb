@@ -1,0 +1,29 @@
+<div class="container">
+<% if flash[:notice] %>
+<div class="flash">
+    <% if flash[:notice].instance_of?(Array) %>
+      <h2>以下のどれかのせいでエラーになりました</h2>
+        <% flash[:notice].each do |message| %>
+          <div class="message">
+            <li><%= message %></li>
+            </div>
+            <% end %> 
+          <p>最初から入力してください</p>   
+    <% else %>
+    <%= flash[:notice] %>
+      <p>最初から入力してください</p>   
+    <% end %>
+    </div>
+  <% end %>
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1>予定入力</h1>
+      <p>2ヶ月先まで予約することができます。</p>
+    </div>
+    <div class="col-12 mt-3">
+      <%= week_calendar events: @reservations do |date, reservations| %>
+        <%= date.day %>
+      <% end %>
+    </div>
+  </div>
+</div>
