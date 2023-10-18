@@ -14,4 +14,10 @@
  *= require_self
  *= require simple_calendar
  */
+.simple-calendar th:nth-child(7) {
+  color:blue;
+}
 
+.simple-calendar th:nth-child(8) {
+  color:red;
+}

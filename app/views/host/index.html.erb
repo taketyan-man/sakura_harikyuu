@@ -1,5 +1,7 @@
 <div class="container">
-<% if flash[:notice] %>
+<% if flash[:notice].nil? %>
+  <% a = 1 %>
+<% else %>
 <div class="flash">
     <% if flash[:notice].instance_of?(Array) %>
       <h2>以下のどれかのせいでエラーになりました</h2>
@@ -7,13 +9,14 @@
           <div class="message">
             <li><%= message %></li>
             </div>
-            <% end %> 
-          <p>最初から入力してください</p>   
+            <% end %>    
     <% else %>
-    <%= flash[:notice] %>
-      <p>最初から入力してください</p>   
+      <%= flash[:notice] %> 
     <% end %>
     </div>
+<% end %>
+  <%= form_with url:booking_logout_path, class: 'form' do |form| %>
+    <%= form.submit value: 'ログアウト', class: 'logout-btn' %>
   <% end %>
   <div class="row">
     <div class="col-12 text-center">
@@ -22,6 +25,8 @@
     </div>
     <div class="col-12 mt-3">
       <%= week_calendar events: @reservations do |date, reservations| %>
+        <%= date.month %>
+        <a> /</a>
         <%= date.day %>
       <% end %>
     </div>

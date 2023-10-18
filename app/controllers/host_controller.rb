@@ -46,12 +46,13 @@ class HostController < BookingController
       end
     else
       i += 1
-      flash[:notice] = []
+      ary = []
       i.times do |j|
         if @reservation.save
           m = 1
         else
-          flash[:notice].push("#{@reservation.time}は予約が入っています。確認してください")
+          ary.push("#{@reservation.time}は予約が入っています。確認してください")
+          @m = 2
         end
         time = times[start_num + j + 1].to_s
         date_time = @reservation.day.to_s + time
@@ -67,8 +68,16 @@ class HostController < BookingController
           menu: 10
         )
       end
+      if @m == 2
+        flash[:notice] = ary
+      end
       redirect_to host_path
     end
+  end
+
+  def host_logout
+    session[:user_id] = nil
+    redirect_to home_path
   end
 
   private

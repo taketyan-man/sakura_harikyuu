@@ -42,6 +42,12 @@
         </div>
       </div>
     <% end %>
+    <%= form_with url:booking_delete_path, class: 'form' do |form| %>
+      <div class="delete" id="delete">
+        <%= form.submit value: '削除する', class: 'delete_btn' %>
+      </div>
+      <%= form.hidden_field  :date_time, name:'date_time', class: 'form-control', value: @reservation.date_time%>
+    <% end %>
     <div class="col-12 text-right">
       <%= link_to '戻る', host_path %>
     </div>

@@ -1,16 +1,19 @@
 <div class="container">
   <%= link_to "HOMEへ", '/', data:{ no_turbolink: true }, class: "link-home" %>
-  <% if flash[:notice] %>
+  <% if flash[:notice].nil? %>
+    <% a = 1 %>
+  <% else %>
     <div class="flash">
-      <h2>以下のどれかのせいでエラーになりました</h2>
-      <% flash[:notice].each do |message| %>
-        <div class="message">
-        <li>
-          <%= message %> 
-        </li>
-        </div>
-      <% end %> 
-      <p class="restart-text">最初から入力してください</p>
+      <% if flash[:notice].instance_of?(Array) %>
+        <h2>以下のどれかのせいでエラーになりました</h2>
+          <% flash[:notice].each do |message| %>
+            <div class="message">
+              <li><%= message %></li>
+            </div>
+          <% end %>    
+      <% else %>
+        <%= flash[:notice] %> 
+      <% end %>
     </div>
   <% end %>
   <div class="row">

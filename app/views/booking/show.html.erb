@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container show-container">
   <div class="row">
     <div class="col-12 text-center title">
       <h1>予約詳細画面</h1>
     </div>
-    <div class="col-12 mt-3 text-center content">
-      <div>
+    <div class= "content show-content">
+      <div >
         <label><strong>日付：</strong></label>
         <p style="display:inline;"><%= @reservation.day %></p>
       </div>
@@ -12,9 +12,29 @@
         <label><strong>時間：</strong></label>
         <p style="display:inline;"><%= @reservation.time %></p>
       </div>
-    </div>
-    <div class="col-12 text-right">
-      <%= link_to '予約画面に戻る', booking_date_path %>
+      <div>
+        <label><strong>電話番号：</strong></label>
+        <p style="display:inline;"><%= @reservation.tell %></p>
+      </div>
+      <div>
+        <label><strong>メニュー：</strong></label>
+        <p style="display:inline;"><%= @menu %></p>
+      </div>
+      <div>
+        <label><strong>オプション：</strong></label>
+        <p style="display:inline;"><%= @option %></p>
+      </div>
+      <div class="show-submit">
+        <%= form_with url:booking_delete_path, class: 'show-form' do |form| %>
+          <div class="text-right delete">
+            <%= form.submit  value: '削除', class: "show-delete"%>
+            <%= form.hidden_field  :date_time, name:'date_time', class: 'form-control', value: @reservation.date_time%>
+          </div>
+        <% end %>
+        <div class="text-right confirma">
+          <%= link_to '完了',booking_date_path, class: "show-confirma" %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

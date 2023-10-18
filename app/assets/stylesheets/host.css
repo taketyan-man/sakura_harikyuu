@@ -11,6 +11,11 @@
   font-size: 24px;
 }
 
+.logout-btn {
+  font-size: 14px;
+  
+}
+
 /* newのレイアウト　----------------- */
 .host-content {
   margin-top: 14px;

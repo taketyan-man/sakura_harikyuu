@@ -34,11 +34,19 @@
           <%= form.text_field :tell, name: 'tell', class: 'form-control', placeholder: '例)08011112222'%>
         </div>
       </div>
-      <div class="menu_select form-group">
+      <div class="form-group">
         <%= form.label :menu, 'メニュー' %>
         <div class="menu-form">
-        <%= form.select :menu, {'ボディケア 60分': 0,'ボディケア 90分': 1, '鍼灸マッサージ 60分': 2, '鍼灸マッサージ 90分': 3, '美容鍼 60分': 4, 'アロマオイル 30分': 5}, { include_blank: '選択してください'}, {class: 'menu-select'} %>
+          <%= form.select :menu, {'ボディケア 60分': 0,'ボディケア 90分': 1, '鍼灸マッサージ 60分': 2, '鍼灸マッサージ 90分': 3, '美容鍼 60分': 4}, { include_blank: '選択してください'}, {class: 'menu-select'} %>
         </div>
+      </div>
+      <div class="form-group">
+        <%= form.label :option, 'オプション' %>
+        <div class="menu-form">
+          <%= form.select :option, {'ボディケア 30分': 0, '鍼灸マッサージ 30分': 1, 'アロマオイル 30分': 2, '期間限定 30分': 3}, { include_blank: 'なし'}, {class: 'menu-select'} %>
+        </div>
+      </div>
+      <div class="form-group">
         <p class="time-atent">※時間はあくまで目安です。<p>
         <%= form.hidden_field :start_time,  value: @start_time %>
         <div class="submit" id="submit">

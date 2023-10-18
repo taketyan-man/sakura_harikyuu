@@ -308,6 +308,15 @@ footer {
   display: none;
 }
 
+.calendar-heading a {
+  color: rgb(0, 0, 255);
+  text-decoration: underline;
+}
+
+.simple-calendar-previous {
+  padding-left: 4px;
+}
+
 @media (max-width: 1100px) {
   .br1 {
     white-space: pre;

@@ -1,9 +1,16 @@
 <div class="booking-host-login">
-  <h1 class="title">ホストログイン</h1>
+  <h1 class="login-title">ホストログイン</h1>
   <%= form_tag("/booking/host/login") do %>
     <div class="login-con">
-    <input type="password" name="password" class="password"></input><br>
-    <input type="submit" value="ログイン" class="login-btn">
+      <div class="login-password form-group">
+        <label>パスワード</label>
+        <div class="form-box login-form-box">
+          <input type="password" name="password" class="form-control login-form"></input><br>
+        </div>
+      </div>
+      <div class="login-submit">
+        <input type="submit" value="ログイン" class="login-btn">
+      </div>
     </div>
   <% end %>
 </div>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_11_075521) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_16_093824) do
 # Could not dump table "booking_dates" because of following StandardError
 #   Unknown type 'strig' for column 's_time'
 
