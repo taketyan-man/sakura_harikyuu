@@ -5,7 +5,7 @@
   <% else %>
     <div class="flash">
       <% if flash[:notice].instance_of?(Array) %>
-        <h2>以下のどれかのせいでエラーになりました</h2>
+        <h2>以下のエラーが発生しました</h2>
           <% flash[:notice].each do |message| %>
             <div class="message">
               <li><%= message %></li>
@@ -22,6 +22,14 @@
       <p>2ヶ月先まで予約することができます。</p>
       <p>当日の場合は電話でご確認ください。</p>
     </div>
+    <!--
+    <div class="select-day">
+         <input type="number" ,name="select-day-year",
+         min=<% Time.now.year %>, value=<%= Time.now.year %>>
+         <input type="number", name="select-day-month" min="1",max="12", value=<%= Time.now.month %>>
+         <input type="number" name="select-day-day" min="1", max= "31", value=<%= Time.now.day %>>
+     </div>
+     -->
     <div class="col-12 mt-3">
       <%= week_calendar events: @reservations do |date, reservations| %>
         <%= date.month %>
@@ -31,4 +39,3 @@
     </div>
   </div>
 </div>
-<

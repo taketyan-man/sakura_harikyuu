@@ -1,4 +1,6 @@
 class HostController < BookingController
+  before_action :move_to_signed_in
+
   def index
     @reservations = BookingDate.all.where("day >= ?", Date.current).where("day < ?", Date.current >> 3).order(day: :desc)
   end
@@ -26,11 +28,7 @@ class HostController < BookingController
       tell:  "0000",
       menu: 10
     )
-    @booking = @reservation
-    @time = @reservation.s_time
-    create_date_time_host
-    @reservation[:date_time] = @date_time
-    times
+    @reservation[:date_time] = @reservation.day.to_s + @reservation.time
     start_num = times.index(@reservation.s_time).to_i
     end_num = times.index(@reservation.e_time).to_i
     i = end_num - start_num
@@ -44,7 +42,7 @@ class HostController < BookingController
         flash[:notice] = "予定を入れられませんでした"
         redirect_to host_path
       end
-    else
+    elsif i > 0
       i += 1
       ary = []
       i.times do |j|
@@ -52,7 +50,7 @@ class HostController < BookingController
           m = 1
         else
           ary.push("#{@reservation.time}は予約が入っています。確認してください")
-          @m = 2
+          m = 2
         end
         time = times[start_num + j + 1].to_s
         date_time = @reservation.day.to_s + time
@@ -68,7 +66,7 @@ class HostController < BookingController
           menu: 10
         )
       end
-      if @m == 2
+      if m == 2
         flash[:notice] = ary
       end
       redirect_to host_path
@@ -80,12 +78,14 @@ class HostController < BookingController
     redirect_to home_path
   end
 
-  private
-  def create_date_time_host
-    date = @booking.day.to_s
-    @date_time = date + @time
+  def move_to_signed_in
+    if session[:user_id].nil?
+      #サインインしていないユーザーはログインページが表示される
+      redirect_to home_path
+    end
   end
 
+  private
   def times
     times = ["8:00",
              "8:30",

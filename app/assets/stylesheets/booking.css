@@ -2,10 +2,48 @@
   text-align: center;
 }
 
+.select-day {
+  text-align: center;
+}
+
+.select-day input {
+  background-color: white;
+  width: 56px;
+  height: 24px;
+}
+
 .simple-calendar {
   background-color: white;
   color: black;
   margin: 5%;
+}
+
+.calendar-heading {
+  background-color: white;
+}
+
+.calender-previous-box {
+  float: left;
+  width: 48px;
+}
+
+.calender-next-box {
+  float: right;
+  text-align: right;
+  width: 48px;
+}
+
+.calendar-heading a {
+  color: rgb(0, 0, 255);
+  text-decoration: underline;
+}
+
+.simple-calendar-previous {
+  padding-left: 4px;
+}
+
+.simple-calendar-next {
+  padding-right: 4px;
 }
 
 table {

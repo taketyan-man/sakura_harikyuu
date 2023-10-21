@@ -1,12 +1,11 @@
 <div class="simple-calendar">
   <div class="calendar-heading">
-    <%= link_to t('simple_calendar.previous', default: '前へ'), calendar.url_for_previous_view, class: "simple-calendar-previous" %>
-    <% if calendar.number_of_weeks == 1 %>
-      <span class="calendar-title"><%= t('simple_calendar.week', default: '1週間') %></span>
-    <% else %>
-      <span class="calendar-title"><%= t('simple_calendar.week', default: '1週間') %></span>
-    <% end %>
-    <%= link_to t('simple_calendar.next', default: '次へ'), calendar.url_for_next_view, class: "simple-calendar-next" %>
+    <div class="calender-previous-box" > 
+      <%= link_to t('simple_calendar.previous', default: '前週'), calendar.url_for_previous_view, class: "simple-calendar-previous" %>
+    </div>
+    <div class="calender-next-box" >
+      <%= link_to t('simple_calendar.next', default: '次週'), calendar.url_for_next_view, class: "simple-calendar-next" %>
+    </div>
     <% @reservations %>
   </div>
   <table class="table table-striped">

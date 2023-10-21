@@ -1,7 +1,7 @@
 class BookingController < ApplicationController
 
   def index
-      @reservations = BookingDate.all.where("day >= ?", Date.current).where("day < ?", Date.current >> 3).order(day: :desc)
+    @reservations = BookingDate.all.where("day >= ?", Date.current).where("day < ?", Date.current >> 3).order(day: :desc)
   end
 
   def new
@@ -20,7 +20,7 @@ class BookingController < ApplicationController
       redirect_to booking_date_path
     end
   end
-
+  
   def show
     @reservation = BookingDate.find(params[:id])
     @menu = menus[@reservation.menu]
@@ -30,7 +30,7 @@ class BookingController < ApplicationController
       @option = options[@reservation.option]
     end
   end
-
+  
   def create
     @reservation = BookingDate.new(
       day: params[:day],
@@ -40,139 +40,46 @@ class BookingController < ApplicationController
       tell: params[:tell],
       menu: params[:menu],
       option: params[:option]
-    )
-    @reservation[:date_time] = @reservation.day.to_s + @reservation.time
-    first_time_num = times.index(@reservation.time)
-    if @reservation.save
-      false_count = 0
-    else
-      false_count = 1
-    end
-
-    if @reservation[:menu] % 2 == 0 && @reservation[:option].is_a?(Integer)
-      minute_count = 0
-      2.times do |i|
-        next_time = times[first_time_num + 1 + i]
-        reservation1 = BookingDate.new(
-          day: params[:day],
-          time: next_time,
-          start_time: params[:start_time],
-          name: params[:name],
-          tell: params[:tell],
-          menu: params[:menu],
-          date_time: params[:day].to_s + next_time,
-          option: params[:option]
-        )
-        if reservation1.save
-          false_count += 0
-        else
-          false_count += 1
-        end
-        minute_count += 1
-      end
-    elsif @reservation[:menu] % 2 == 1 && @reservation[:option].is_a?(Integer)
-      minute_count = 0
-      3.times do |i|
-        next_time = times[first_time_num + 1 + i]
-        reservation1 = BookingDate.new(
-          day: params[:day],
-          time: next_time,
-          start_time: params[:start_time],
-          name: params[:name],
-          tell: params[:tell],
-          menu: params[:menu],            date_time: params[:day].to_s + next_time,
-          option: params[:option]
-        )
-        if reservation1.save
-          false_count += 0
-        else
-          false_count += 1
-        end
-        minute_count += 1
-      end  
-    
-    elsif @reservation[:menu] % 2 == 0
-      minute_count = 0
-      next_time = times[first_time_num + 1]
-      reservation1 = BookingDate.new(
-        day: params[:day],
-        time: next_time,
-        start_time: params[:start_time],
-        name: params[:name],
-        tell: params[:tell],
-        menu: params[:menu],
-        date_time: params[:day].to_s + next_time,
-        option: params[:option]
       )
-      if reservation1.save
-        false_count += 0
+      @reservation[:date_time] = @reservation.day.to_s + @reservation.time
+      first_time_num = times.index(@reservation.time)
+      if @reservation.save
+        false_count = 0
       else
-        false_count += 1
+        false_count = 1
       end
-      minute_count += 1
-    elsif @reservation[:menu] % 2 == 1
-      minute_count = 0
-      2.times do |i|
-        next_time = times[first_time_num + 1 + i]
-        reservation1 = BookingDate.new(
-          day: params[:day],
-          time: next_time,
-          start_time: params[:start_time],
-          name: params[:name],
-          tell: params[:tell],
-          menu: params[:menu],
-          date_time: params[:day].to_s + next_time,
-          option: params[:option]
-        )
-        if reservation1.save
-          false_count += 0
-        else
-          false_count += 1
-        end
-        minute_count += 1
-      end
-    end
       
-    if false_count == 0
+      if @reservation[:menu] % 2 == 0 && @reservation[:option].is_a?(Integer)
+        create_cmd(first_time_num, 2, false_count)
+      elsif @reservation[:menu] % 2 == 1 && @reservation[:option].is_a?(Integer)
+        create_cmd(first_time_num, 3, false_count)
+      elsif @reservation[:menu] % 2 == 0
+        create_cmd(first_time_num, 1, false_count)
+      elsif @reservation[:menu] % 2 == 1
+      create_cmd(first_time_num, 2, false_count)
+    end
+    
+    if @false_count == 0
       redirect_to action: :show,id: @reservation.id
-    elsif false_count == 1 && minute_count == 2
-      reservation1 = BookingDate.find(@reservation.id + 1)
-      reservation1.delete
-      @reservation.delete
-      flash[:notice] = ["そのメニューでは登録できません", "最初から入力してください", "0"]
+    elsif @false_count == 1 && @minute_count == 2
+      create_false_cmd(1)
+      flash[:notice].push(1)
       redirect_to booking_date_path
-    elsif false_count == 2 && minute_count == 3
-      reservation1 = BookingDate.find(@reservation.id + 1)
-      reservation1.delete
-      @reservation.delete
-      flash[:notice] = ["そのメニューでは登録できません", "最初から入力してください", 1]
+    elsif @false_count == 2 && @minute_count == 3
+      create_false_cmd(1)
+      flash[:notice].push(2)
       redirect_to booking_date_path
-    elsif false_count == 1 && minute_count == 3
-      2.times do |i|
-        reservation1 = BookingDate.find(@reservation.id + 1 + i)
-        reservation1.delete
-      end
-      @reservation.delete
-      flash[:notice] = ["そのメニューでは登録できません", "最初から入力してください", 2]
+    elsif @false_count == 1 && @minute_count == 3
+      create_false_cmd(2)
+      flash[:notice].push(3)
       redirect_to booking_date_path
     else
       @reservation.delete
-      flash[:notice] = ["そのメニューでは登録できません", "最初から入力してください", 3]
+      flash[:notice] = ["そのメニューでは登録できません", "最初から入力してください", 4]
       redirect_to booking_date_path
     end
   end 
-
-  def self.booking_after_two_month
-    @reservations = BookingDate.all.where("day >= ?", Date.current).where("day < ?", Date.current >> 3).order(day: :desc)
-    reservation_data = []
-    @reservations.each do |reservation|
-      reservations_hash = {}
-      reservations_hash.merge!(day: reservation.day.strftime("%Y-%m-%d"), time: reservation.time)
-      reservation_data.push(reservations_hash)
-    end
-    reservation_data
-  end
-
+  
   def delete
     date_time_now = params[:date_time]
     @reservation = BookingDate.find_by(date_time: date_time_now)
@@ -184,73 +91,33 @@ class BookingController < ApplicationController
       flash[:notice] =  "その日の予定を削除しました"
       redirect_to host_path
     elsif @reservation.menu % 2 == 1 &&  @reservation[:option].is_a?(Integer)
-      delete_count = 0
-        7.times do |i|
-          if delete_count == 4 
-            break
-          end
-            @reservation1 = BookingDate.find(@reservation.id + 3 - i)
-          if @reservation1.name == @reservation.name && @reservation1.tell == @reservation.tell && @reservation1.day == @reservation.day && @reservation1 != @reservation
-            @reservation1.delete
-            delete_count += 1
-          else 
-            delete_count += 0
-          end
-        end
-      @reservation.delete
-      flash[:notice] = "予約を削除しました"
-      redirect_to host_path
+      delete_cmd(4)
+      if session[:user_id].is_a?(Integer)
+        redirect_to host_path
+      else
+        redirect_to booking_date_path
+      end
     elsif @reservation.menu % 2 == 0 && @reservation[:option].is_a?(Integer)
-      delete_count = 0
-      5.times do |i|
-        if delete_count == 3 
-          break
-        end
-        @reservation1 = BookingDate.find(@reservation[:id] + 2 - i)
-        if @reservation1.name == @reservation.name && @reservation1.tell == @reservation.tell && @reservation1.day == @reservation.day && @reservation1 != @reservation
-          @reservation1.delete
-          delete_count += 1
-        else
-          delete_count += 0
-        end
+      delete_cmd(3)
+      if session[:user_id].is_a?(Integer)
+        redirect_to host_path
+      else
+        redirect_to booking_date_path
       end
-      @reservation.delete
-      flash[:notice] = "予約を削除しました"
-      redirect_to host_path
     elsif @reservation.menu % 2 == 1
-      delete_count = 0
-      5.times do |i|
-        if delete_count == 3 
-          break
-        end
-        @reservation1 = BookingDate.find(@reservation[:id] + 2 - i)
-        if @reservation1.name == @reservation.name && @reservation1.tell == @reservation.tell && @reservation1.day == @reservation.day && @reservation1 != @reservation
-            @reservation1.delete
-          delete_count += 1
-        else 
-          delete_count += 0
-        end
+      delete_cmd(3)
+      if session[:user_id].is_a?(Integer)
+        redirect_to host_path
+      else
+        redirect_to booking_date_path
       end
-      @reservation.delete
-      flash[:notice] = "予約を削除しました"
-      redirect_to host_path
     elsif @reservation.menu % 2 == 0
-      delete_count = 0
-      3.times do |i|
-        if delete_count == 2 
-          break
-        end
-        @reservation1 = BookingDate.find(@reservation[:id] + 1 - i)
-        if @reservation1.name == @reservation.name && @reservation1.tell == @reservation.tell && @reservation1.day == @reservation.day && @reservation1 != @reservation
-          @reservation1.delete
-          delete_count += 1
-        else 
-          delete_count += 0
-        end
+      delete_cmd(2)
+      if session[:user_id].is_a?(Integer)
+        redirect_to host_path
+      else
+        redirect_to booking_date_path
       end
-      @reservation.delete
-      flash[:notice] = "予約を削除しました"
-      redirect_to host_path
     else
       flash[:notice] = "何か操作を間違えています。"
       redirect_to host_path
@@ -260,7 +127,7 @@ class BookingController < ApplicationController
   def host
     @host = Host.new
   end
-
+  
   def host_login
     @host = Host.new(
       password: params[:password]
@@ -273,25 +140,79 @@ class BookingController < ApplicationController
       redirect_to host_path
     end
   end
-
+    
   def host_logout
     session[:user_id] = nil
     redirect_to home_path
   end
+    
+  def self.booking_after_two_month
+    @reservations = BookingDate.all.where("day >= ?", Date.current).where("day < ?", Date.current >> 3).order(day: :desc)
+    reservation_data = []
+    @reservations.each do |reservation|
+      reservations_hash = {}
+      reservations_hash.merge!(day: reservation.day.strftime("%Y-%m-%d"), time: reservation.time)
+      reservation_data.push(reservations_hash)
+    end
+    reservation_data
+  end
 
   private
-  def reservation_params
-    params.require(:booking_date).permit(:day, :time, :start_time)
-  end
+    def reservation_params
+      params.require(:booking_date).permit(:day, :time, :start_time)
+    end
+    
+    def create_cmd(first_time_num,  minute_count, false_count)
+      minute_count.times do |i|
+        next_time = times[first_time_num + 1 + i]
+        reservation1 = BookingDate.new(
+          day: params[:day],
+          time: next_time,
+          start_time: params[:start_time],
+          name: params[:name],
+          tell: params[:tell],
+          menu: params[:menu],
+          date_time: params[:day].to_s + next_time,
+          option: params[:option]
+        )
+        if reservation1.save
+          false_count += 0
+        else
+          false_count += 1
+        end
+      end
+      @minute_count = minute_count
+      @false_count = false_count
+    end
 
-  def create_date_time
-    date = @booking.day.to_s
-    time = @booking.time
-    @date_time = date + time
-  end
+    def create_false_cmd(delete_count)
+      delete_count.times do |i|
+        reservation1 = BookingDate.find(@reservation.id + 1 + i)
+        reservation1.delete
+      end
+      @reservation.delete
+      flash[:notice] = ["そのメニューでは登録できません", "最初から入力してください"]
+    end
+  
+    def delete_cmd(delete_num)
+      delete_count = 0
+      (delete_num * 2 - 1).times do |i|
+        if delete_count == delete_num 
+          break
+        end
+        @reservation1 = BookingDate.find(@reservation[:id] + (delete_num - 1) - i)
+        if @reservation1.name == @reservation.name && @reservation1.tell == @reservation.tell && @reservation1.day == @reservation.day
+          @reservation1.delete
+          delete_count += 1
+        else 
+          delete_count += 0
+        end
+      end
+    end
 
-  def times 
-    times = ["8:00",
+    def times 
+      times = 
+            ["8:00",
              "8:30",
              "9:00",
              "9:30",
@@ -318,24 +239,25 @@ class BookingController < ApplicationController
              "20:00",
              "20:30",
              "21:00"
-    ]
-  end
-  def menus 
-    menus = [
-      "ボディケア 60分",
-      "ボディケア 90分",
-      "鍼灸マッサージ 60分",
-      "鍼灸マッサージ 90分",
-      "美容鍼 60分",
-    ]
-  end
+      ]
+    end
 
-  def options
-    options = [
-      "アロマオイル 30分",
-      "期間限定 30分",
-      "ボディケア 30分",
-      "鍼灸マッサージ 30分"
-    ]
+    def menus 
+      menus = [
+        "ボディケア 60分",
+        "ボディケア 90分",
+        "鍼灸マッサージ 60分",
+        "鍼灸マッサージ 90分",
+        "美容鍼 60分",
+      ]
+    end
+
+    def options
+      options = [
+        "ボディケア 30分",
+        "鍼灸マッサージ 30分",
+        "アロマオイル 30分",
+        "期間限定 30分"
+      ]
+    end
   end
-end
