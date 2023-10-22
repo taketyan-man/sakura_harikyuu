@@ -23,12 +23,24 @@
   background-color: white;
   color: black;
   width: 560px;
-  height: 480px;
 }
 
 .host-submit {
   text-align: center;
   padding-top: 4px;
+}
+
+.host-form-box {
+  text-align: center;
+}
+
+.host-form-box input {
+  width: auto;
+  text-align: center;
+}
+
+.host-form-box a {
+  font-size: 24px;
 }
 
 @media (max-width:600px) {
@@ -44,4 +56,11 @@
     font-size:14px;
     content:'◎';
     }
+}
+
+/* showのレイアウト ----------------*/
+.delete_btn {
+  width: 84px;
+  height: 36px;
+  cursor: pointer;
 }

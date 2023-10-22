@@ -6,31 +6,30 @@ window.$ = jquery
 //= require jquery
 //= require jquery_ujs
 $(function () {
-  
-  $('.btn').click(function(){
-    $('.menu-content').fadeIn();
-  });
-  $('.btn-close').click(function(){
-    $('.menu-content').fadeOut();
-  });
-  $('.gnav_link').click(function(){
-    var id = $(this).attr('href');
-    var position = $(id).offset().top;
-    $('.menu-content').fadeOut();
-    $('html body').scrollTop(position);
-  });
+    $('.btn').click(function(){
+      $('.menu-content').fadeIn();
+    });
+    $('.btn-close').click(function(){
+      $('.menu-content').fadeOut();
+    });
+    $('.gnav_link').click(function(){
+      var id = $(this).attr('href');
+      var position = $(id).offset().top;
+      $('.menu-content').fadeOut();
+      $('html body').scrollTop(position);
+    });
 
-  $('#click').click(function(){
-    var thisCount = $("#count").html();
-      thisCount = Number(thisCount);
-      thisCount = thisCount + 1;
-    if (thisCount > 9){
-      $('.right').hide();
-      $('.host-link').show();
-    };
-    $("#count").html(thisCount);
-     
+    $('#click').click(function(){
+      var thisCount = $("#count").html();
+        thisCount = Number(thisCount);
+        thisCount = thisCount + 1;
+      if (thisCount > 9){
+        $('.right').hide();
+        $('.host-link').show();
+      };
+      $("#count").html(thisCount);
   });
+});
 
   // $('.menu_select').change(function(){
     //var r = $('#menu option:selected').val();
@@ -40,4 +39,3 @@ $(function () {
       //$('#submit').hide();
     //}
   //});
-});

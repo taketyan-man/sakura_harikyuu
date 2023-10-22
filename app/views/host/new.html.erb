@@ -16,16 +16,20 @@
           <%= form.text_field :day, name: 'day', class: 'form-control', value: @day, readonly: true %>
         </div>
       </div>
-      <div class="time form-group">
+      <div class="host-new-time form-group">
         <%= form.label :s_time, '開始時間' %>
-        <div class="form-box">
-          <%= form.text_field :s_time, name: 's_time', class: 'form-control', value: @time %>
+        <div class="host-form-box">
+          <%= form.number_field :s_time_hour,in: 8..21, name: 's_time_hour', class: 'host-form-control'%>
+          <a>:</a>
+          <%= form.number_field :s_time_minute,in: 0..30,step: 30, name: 's_time_minute', class: 'host-form-control'%>
         </div>
       </div>
-      <div class="time form-group">
+      <div class="host-new-time  form-group">
         <%= form.label :e_time, '終了時間' %>
-        <div class="form-box">
-          <%= form.text_field :e_time, name: 'e_time', class: 'form-control', value: @time %>
+        <div class="host-form-box">
+          <%= form.number_field :e_time_hour,in: 8..21, name: 'e_time_hour', class: 'host-form-control'%>
+          <a>:</a>
+          <%= form.number_field :e_time_minute,in: 0..30,step: 30, name: 'e_time_minute', class: 'host-form-control'%>
         </div>
       </div>
         <%= form.hidden_field :tell,  value: @tell %>

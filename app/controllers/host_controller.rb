@@ -17,12 +17,16 @@ class HostController < BookingController
     @start_time = DateTime.parse(@day + " " + @time + " " + "JST")
   end
 
-  def create 
+  def create
+    create_start_and_end_time(params[:s_time_minute], params[:s_time_hour])
+    s_time = @create_time
+    create_start_and_end_time(params[:e_time_minute], params[:e_time_hour])
+    e_time = @create_time
     @reservation = BookingDate.new(
       day: params[:day],
-      time: params[:time],
-      s_time: params[:s_time],
-      e_time: params[:e_time],
+      time: s_time,
+      s_time: s_time,
+      e_time: e_time,
       start_time: params[:start_time],
       name: 'ホスト',
       tell:  "0000",
@@ -47,10 +51,10 @@ class HostController < BookingController
       ary = []
       i.times do |j|
         if @reservation.save
-          m = 1
+          @m = 1
         else
           ary.push("#{@reservation.time}は予約が入っています。確認してください")
-          m = 2
+          @m = 2
         end
         time = times[start_num + j + 1].to_s
         date_time = @reservation.day.to_s + time
@@ -66,9 +70,12 @@ class HostController < BookingController
           menu: 10
         )
       end
-      if m == 2
+      if @m == 2
         flash[:notice] = ary
       end
+      redirect_to host_path
+    else
+      flash[:notice] = "入力していない箇所があります。"
       redirect_to host_path
     end
   end
@@ -86,6 +93,15 @@ class HostController < BookingController
   end
 
   private
+  def create_start_and_end_time(minute, hour)
+    if minute == "30"
+      create_minute = "30"
+    else 
+      create_minute = "00"
+    end
+    @create_time = hour.to_s + ":"  + create_minute
+  end
+
   def times
     times = ["8:00",
              "8:30",

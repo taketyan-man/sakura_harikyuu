@@ -49,7 +49,9 @@ class BookingController < ApplicationController
         false_count = 1
       end
       
-      if @reservation[:menu] % 2 == 0 && @reservation[:option].is_a?(Integer)
+      if @reservation[:menu].nil? ||@reservation[:name].nil? || @reservation[:tell].nil?
+        flash[:notice] = "入力されていないものがあります。"
+      elsif @reservation[:menu] % 2 == 0 && @reservation[:option].is_a?(Integer)
         create_cmd(first_time_num, 2, false_count)
       elsif @reservation[:menu] % 2 == 1 && @reservation[:option].is_a?(Integer)
         create_cmd(first_time_num, 3, false_count)
@@ -63,19 +65,16 @@ class BookingController < ApplicationController
       redirect_to action: :show,id: @reservation.id
     elsif @false_count == 1 && @minute_count == 2
       create_false_cmd(1)
-      flash[:notice].push(1)
       redirect_to booking_date_path
     elsif @false_count == 2 && @minute_count == 3
       create_false_cmd(1)
-      flash[:notice].push(2)
       redirect_to booking_date_path
     elsif @false_count == 1 && @minute_count == 3
       create_false_cmd(2)
-      flash[:notice].push(3)
       redirect_to booking_date_path
     else
       @reservation.delete
-      flash[:notice] = ["そのメニューでは登録できません", "最初から入力してください", 4]
+      flash[:notice] = ["そのメニューでは登録できません", "最初から入力してください"]
       redirect_to booking_date_path
     end
   end 
