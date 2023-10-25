@@ -8,6 +8,11 @@ class HostController < BookingController
   def show
     date_time_now = params[:date_time]
     @reservation = BookingDate.find_by(date_time: date_time_now)
+    if @reservation.option.nil?
+      @option = "なし"
+    else
+      @option = options[@reservation.option]
+    end
   end
 
   def new 
@@ -131,4 +136,13 @@ class HostController < BookingController
              "20:30",
              "21:00"]
   end
+  def options
+    options = [
+      "ボディケア 30分",
+      "鍼灸マッサージ 30分",
+      "アロマオイル 30分",
+      "期間限定 30分"
+    ]
+  end
+
 end

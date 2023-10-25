@@ -41,6 +41,12 @@
         <%= form.text_field :menu, name:'menu', class: 'form-control', value: @menu_result, readonly: true%>
         </div>
       </div>
+      <div class="menu_select form-group">
+        <%= form.label :menu, 'オプション' %>
+        <div class="form-box">
+        <%= form.text_field :menu, name:'option', class: 'form-control', value: @option, readonly: true%>
+        </div>
+      </div>
     <% end %>
     <%= form_with url:booking_delete_path, class: 'form' do |form| %>
       <div class="delete" id="delete">
