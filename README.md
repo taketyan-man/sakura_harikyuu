@@ -7,6 +7,6 @@
 * Unicorn
 * nginx
 * DB 開発環境-sqlite3 本番環境-MySQL
-* インフラ　AWS
+* インフラ　AWS<br>
 サービスのURL
 http://sakura-harikyuu.com:3000/
