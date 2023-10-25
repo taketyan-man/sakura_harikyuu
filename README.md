@@ -1,8 +1,6 @@
 # README
 
-このアプリはある針灸院のホームページと予約アプリである
-
-Things you may want to cover:
+このサービスはある針灸院のホームページと予約アプリである
 
 * Ruby-2.7.6
 * Rails-7.0.5
@@ -10,4 +8,5 @@ Things you may want to cover:
 * nginx
 * DB 開発環境-sqlite3 本番環境-MySQL
 * インフラ　AWS
-* 
+サービスのURL
+http://sakura-harikyuu.com:3000/
