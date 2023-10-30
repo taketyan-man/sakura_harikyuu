@@ -52,10 +52,18 @@
   .host-login-date {
     font-size:0;
     }
-    .host-login-date:before {
+    .host-login-date::before {
     font-size:14px;
     content:'◎';
     }
+
+  .host-login-date-host {
+    font-size:0;
+  }
+  .host-login-date-host::before {
+    font-size:14px;
+    content:'☆';
+  }
 }
 
 /* showのレイアウト ----------------*/

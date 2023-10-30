@@ -40,8 +40,12 @@
               <td>
                 <% if session[:user_id] == 1 %>
                   <% if check_reservation(@reservations, day, time) %>
-                  <% @date_time = day.to_s + time.to_s %>
-                  <%= link_to '予約あり', user_show_path(date_time: @date_time), class: "host-login-date" %>
+                    <% @date_time = day.to_s + time.to_s %>
+                    <% if BookingDate.find_by(day: day, time: time).name == "ホスト" %>
+                      <%= link_to '予定あり', user_show_path(date_time: @date_time), class: "host-login-date-host" %>
+                    <% else %>
+                      <%= link_to '予約あり', user_show_path(date_time: @date_time), class: "host-login-date" %>
+                    <% end %>
                   <% elsif  day.to_date < Date.current || day.to_date > (Date.current + 60) %>
                     <%= '-' %>
                   <% elsif day.to_date < (Date.current + 1) %>
