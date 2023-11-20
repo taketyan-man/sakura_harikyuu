@@ -19,7 +19,7 @@ class HostController < BookingController
           s_count += 1
         end
       end
-      if s_count == 10
+      if s_count == 20
         break
       end
     end
