@@ -36,11 +36,11 @@ $(function () {
       $('.nav-active').removeClass('nav-active');
       $(this).addClass('nav-active');
       if(index == 0){
-        $('.booking-check').show();
-        $('.schedule').hide();
-      }else if(index == 1){
         $('.booking-check').hide();
         $('.schedule').show();
+      }else if(index == 1){
+        $('.booking-check').show();
+        $('.schedule').hide();
       };
     });
 });
