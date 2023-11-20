@@ -15,9 +15,32 @@
     <% end %>
     </div>
 <% end %>
+<div class="host-index-header">
   <%= form_with url:booking_logout_path, class: 'form' do |form| %>
     <%= form.submit value: 'ログアウト', class: 'logout-btn' %>
   <% end %>
+  <ul class="host-nav-box">
+    <li class="host-nav nav-active" id="host-nav">予約確認</li>
+    <li class="host-nav" id="host-nav">予定入力</li>
+  </ul>
+</div>
+  <div class="booking-check">
+    <h1 style="text-align: center;">予約確認</h1>
+    <div class="bookingCheckBox">
+    
+    <% @times.each do |book| %>
+      <div class="booking-role">
+        <div class="book-check-date"><%= book.day.month.to_s + "/" + book.day.day.to_s %></div>
+        <div class="book-check-time"><%= book.time %></div>
+        <div class="book-check-name"><%= link_to "#{book.name}様", user_show_path(date_time: book.date_time) %>
+      </div>
+        <div class="book-check-tell"><%= book.tell %></div>
+      </div>
+    <% end %>
+    </div>
+  </div>
+
+  <div class="schedule" style="display: none;">
   <div class="row">
     <div class="col-12 text-center">
       <h1>予定入力</h1>
@@ -30,5 +53,6 @@
         <%= date.day %>
       <% end %>
     </div>
+  </div>
   </div>
 </div>

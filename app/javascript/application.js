@@ -29,14 +29,18 @@ $(function () {
         $('.host-link').show();
       };
       $("#count").html(thisCount);
-  });
-});
+    });
 
-  // $('.menu_select').change(function(){
-    //var r = $('#menu option:selected').val();
-    //if (r){
-      //$('#submit').show();
-    //}else {
-      //$('#submit').hide();
-    //}
-  //});
+    $('.host-nav').click(function(){
+      var index = $('.host-nav').index(this);
+      $('.nav-active').removeClass('nav-active');
+      $(this).addClass('nav-active');
+      if(index == 0){
+        $('.booking-check').show();
+        $('.schedule').hide();
+      }else if(index == 1){
+        $('.booking-check').hide();
+        $('.schedule').show();
+      };
+    });
+});

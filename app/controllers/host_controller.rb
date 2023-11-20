@@ -3,6 +3,26 @@ class HostController < BookingController
 
   def index
     @reservations = BookingDate.all.where("day >= ?", Date.current).where("day < ?", Date.current >> 3).order(day: :desc)
+    a = BookingDate.where.not(name:"ホスト").where("day >= ?", Date.current).order(day: :asc)
+    @times = []
+    f_count = 1
+    s_count = 0
+    a.length.times do |num|
+      if num == 0
+        @times[num] = a[num]
+        s_count += 1
+      elsif num >= 1
+        if @times[num - f_count].name == a[num].name && @times[num - f_count].tell ==  a[num].tell && @times[num - f_count].day ==  a[num].day
+          f_count += 1
+        else 
+          @times[num - f_count + 1] = a[num]
+          s_count += 1
+        end
+      end
+      if s_count == 10
+        break
+      end
+    end
   end
 
   def show

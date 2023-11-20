@@ -11,10 +11,84 @@
   font-size: 24px;
 }
 
-.logout-btn {
-  font-size: 14px;
-  
+.host-index-header {
+  display: flex;
+  background-color: white;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
+
+.logout-btn {
+  font-size: 16px;
+  border: 2px solid black;
+  background-color: white;
+  border-radius: 16px;
+}
+
+.host-nav-box {
+  display: flex;
+  margin-top: 10px;
+  margin-left: auto;
+  margin-right: 16px;
+  cursor: pointer;
+}
+
+.host-nav {
+  margin-right: 16px;
+  font-size: 16px;
+  color: black;
+}
+
+.nav-active {
+  border-bottom: pink 2px solid;
+}
+
+.bookingCheckBox{
+  margin-top: 24px;
+}
+
+.booking-role {
+  width: 100%;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 2fr 3fr;
+  font-size: 16px;
+  text-align: center;
+  line-height: 40px;
+  background-color: rgb(221, 166, 175);
+  border-top: 2px solid black;
+}
+
+.booking-role:nth-child(2n){
+  background-color: pink;
+}
+
+.booking-role:last-child{
+  border-bottom: 2px solid black;
+}
+
+
+
+.book-check-date{
+  border-right: 2px solid black;
+}
+
+.book-check-time{
+  border-right: 2px solid black;
+}
+
+.book-check-name{
+  border-right: 2px solid black;
+}
+
+.book-check-name a {
+  color: white;
+  size: 16px;
+  border-bottom: blue solid 2px;
+}
+
+
+
 
 /* newのレイアウト　----------------- */
 .host-content {
