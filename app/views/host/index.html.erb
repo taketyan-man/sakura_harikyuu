@@ -1,20 +1,5 @@
 <div class="container">
-<% if flash[:notice].nil? %>
-  <% a = 1 %>
-<% else %>
-<div class="flash">
-    <% if flash[:notice].instance_of?(Array) %>
-      <h2>以下のどれかのせいでエラーになりました</h2>
-        <% flash[:notice].each do |message| %>
-          <div class="message">
-            <li><%= message %></li>
-            </div>
-            <% end %>    
-    <% else %>
-      <%= flash[:notice] %> 
-    <% end %>
-    </div>
-<% end %>
+
 <div class="host-index-header">
   <%= form_with url:booking_logout_path, class: 'form' do |form| %>
     <%= form.submit value: 'ログアウト', class: 'logout-btn' %>
@@ -28,7 +13,7 @@
     <h1 style="text-align: center;">予約確認</h1>
     <div class="bookingCheckBox">
     
-    <% @times.each do |book| %>
+    <% @booking.each do |book| %>
       <div class="booking-role">
         <div class="book-check-date"><%= book.day.month.to_s + "/" + book.day.day.to_s %></div>
         <div class="book-check-time"><%= book.time %></div>

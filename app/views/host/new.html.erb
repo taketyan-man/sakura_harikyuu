@@ -17,7 +17,7 @@
         </div>
       </div>
       <div class="host-new-time form-group">
-        <%= form.label :s_time, '開始時間' %>
+        <p>開始時間</p>
         <div class="host-form-box">
           <%= form.number_field :s_time_hour,in: 8..21, name: 's_time_hour', class: 'host-form-control'%>
           <a>:</a>
@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="host-new-time  form-group">
-        <%= form.label :e_time, '終了時間' %>
+        <p>終了時間</p>
         <div class="host-form-box">
           <%= form.number_field :e_time_hour,in: 8..21, name: 'e_time_hour', class: 'host-form-control'%>
           <a>:</a>

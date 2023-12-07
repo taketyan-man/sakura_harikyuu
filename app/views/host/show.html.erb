@@ -17,15 +17,21 @@
         </div>
       </div>
       <div class="time form-group">
-        <%= form.label :time, '時間' %>
+        <%= form.label :s_time, '開始時間' %>
         <div class="form-box">
-          <%= form.text_field :time, name: 'time', class: 'form-control', value: @reservation.time, readonly: true %>
+          <%= form.text_field :s_time, name: 's_time', class: 'form-control', value: @reservation.s_time, readonly: true %>
+        </div>
+      </div>
+      <div class="time form-group">
+        <%= form.label :e_time, '開始時間' %>
+        <div class="form-box">
+          <%= form.text_field :e_time, name: 'e_time', class: 'form-control', value: @reservation.e_time, readonly: true %>
         </div>
       </div>
       <div class="name form-group">
         <%= form.label :name,'名前' %>
         <div class="form-box">
-          <%= form.text_field :tell, name: 'name', class: 'form-control', value: @reservation.name,  readonly: true%>
+          <%= form.text_field :name, name: 'name', class: 'form-control', value: @reservation.name,  readonly: true%>
         </div>
       </div>
       <div class="tell form-group">
@@ -38,13 +44,14 @@
       <div class="menu_select form-group">
         <%= form.label :menu, 'メニュー' %>
         <div class="form-box">
-        <%= form.text_field :menu, name:'menu', class: 'form-control', value: @menu_result, readonly: true%>
+        <%= form.text_field :menu, name:'menu', class: 'form-control', value: @menu, readonly: true%>
         </div>
       </div>
+      <% option_search %>
       <div class="menu_select form-group">
-        <%= form.label :menu, 'オプション' %>
+        <%= form.label :option, 'オプション' %>
         <div class="form-box">
-        <%= form.text_field :menu, name:'option', class: 'form-control', value: @option, readonly: true%>
+        <%= form.text_field :option, name:'option', class: 'form-control', value: @option, readonly: true%>
         </div>
       </div>
     <% end %>

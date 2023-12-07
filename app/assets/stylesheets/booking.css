@@ -117,6 +117,7 @@ table {
   vertical-align: middle;
   text-align: right;
   padding-right: 24px;
+  padding-bottom: 16px;
 }
 
 .menu-select {
@@ -152,6 +153,7 @@ table {
   padding-top: 8px;
   text-align: center;
   color: red;
+  padding-bottom: 8px;
 }
 
 .submit {
@@ -176,7 +178,7 @@ table {
 }
 
 /* show.html.erb レイアウト --------------*/
-.show-content label{
+.label{
   font-size: 24px;
   font-weight: 100;
   display: inline-block;
@@ -191,6 +193,7 @@ table {
 .show-submit {
   display: flex;
   justify-content: center;
+  padding-bottom: 16px;
 }
 
 .delete {
@@ -204,21 +207,25 @@ table {
 }
 
 .show-delete {
+  font: 100%/1.5 'Avenir Next', 'Hiragino Sans', sans-serif;
   border: 1px solid black;
   color: black;
   padding: 8px;
   font-size: 16px;
-  font-weight: 80;
   border-radius: 0%;
+  width: 52px;
+  height: 42px;
 }
 
 .show-confirma {
+  font: 100%/1.5 'Avenir Next', 'Hiragino Sans', sans-serif;
   border: 1px solid black;
   color: black;
   padding: 8px;
   font-size: 16px;
-  font-weight: 90;
   border-radius: 0%;
+  width: 52px;
+  height: 42px;
 }
 
 /* host.html.erb　レイアウト　ーーーーーーーーーーーーーー */
@@ -235,6 +242,16 @@ table {
   width: 360px;
   background-color: white;
   color: black;
+}
+
+.form-group p {
+  font-size: 24px;
+  font-weight: 100;
+  display: inline-block;
+  text-align: left;
+  padding-left: 4px;
+  border-left: 4px solid pink;
+  margin-bottom: 4px;
 }
 
 .login-password {

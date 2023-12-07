@@ -29,6 +29,25 @@ module HostHelper
              "21:00"]
   end
 
+  def options
+    options = [
+      "ボディケア 30分",
+      "鍼灸マッサージ 30分",
+      "アロマオイル 30分",
+      "期間限定 30分"
+    ]
+  end
+
+  def menus
+    menus = ['ボディケア 60分', 
+             'ボディケア 90分', 
+             '鍼灸マッサージ 60分', 
+             '鍼灸マッサージ 90分', 
+             '美容鍼 60分'
+    ]
+  end
+
+
   def check_reservation(reservations, day, time)
     result = false
     reservations_count = reservations.count
@@ -46,9 +65,19 @@ module HostHelper
   end
 
   def menu_search 
-    menu_num = @reservation.menu.to_i 
-    menu_all = ["ボディケア 60分", 'ボディケア 90分', '鍼灸マッサージ 60分', '鍼灸マッサージ 90分', '美容鍼 60分', 'アロマオイル 30分']
-    @menu_result = menu_all[menu_num]
+    if @reservation.menu == 10
+      @menu = "予定"
+    else
+      @menu = menus[@reservation.menu]
+    end
+  end
+
+  def option_search
+    if @reservation.option < 0
+      @option = "なし"
+    else
+      @option = options[@reservation.option]
+    end
   end
 
   def name_search 

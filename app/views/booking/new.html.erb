@@ -3,6 +3,7 @@
     <div class="col-12 text-center title">
       <h1>新規予約画面</h1>
     </div>
+    <h3 class="text-center time-atent">※施術時間に施術服に着替えていただく時間(30分)は含まれません</h3>
     <% @reservation.errors.full_messages.each do |message| %>
       <div class="form-error">
         <%= message %>
@@ -25,7 +26,7 @@
       <div class="name form-group">
         <%= form.label :name,'名前' %>
         <div class="form-box">
-          <%= form.text_field :tell, name: 'name', class: 'form-control'%>
+          <%= form.text_field :name, name: 'name', class: 'form-control'%>
         </div>
       </div>
       <div class="tell form-group">
@@ -46,9 +47,7 @@
           <%= form.select :option, {'ボディケア 30分': 0, '鍼灸マッサージ 30分': 1, 'アロマオイル 30分': 2, '期間限定 30分': 3}, { include_blank: 'なし'}, {class: 'menu-select'} %>
         </div>
       </div>
-      <div class="form-group">
-        <p class="time-atent">※時間はあくまで目安です。</p>
-       
+      <div class="form-group">   
         <div class="submit" id="submit">
           <%= form.submit value: '予約する', class: "submit_btn" %>
         </div>

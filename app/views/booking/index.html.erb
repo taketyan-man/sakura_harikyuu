@@ -1,26 +1,11 @@
 <div class="container">
   <%= link_to "HOMEへ", '/', data:{ no_turbolink: true }, class: "link-home" %>
-  <% if flash[:notice].nil? %>
-    <% a = 1 %>
-  <% else %>
-    <div class="flash">
-      <% if flash[:notice].instance_of?(Array) %>
-        <h2>以下のエラーが発生しました</h2>
-          <% flash[:notice].each do |message| %>
-            <div class="message">
-              <li><%= message %></li>
-            </div>
-          <% end %>    
-      <% else %>
-        <%= flash[:notice] %> 
-      <% end %>
-    </div>
-  <% end %>
   <div class="row">
     <div class="col-12 text-center">
       <h1>予約画面</h1>
       <p>2ヶ月先まで予約することができます。</p>
       <p>当日の場合は電話でご確認ください。</p>
+      <h3 class="text-center time-atent">※施術時間に施術服に着替えていただく時間(30分)は含まれません</h3>
     </div>
     <div class="col-12 mt-3">
       <%= week_calendar events: @reservations do |date, reservations| %>

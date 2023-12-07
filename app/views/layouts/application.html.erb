@@ -13,6 +13,37 @@
     <meta charset="utf-8">
   </head>
   <body>
+  <% if flash[:notice].nil? %>
+    <% a = 1 %>
+  <% else %>
+    <div class="flash">
+      <% if flash[:notice].instance_of?(Array) %>
+        <h2>以下のエラーが発生しました</h2>
+          <% flash[:notice].each do |message| %>
+            <div class="message">
+              <li><%= message %></li>
+            </div>
+          <% end %>    
+      <% else %>
+        <%= flash[:notice] %> 
+      <% end %>
+    </div>
+  <% end %>
+  <% if flash[:success].nil? %>
+    <% a = 1 %>
+  <% else %>
+    <div class="success">
+      <% if flash[:success].instance_of?(Array) %>
+          <% flash[:success].each do |message| %>
+            <div class="message">
+              <li><%= message %></li>
+            </div>
+          <% end %>    
+      <% else %>
+        <%= flash[:success] %> 
+      <% end %>
+    </div>
+  <% end %>
     <%= yield %>
   </body>
 </html>

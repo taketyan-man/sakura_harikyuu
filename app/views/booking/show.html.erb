@@ -4,25 +4,26 @@
       <h1>予約詳細画面</h1>
     </div>
     <div class= "content show-content">
-      <div >
-        <label><strong>日付：</strong></label>
-        <p style="display:inline;"><%= @reservation.day %></p>
+      <div>
+        <p class="label"><strong>日付：</strong></p>
+        <p style="display:inline;" name="day"><%= @reservation.day %></p>
       </div>
       <div>
-        <label><strong>時間：</strong></label>
-        <p style="display:inline;"><%= @reservation.time %></p>
+        <p class="label"><strong>時間：</strong></label>
+        <p style="display:inline;" name="time"><%= @reservation.time %></p>
       </div>
       <div>
-        <label><strong>電話番号：</strong></label>
-        <p style="display:inline;"><%= @reservation.tell %></p>
+        <p class="label"><strong>電話番号：</strong></label>
+        <p style="display:inline;" name="tell"><%= @reservation.tell %></p>
       </div>
       <div>
-        <label><strong>メニュー：</strong></label>
-        <p style="display:inline;"><%= @menu %></p>
+        <p class="label"><strong>メニュー：</strong></label>
+        <p style="display:inline;" name="menu"><%= @menu %></p>
       </div>
       <div>
-        <label><strong>オプション：</strong></label>
-        <p style="display:inline;"><%= @option %></p>
+        <p class="label"
+        ><strong>オプション：</strong></label>
+        <p style="display:inline;" name="option"><%= @option %></p>
       </div>
       <div class="show-submit">
         <%= form_with url:booking_delete_path, class: 'show-form' do |form| %>

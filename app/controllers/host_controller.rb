@@ -3,20 +3,18 @@ class HostController < BookingController
 
   def index
     @reservations = BookingDate.all.where("day >= ?", Date.current).where("day < ?", Date.current >> 3).order(day: :desc)
-    a = BookingDate.where.not(name:"ホスト").where("day >= ?", Date.current).order(day: :asc)
-    @times = []
-    f_count = 1
+    book = BookingDate.where.not(name:"ホスト").where("day >= ?", Date.current).order(:day, time: :asc)
+    @booking = []
     s_count = 0
-    a.length.times do |num|
+    book.length.times do |num|
       if num == 0
-        @times[num] = a[num]
-        s_count += 1
+        @booking[num] = book[num]
       elsif num >= 1
-        if @times[num - f_count].name == a[num].name && @times[num - f_count].tell ==  a[num].tell && @times[num - f_count].day ==  a[num].day
-          f_count += 1
-        else 
-          @times[num - f_count + 1] = a[num]
+        if @booking[s_count].s_time == book[num].s_time && @booking[s_count].name == book[num].name
+          next
+        else
           s_count += 1
+          @booking[s_count] = book[num]
         end
       end
       if s_count == 20
@@ -28,18 +26,12 @@ class HostController < BookingController
   def show
     date_time_now = params[:date_time]
     @reservation = BookingDate.find_by(date_time: date_time_now)
-    if @reservation.option.nil?
-      @option = "なし"
-    else
-      @option = options[@reservation.option]
-    end
   end
 
   def new 
     @reservation = BookingDate.new
     @day = params[:day]
     @time = params[:time]
-    @start_time = DateTime.parse(@day + " " + @time + " " + "JST")
   end
 
   def create
@@ -52,23 +44,24 @@ class HostController < BookingController
       time: s_time,
       s_time: s_time,
       e_time: e_time,
-      start_time: params[:start_time],
       name: 'ホスト',
       tell:  "0000",
-      menu: 10
+      menu: 10,
+      option: -1
     )
     @reservation[:date_time] = @reservation.day.to_s + @reservation.time
     start_num = times.index(@reservation.s_time).to_i
     end_num = times.index(@reservation.e_time).to_i
     i = end_num - start_num
     if i < 0
-      flash[:notice] = ["入力方法が間違えています"]
+      flash[:notice] = ["入力方法を間違えています。"]
       redirect_to host_path
     elsif i == 0
       if @reservation.save
+        flash[:success] = [" 予定入力が成功しました。"]
         redirect_to host_path
       else
-        flash[:notice] = "予定を入れられませんでした"
+        flash[:notice] = ["予定を入れられませんでした。"]
         redirect_to host_path
       end
     elsif i > 0
@@ -76,10 +69,10 @@ class HostController < BookingController
       ary = []
       i.times do |j|
         if @reservation.save
-          @m = 1
+          m = 1
         else
           ary.push("#{@reservation.time}は予約が入っています。確認してください")
-          @m = 2
+          m = 2
         end
         time = times[start_num + j + 1].to_s
         date_time = @reservation.day.to_s + time
@@ -87,20 +80,19 @@ class HostController < BookingController
           day: params[:day],
           time: time,
           date_time: date_time,
-          s_time: params[:s_time],
-          e_time: params[:e_time],
-          start_time: params[:start_time],
+          s_time: s_time,
+          e_time: e_time,
           name: 'ホスト',
           tell:  "0000",
-          menu: 10
+          menu: 10,
+          option: -1
         )
       end
-      if @m == 2
-        flash[:notice] = ary
-      end
+      flash[:notice] = ary
+      flash[:success] = ["予定入力しました。"]
       redirect_to host_path
     else
-      flash[:notice] = "入力していない箇所があります。"
+      flash[:notice] = ["入力していない箇所があります。"]
       redirect_to host_path
     end
   end
@@ -156,13 +148,4 @@ class HostController < BookingController
              "20:30",
              "21:00"]
   end
-  def options
-    options = [
-      "ボディケア 30分",
-      "鍼灸マッサージ 30分",
-      "アロマオイル 30分",
-      "期間限定 30分"
-    ]
-  end
-
 end
