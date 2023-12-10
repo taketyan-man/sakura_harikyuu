@@ -22,6 +22,8 @@ http://sakura-harikyuu.com:3000/
 <image src="./app/assets/images/host.index1.png" width="40%">
 <image src="./app/assets/images/host.index2.png" width="40%">
 </div>
+<h2>ER図</h2>
+<image src="./app/assets/images/桜鍼灸　ER図.png" width="540px">
 
 <h2>こだわった点</h2>
 このサイトはwebアプリをあまり慣れてない人が使うのが見込まれるので、すごく単純に作った。
