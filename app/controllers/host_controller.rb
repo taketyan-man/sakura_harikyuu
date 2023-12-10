@@ -10,7 +10,7 @@ class HostController < BookingController
       if num == 0
         @booking[num] = book[num]
       elsif num >= 1
-        if @booking[s_count].s_time == book[num].s_time && @booking[s_count].name == book[num].name
+        if @booking[s_count].day == book[num].day && @booking[s_count].s_time == book[num].s_time && @booking[s_count].e_time == book[num].e_time && @booking[s_count].name == book[num].name
           next
         else
           s_count += 1

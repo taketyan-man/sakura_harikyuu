@@ -9,15 +9,19 @@
         <p style="display:inline;" name="day"><%= @reservation.day %></p>
       </div>
       <div>
-        <p class="label"><strong>時間：</strong></label>
-        <p style="display:inline;" name="time"><%= @reservation.time %></p>
+        <p class="label"><strong>開始時間：</strong></p>
+        <p style="display:inline;" name="time"><%= @reservation.s_time %></p>
       </div>
       <div>
-        <p class="label"><strong>電話番号：</strong></label>
+        <p class="label"><strong>終了時間：</strong></p>
+        <p style="display:inline;" name="time"><%= @reservation.e_time %></p>
+      </div>
+      <div>
+        <p class="label"><strong>電話番号：</strong></p>
         <p style="display:inline;" name="tell"><%= @reservation.tell %></p>
       </div>
       <div>
-        <p class="label"><strong>メニュー：</strong></label>
+        <p class="label"><strong>メニュー：</strong></p>
         <p style="display:inline;" name="menu"><%= @menu %></p>
       </div>
       <div>

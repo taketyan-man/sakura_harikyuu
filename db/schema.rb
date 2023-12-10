@@ -10,19 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_16_093824) do
-# Could not dump table "booking_dates" because of following StandardError
-#   Unknown type 'strig' for column 's_time'
+ActiveRecord::Schema[7.0].define(version: 2023_07_04_074736) do
+  create_table "booking_dates", force: :cascade do |t|
+    t.string "tell"
+    t.date "day"
+    t.string "time"
+    t.integer "menu"
+    t.string "date_time"
+    t.string "name"
+    t.string "s_time"
+    t.string "e_time"
+    t.integer "option"
+    t.string "start_time"
+  end
 
   create_table "hosts", force: :cascade do |t|
     t.string "password"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "reservations", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
 end

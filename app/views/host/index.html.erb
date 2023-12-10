@@ -16,7 +16,7 @@
     <% @booking.each do |book| %>
       <div class="booking-role">
         <div class="book-check-date"><%= book.day.month.to_s + "/" + book.day.day.to_s %></div>
-        <div class="book-check-time"><%= book.time %></div>
+        <div class="book-check-time"><%= book.s_time %></div>
         <div class="book-check-name"><%= link_to "#{book.name}様", user_show_path(date_time: book.date_time) %>
       </div>
         <div class="book-check-tell"><%= book.tell %></div>

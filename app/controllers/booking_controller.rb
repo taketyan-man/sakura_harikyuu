@@ -1,5 +1,4 @@
 class BookingController < ApplicationController
-
   def index
     @reservations = BookingDate.all.where("day >= ?", Date.current).where("day < ?", Date.current >> 3).order(day: :desc)
   end
@@ -139,6 +138,12 @@ class BookingController < ApplicationController
       reservation_data.push(reservations_hash)
     end
     reservation_data
+  end
+
+  def move_to_index_id
+    if params[:id].nil?
+      redirect_to booking_date_path
+    end
   end
 
   private
