@@ -4,7 +4,7 @@ class AddTellMenuCulm < ActiveRecord::Migration[7.0]
     end
     add_column :booking_dates, :tell, :string
     add_column :booking_dates, :day, :date
-    add_column :booking_dates, :time, :string
+    add_column :booking_dates, :time, :integer
     add_column :booking_dates, :menu, :integer
     add_column :booking_dates, :date_time, :string
     add_column :booking_dates, :name, :string

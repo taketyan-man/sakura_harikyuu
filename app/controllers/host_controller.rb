@@ -41,7 +41,7 @@ class HostController < BookingController
     e_time = @create_time
     @reservation = BookingDate.new(
       day: params[:day],
-      time: s_time,
+      time: times.index(s_time),
       s_time: s_time,
       e_time: e_time,
       name: 'ホスト',
@@ -49,10 +49,11 @@ class HostController < BookingController
       menu: 10,
       option: -1
     )
-    @reservation[:date_time] = @reservation.day.to_s + @reservation.time
+    @reservation[:date_time] = @reservation.day.to_s + s_time
     start_num = times.index(@reservation.s_time).to_i
     end_num = times.index(@reservation.e_time).to_i
     i = end_num - start_num
+    miss_count = 0
     if i < 0
       flash[:notice] = ["入力方法を間違えています。"]
       redirect_to host_path
@@ -69,16 +70,16 @@ class HostController < BookingController
       ary = []
       i.times do |j|
         if @reservation.save
-          m = 1
+          miss_count += 0 
         else
-          ary.push("#{@reservation.time}は予約が入っています。確認してください")
-          m = 2
+          ary.push("#{times[@reservation.time]}は予約が入っています。確認してください")
+          miss_count += 1
         end
         time = times[start_num + j + 1].to_s
         date_time = @reservation.day.to_s + time
         @reservation = BookingDate.new(
           day: params[:day],
-          time: time,
+          time: times.index(time),
           date_time: date_time,
           s_time: s_time,
           e_time: e_time,
@@ -88,7 +89,9 @@ class HostController < BookingController
           option: -1
         )
       end
-      flash[:notice] = ary
+      if miss_count > 0 
+        flash[:notice] = ary
+      end
       flash[:success] = ["予定入力しました。"]
       redirect_to host_path
     else

@@ -1,4 +1,6 @@
 class BookingController < ApplicationController
+  before_action :host_is, only: [:host_login, :host, :host_logout]
+
   def index
     @reservations = BookingDate.all.where("day >= ?", Date.current).where("day < ?", Date.current >> 3).order(day: :desc)
   end
@@ -34,49 +36,41 @@ class BookingController < ApplicationController
   def create
     @reservation = BookingDate.new(
       day: params[:day],
-      time: params[:time],
+      time: times.index(params[:time]),
       name: params[:name],
       tell: params[:tell],
       menu: params[:menu],
       option: params[:option],
       s_time: params[:time]
     )
-    @reservation[:date_time] = @reservation.day.to_s + @reservation.time
-    first_time_num = times.index(@reservation.time)
+    @reservation[:date_time] = @reservation.day.to_s + params[:time]
+    first_time_num = @reservation.time
     false_count = 0
     @reservation[:option].nil? ? (@reservation[:option] = -1) : (@reservation[:option] = params[:option])
       
     if @reservation[:menu].nil? || @reservation[:name].nil? || @reservation[:tell].nil?
-      flash[:notice] = ["入力されていないものがあります。"]
-      false_count = -1
+      flash[:notice] = "入力されていないものがあります。"
+      @false_count = -1
     elsif @reservation[:name] == "ホスト"
-      flash[:notice] = ["その名前では登録できません"]
-      false_count = -1
+      flash[:notice] = "その名前では登録できません"
+      @false_count = -1
     elsif @reservation[:menu] % 2 == 0 && @reservation[:option] >= 0 #60分のコース選んだ時オプションあり
-      @reservation.e_time = times[first_time_num + 3]
-      @reservation.save ? (false_count = 0) : (false_count = 1)
-      create_cmd(first_time_num, 3, false_count)
+      pre_create_cmd(@reservation.time, 3, false_count)
     elsif @reservation[:menu] % 2 == 1 && @reservation[:option] >= 0 #90分のコース選んだ時オプションあり
-      @reservation.e_time = times[first_time_num + 4]
-      @reservation.save ? (false_count = 0) : (false_count = 1)
-      create_cmd(first_time_num, 4, false_count)
+      pre_create_cmd(@reservation.time, 4, false_count)
     elsif @reservation[:menu] % 2 == 0 && @reservation[:option] < 0 #60分のコース選んだ時オプションなし
-      @reservation.e_time = times[first_time_num + 2]
-      @reservation.save ? (false_count = 0) : (false_count = 1)
-      create_cmd(first_time_num, 2, false_count)
+      pre_create_cmd(@reservation.time, 2, false_count)
     elsif @reservation[:menu] % 2 == 1 && @reservation[:option] < 0 #90分のコース選んで時オプションなし
-      @reservation.e_time = times[first_time_num + 3]
-      @reservation.save ? (false_count = 0) : (false_count = 1)
-      create_cmd(first_time_num, 3, false_count)
+      pre_create_cmd(@reservation.time, 3, false_count)
     else
-      flash[:notice] = ["何か問題があります。"]
+      flash[:notice] = "何か問題があります。"
       @false_count = -1
     end
     
     if @false_count == -1
-      redirect_to booking_date_path 
+      redirect_to booking_date_new_path(day: @reservation.day, time:  params[:time])
     elsif @false_count == 0
-      flash[:success] = ["予約が完了しました。"]
+      flash[:success] = "予約が完了しました。"
       redirect_to action: :show,id: @reservation.id
     elsif @false_count > 0
       BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time).destroy_all
@@ -84,7 +78,7 @@ class BookingController < ApplicationController
       redirect_to booking_date_path
     else
       @reservation.delete
-      flash[:notice] = ["そのメニューでは登録できません", "最初から入力してください"]
+      flash[:notice] = "何か問題が起きました。"
       redirect_to booking_date_path
     end
   end 
@@ -94,11 +88,11 @@ class BookingController < ApplicationController
     @reservation = BookingDate.find_by(date_time: date_time_now)
     if @reservation.menu == 10
       BookingDate.where(day: @reservation.day, name: @reservation.name).destroy_all
-      flash[:success] = ["その日の予定は削除されました。"]
+      flash[:success] = "その日の予定は削除されました。"
       redirect_to host_path
     else
       BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time, name: @reservation.name).destroy_all
-      flash[:notice] = ["予約は削除されました。"]
+      flash[:notice] = "予約は削除されました。"
       if session[:user_id].is_a?(Integer) && session[:user_id] == 1 #ホストがログイン中ならhost_pathへ
         redirect_to host_path
       else  #ホスト以外の方ならbooking_date_pathへ
@@ -140,9 +134,11 @@ class BookingController < ApplicationController
     reservation_data
   end
 
-  def move_to_index_id
-    if params[:id].nil?
-      redirect_to booking_date_path
+  def host_is
+    key = Host.find(1)
+    if key.blank?
+      flash[:notice] = "予期せぬエラーが発生しています。"
+      redirect_to "/"
     end
   end
 
@@ -150,17 +146,28 @@ class BookingController < ApplicationController
     def reservation_params
       params.require(:booking_date).permit(:day, :time, :start_time)
     end
+
+    def pre_create_cmd(first_time_num, minute_count, false_count)
+      @reservation.e_time = times[first_time_num + minute_count]
+      if @reservation.e_time.nil?
+        @false_count = -1
+        flash[:notice] = "営業時間外です。"
+      else
+        @reservation.save ? (false_count = 0) : (false_count = 1)
+        create_cmd(first_time_num, minute_count, false_count)
+      end
+    end
     
     def create_cmd(first_time_num,  minute_count, false_count)
       minute_count.times do |i|
-        next_time = times[first_time_num + 1 + i]
+        next_time = first_time_num + 1 + i
         reservation1 = BookingDate.new(
           day: params[:day],
           time: next_time,
           name: params[:name],
           tell: params[:tell],
           menu: params[:menu],
-          date_time: params[:day].to_s + next_time,
+          date_time: params[:day].to_s + times[next_time],
           option: @reservation.option, 
           s_time: params[:time], 
           e_time: @reservation.e_time
@@ -171,7 +178,6 @@ class BookingController < ApplicationController
           false_count += 1
         end
       end
-      @minute_count = minute_count
       @false_count = false_count
     end
 

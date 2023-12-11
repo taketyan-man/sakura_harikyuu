@@ -3,6 +3,8 @@ class BookingDate < ApplicationRecord
   validates :menu, presence: true
   validates :name, presence: true
   validates :date_time, uniqueness: true
+  validates :s_time, presence: true
+  validates :e_time, presence: true
 
   validate :date_before_start
   validate :date_current_today

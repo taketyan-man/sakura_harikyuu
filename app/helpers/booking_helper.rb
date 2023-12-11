@@ -35,13 +35,13 @@ module BookingHelper
     # 取得した予約データにdayとtimeが一致する場合はtrue,一致しない場合はfalseを返します
     if reservations_count > 1
       reservations.each do |reservation|
-        result = reservation[:day].strftime("%Y-%m-%d") == (day.strftime("%Y-%m-%d")) && reservation[:time] == (time)
+        result = reservation[:day].strftime("%Y-%m-%d") == (day.strftime("%Y-%m-%d")) && times[reservation[:time]] == (time)
         return result if result
       end
     elsif reservations_count == 1
-      result = reservations[0][:day].strftime("%Y-%m-%d") == (day.strftime("%Y-%m-%d")) && reservations[0][:time] == (time)
+      result = reservations[0][:day].strftime("%Y-%m-%d") == (day.strftime("%Y-%m-%d")) && times[reservation[:time]] == (time)
       return result if result
     end
-    return result
+    return result = false
   end
 end
