@@ -2,19 +2,21 @@
   <header>
     <div class="header-title"><h1>さくら鍼灸室</h1></div>
     <input type="checkbox" id="menu-btn-check">
-    <label class="btn" for="menu-btn-check"><i class="fa-solid fa-bars fa-lg menu-icon"></i></label>
-    <div class="menu-content">
-      <div class="menu-con-text">
-      </div>
-      <label class="btn-close" for="menu-btn-check"><i class="fa-solid fa-xmark fa-lg menu-icon close"></i></label>
-      <ul>
-        <li><a class="gnav_link" href="#menu">診療メニュー</a></li>
-        <li><a class="gnav_link" href="#about">社長紹介</a></li>
-        <li><a class="gnav_link" href="#map">店舗概要</a></li>
-        <li><a class="gnav_link" href="#tel">電話予約</a></li>
-        <li><%= link_to("Web予約", "/booking_date", class:"booking-link") %></li>
-      </ul>
-    </div>
+    <div class="headder-menu-nav">
+      <%= link_to("Web予約", "/booking_date", class:"booking_link") %>
+    </div>  
+    # <div class="menu-content">
+    #   <div class="menu-con-text">
+    #   </div>
+    #   <label class="btn-close" for="menu-btn-check"><i class="fa-solid fa-xmark fa-lg menu-icon close"></i></label>
+    #   <ul>
+    #     <li><a class="gnav_link" href="#menu">診療メニュー</a></li>
+    #     <li><a class="gnav_link" href="#about">社長紹介</a></li>
+    #     <li><a class="gnav_link" href="#map">店舗概要</a></li>
+    #     <li><a class="gnav_link" href="#tel">電話予約</a></li>
+    #     <li><%= link_to("Web予約", "/booking_date", class:"booking-link") %></li>
+    #   </ul>
+    # </div>
     <div class="header-nav">
       <ul>
         <li><a href="#menu">診療メニュー</a></li>
@@ -37,7 +39,7 @@
   <% end %>
   <main>
     <div class="main-img">
-      <%= image_tag "/main-img.jpeg", class:"main_img" %>
+    <%= image_tag asset_path('main-img.jpeg', class: 'main_img') %>
     </div>
     <div class="main-img-text">
       <h1>〜 ようこそ　さくら鍼灸室へ 〜</h1>
