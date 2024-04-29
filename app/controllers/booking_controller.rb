@@ -34,25 +34,18 @@ class BookingController < ApplicationController
   end
   
   def create
-    @reservation = BookingDate.new(
-      day: params[:day],
-      time: times.index(params[:time]),
-      name: params[:name],
-      tell: params[:tell],
-      menu: params[:menu],
-      option: params[:option],
-      s_time: params[:time]
-    )
+    @reservation = BookingDate.new(reservation_params)
+    params.require(:booking_date).permit(:day, :time, :start_time, :name, :tell, :menu, :option, :s_time, :time)
+    @reservation.time = times.index(params[:time])
     @reservation[:date_time] = @reservation.day.to_s + params[:time]
     first_time_num = @reservation.time
     false_count = 0
     @reservation[:option].nil? ? (@reservation[:option] = -1) : (@reservation[:option] = params[:option])
-      
     if @reservation[:menu].nil? || @reservation[:name].nil? || @reservation[:tell].nil?
-      flash[:notice] = "入力されていないものがあります。"
+      flash[:notice] = ["入力されていないものがあります。"]
       @false_count = -1
     elsif @reservation[:name] == "ホスト"
-      flash[:notice] = "その名前では登録できません"
+      flash[:notice] = ["その名前では登録できません"]
       @false_count = -1
     elsif @reservation[:menu] % 2 == 0 && @reservation[:option] >= 0 #60分のコース選んだ時オプションあり
       pre_create_cmd(@reservation.time, 3, false_count)
@@ -63,14 +56,14 @@ class BookingController < ApplicationController
     elsif @reservation[:menu] % 2 == 1 && @reservation[:option] < 0 #90分のコース選んで時オプションなし
       pre_create_cmd(@reservation.time, 3, false_count)
     else
-      flash[:notice] = "何か問題があります。"
+      flash[:notice] = ["何か問題があります。"]
       @false_count = -1
     end
     
     if @false_count == -1
       redirect_to booking_date_new_path(day: @reservation.day, time:  params[:time])
     elsif @false_count == 0
-      flash[:success] = "予約が完了しました。"
+      flash[:success] = ["予約が完了しました。"]
       redirect_to action: :show,id: @reservation.id
     elsif @false_count > 0
       BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time).destroy_all
@@ -78,7 +71,7 @@ class BookingController < ApplicationController
       redirect_to booking_date_path
     else
       @reservation.delete
-      flash[:notice] = "何か問題が起きました。"
+      flash[:notice] = ["何か問題が起きました。"]
       redirect_to booking_date_path
     end
   end 
@@ -144,7 +137,7 @@ class BookingController < ApplicationController
 
   private
     def reservation_params
-      params.require(:booking_date).permit(:day, :time, :start_time)
+      params.require(:booking_date).permit(:day, :time, :start_time, :name, :tell, :menu, :option, :s_time, :time)
     end
 
     def pre_create_cmd(first_time_num, minute_count, false_count)
