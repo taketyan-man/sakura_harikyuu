@@ -33,6 +33,7 @@ class BookingController < ApplicationController
     flash.keep(:success)
   end
   
+  
   def create
     @reservation = BookingDate.new(reservation_params)
     params.require(:booking_date).permit(:day, :time, :start_time, :name, :tell, :menu, :option, :s_time, :time)
