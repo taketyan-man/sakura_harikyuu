@@ -25,18 +25,22 @@ class BookingController < ApplicationController
   def show
     @reservation = BookingDate.find(params[:id])
     @menu = menus[@reservation.menu]
-    if @reservation.option < 0
-      @option = "なし"
-    else
-      @option = options[@reservation.option]
-    end
+    @option = options[@reservation.option]
     flash.keep(:success)
   end
-  
+
   
   def create
-    @reservation = BookingDate.new(reservation_params)
-    params.require(:booking_date).permit(:day, :time, :start_time, :name, :tell, :menu, :option, :s_time, :time)
+    @reservation = BookingDate.new(
+      day:        params[:day],
+      time:       params[:time],
+      start_time: params[:start_time],
+      name:       params[:name],
+      tell:       params[:tell],
+      menu:       params[:menu],
+      option:     params[:option],
+      s_time:     params[:s_time]
+    )
     @reservation.time = times.index(params[:time])
     @reservation[:date_time] = @reservation.day.to_s + params[:time]
     first_time_num = @reservation.time
@@ -44,29 +48,33 @@ class BookingController < ApplicationController
     @reservation[:option].nil? ? (@reservation[:option] = -1) : (@reservation[:option] = params[:option])
     if @reservation[:menu].nil? || @reservation[:name].nil? || @reservation[:tell].nil?
       flash[:notice] = ["入力されていないものがあります。"]
-      @false_count = -1
+      false_count = -1
     elsif @reservation[:name] == "ホスト"
       flash[:notice] = ["その名前では登録できません"]
-      @false_count = -1
-    elsif @reservation[:menu] % 2 == 0 && @reservation[:option] >= 0 #60分のコース選んだ時オプションあり
+      false_count = -1
+    elsif @reservation[:menu] % 3 == 0 && @reservation[:option] == 1 #60分のコース選んだ時オプションあり
       pre_create_cmd(@reservation.time, 3, false_count)
-    elsif @reservation[:menu] % 2 == 1 && @reservation[:option] >= 0 #90分のコース選んだ時オプションあり
+    elsif @reservation[:menu] % 3 == 1 && @reservation[:option] == 1 #90分のコース選んだ時オプションあり
       pre_create_cmd(@reservation.time, 4, false_count)
-    elsif @reservation[:menu] % 2 == 0 && @reservation[:option] < 0 #60分のコース選んだ時オプションなし
+    elsif @reservation[:menu] % 3 == 2 && @reservation[:option] == 1 #120分コース選んだオプションあり
+      pre_create_cmd(@reservation.time, 5, false_count)
+    elsif @reservation[:menu] % 3 == 0 && @reservation[:option] == 0 #60分のコース選んだ時オプションなし
       pre_create_cmd(@reservation.time, 2, false_count)
-    elsif @reservation[:menu] % 2 == 1 && @reservation[:option] < 0 #90分のコース選んで時オプションなし
+    elsif @reservation[:menu] % 3 == 1 && @reservation[:option] == 0 #90分のコース選んで時オプションなし
       pre_create_cmd(@reservation.time, 3, false_count)
+    elsif @reservation[:menu] % 3 == 2 && @reservation[:option] == 0 #120分のコース選んで時オプションなし
+      pre_create_cmd(@reservation.time, 4, false_count)
     else
       flash[:notice] = ["何か問題があります。"]
-      @false_count = -1
+      false_count = -1
     end
     
-    if @false_count == -1
+    if false_count < -1
       redirect_to booking_date_new_path(day: @reservation.day, time:  params[:time])
-    elsif @false_count == 0
+    elsif false_count == 0
       flash[:success] = ["予約が完了しました。"]
       redirect_to action: :show,id: @reservation.id
-    elsif @false_count > 0
+    elsif false_count > 0
       BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time).destroy_all
       flash[:notice] = ["すでに予約が入っています。", "他の時間で予約してください。"]
       redirect_to booking_date_path
@@ -144,8 +152,8 @@ class BookingController < ApplicationController
     def pre_create_cmd(first_time_num, minute_count, false_count)
       @reservation.e_time = times[first_time_num + minute_count]
       if @reservation.e_time.nil?
-        @false_count = -1
-        flash[:notice] = "営業時間外です。"
+        false_count -= 1
+        flash[:notice] << "営業時間外です。"
       else
         @reservation.save ? (false_count = 0) : (false_count = 1)
         create_cmd(first_time_num, minute_count, false_count)
@@ -211,18 +219,20 @@ class BookingController < ApplicationController
       menus = [
         "ボディケア 60分",
         "ボディケア 90分",
+        "ボディケア 120分",
         "鍼灸マッサージ 60分",
         "鍼灸マッサージ 90分",
-        "美容鍼 60分"
+        "鍼灸マッサージ 120分",
+        "美容鍼 60分",
+        "期間限定 60分"
       ]
     end
 
     def options
       options = [
-        "ボディケア 30分",
-        "鍼灸マッサージ 30分",
-        "アロマオイル 30分",
-        "期間限定 30分"
+        "なし"
+        "アロマオイル 20分",
+        
       ]
     end
   end
