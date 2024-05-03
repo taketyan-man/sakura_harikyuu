@@ -41,8 +41,8 @@ class BookingController < ApplicationController
       option:     params[:option],
       s_time:     params[:time]
     )
-    flash[:notice] = []
     flash[:success] = []
+    flash[:notice] = []
     @reservation.time = times.index(params[:time])
     @reservation[:date_time] = @reservation.day.to_s + params[:time]
     first_time_num = @reservation.time
@@ -73,16 +73,20 @@ class BookingController < ApplicationController
     
     if @false_count <= -1
       BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time).destroy_all
+      flash[:success] = nil
       redirect_to booking_date_new_path(day: @reservation.day, time:  params[:time])
     elsif @false_count == 0
       flash[:success] << "予約が完了しました。"
+      flash[:notice] = nil
       redirect_to action: :show,id: @reservation.id
     elsif @false_count > 0
       BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time).destroy_all
+      flash[:success] = nil
       flash[:notice].push("すでに予約が入っています。", "他の時間で予約してください。")
       redirect_to booking_date_path
     else
       @reservation.delete
+      flash[:success] = nil 
       flash[:notice] << "何か問題が起きました。"
       redirect_to booking_date_path
     end
