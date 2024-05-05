@@ -153,7 +153,7 @@ class BookingController < ApplicationController
 
   private
     def reservation_params
-      params.require(:booking_date).permit(:day, :time, :start_time, :name, :tell, :menu, :option, :s_time, :time)
+      params.require(:booking_date).permit(:day, :time, :name, :tell, :menu, :option, :s_time, :time)
     end
 
     def pre_create_cmd(first_time_num, minute_count, false_count)
