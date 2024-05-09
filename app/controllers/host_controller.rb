@@ -149,6 +149,7 @@ class HostController < BookingController
              "19:30",
              "20:00",
              "20:30",
-             "21:00"]
+             "21:00"
+            ]
   end
 end
