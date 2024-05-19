@@ -9,15 +9,23 @@ class BookingController < ApplicationController
     @reservation = BookingDate.new
     @day = params[:day]
     @time = params[:time]
-    @start_time = DateTime.parse(@day + " " + @time + " " + "JST")
-    if @day.to_date < Date.current
-      flash[:notice] =  ["過去の日付は選択できません", "正しい日付を選択してください"]
-      redirect_to booking_date_path
-    elsif @day.to_date < (Date.current + 1)
-      flash[:notice] = ["当日は選択できません","正しい日付を選択してください"]
-      redirect_to booking_date_path
-    elsif (Date.current >> 3) < @day.to_date
-      flash[:notice] =  ["3ヶ月以降の日付は選択できません。正しい日付を選択してください。", "最初から選択してください"]
+    if @day && @time && @day.match(/\A\d{4}-\d{2}-\d{2}\z/)
+      @start_time = DateTime.parse(@day + " " + @time + " " + "JST")
+      if @day.to_date.blank? || !(times.include?(@time))
+        flash[:notice] = ["正しい日時が入力できてません"]
+        redirect_to booking_date_path
+      elsif @day.to_date < Date.current
+        flash[:notice] =  ["過去の日付は選択できません", "正しい日付を選択してください"]
+        redirect_to booking_date_path
+      elsif @day.to_date < (Date.current + 1)
+        flash[:notice] = ["当日は選択できません","正しい日付を選択してください"]
+        redirect_to booking_date_path
+      elsif (Date.current >> 3) < @day.to_date
+        flash[:notice] =  ["3ヶ月以降の日付は選択できません。正しい日付を選択してください。", "最初から選択してください"]
+        redirect_to booking_date_path
+      end
+    else
+      flash[:notice] = ["日時が正しく入力されていません。"]
       redirect_to booking_date_path
     end
   end
