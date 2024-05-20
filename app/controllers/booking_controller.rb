@@ -39,23 +39,23 @@ class BookingController < ApplicationController
 
   
   def create
-    @reservation = BookingDate.new(
-      day:        params[:day],
-      time:       params[:time],
-
-      name:       params[:name],
-      tell:       params[:tell],
-      menu:       params[:menu],
-      option:     params[:option],
-      s_time:     params[:time]
-    )
+    # @reservation = BookingDate.new(
+    #   day:        params[:day],
+    #   time:       params[:time],
+    #   name:       params[:name],
+    #   tell:       params[:tell],
+    #   menu:       params[:menu],
+    #   option:     params[:option],
+    #   s_time:     params[:time]
+    # )
+    @reservation = BookingDate.new(reservation_params)
     flash[:success] = []
     flash[:notice] = []
-    @reservation.time = times.index(params[:time])
-    @reservation[:date_time] = @reservation.day.to_s + params[:time]
+    @reservation.time = times.index(@reservation.s_time) #timeは数字で管理している例)0,1,2
+    @reservation[:date_time] = @reservation.day.to_s + @reservation.s_time
     first_time_num = @reservation.time
     @false_count = 0
-    @reservation[:option].nil? ? (@reservation[:option] = 0) : (@reservation[:option] = params[:option])
+    @reservation[:option] = 0 if @reservation.option != 1
     if @reservation[:menu].nil? || @reservation[:name].nil? || @reservation[:tell].nil?
       flash[:notice] << "入力されていないものがあります。"
       @false_count = -1
@@ -80,9 +80,11 @@ class BookingController < ApplicationController
     end
     
     if @false_count <= -1
+      param_day  = @reservation.day
+      param_time = @reservation.s_time
       BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time).destroy_all
       flash[:success] = nil
-      redirect_to booking_date_new_path(day: @reservation.day, time:  params[:time])
+      redirect_to booking_date_new_path(day: param_day, time: param_time)
     elsif @false_count == 0
       flash[:success] << "予約が完了しました。"
       flash[:notice] = nil
@@ -161,7 +163,7 @@ class BookingController < ApplicationController
 
   private
     def reservation_params
-      params.require(:booking_date).permit(:day, :time, :name, :tell, :menu, :option, :s_time, :time)
+      params.require(:booking_date).permit(:day, :time, :name, :tell, :menu, :option, :s_time)
     end
 
     def pre_create_cmd(first_time_num, minute_count, false_count)
@@ -185,14 +187,14 @@ class BookingController < ApplicationController
       minute_count.times do |i|
         next_time = first_time_num + 1 + i
         reservation1 = BookingDate.new(
-          day: params[:day],
+          day: @reservation.day,
           time: next_time,
-          name: params[:name],
-          tell: params[:tell],
-          menu: params[:menu],
-          date_time: params[:day].to_s + times[next_time],
+          name: @reservation.name,
+          tell: @reservation.tell,
+          menu: @reservation.menu,
+          date_time: @reservation.day.to_s + times[next_time],
           option: @reservation.option, 
-          s_time: params[:time], 
+          s_time: @reservation.s_time, 
           e_time: @reservation.e_time
         )
         if reservation1.save

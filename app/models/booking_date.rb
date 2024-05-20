@@ -1,5 +1,5 @@
 class BookingDate < ApplicationRecord
-  validates :tell, presence:  true, numericality: true
+  validates :tell, presence:  true, numericality: true, format: { with: /\A0\d{9,10}\z/ }
   validates :menu, presence: true
   validates :name, presence: true
   validates :date_time, uniqueness: true

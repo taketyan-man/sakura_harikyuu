@@ -36,12 +36,70 @@ RSpec.describe "BookingsDate", type: :request do
   end
 
   describe "POST /create" do
-    it 'should post booking_date_create_path' do
-      post booking_date_create_path, params: {
+    context 'correct infomaration' do
+      let(:reservation_params) { { booking_date: {
         day: "#{Date.tomorrow.to_s}",
-        time: "8:00"
-  
-      }
+        time: "8:00",
+        name: "竹吉 塁",
+        tell: "00000000000",
+        menu: 2,
+        option: 0,
+        s_time: "8:00" 
+      } } }
+
+      let(:reservation_params_option) { { booking_date: {
+        day: "#{Date.tomorrow.to_s}",
+        time: "8:00",
+        name: "竹吉 塁",
+        tell: "00000000000",
+        menu: 2,
+        option: 1,
+        s_time: "8:00"
+      } } }
+
+      it 'should save booking correcting information' do
+        expect {
+          post booking_dates_path, params: reservation_params
+        }.to change(BookingDate, :count).by 5
+      end
+
+      it 'should save booking correcting information and option' do
+        expect {
+          post booking_dates_path, params: reservation_params_option
+        }.to change(BookingDate, :count).by 6
+      end
+
+      it 'should not save when double booking' do
+        post booking_dates_path, params: reservation_params
+        expect {
+          post booking_dates_path, params: { booking_date: {
+            day: "#{Date.tomorrow.to_s}",
+            time: "10:00",
+            name: "竹吉 塁",
+            tell: "00000000000",
+            menu: 2,
+            option: 0,
+            s_time: "10:00"
+          } }
+        }.to_not change(BookingDate, :count)
+      end
+    end
+
+    context 'incorrect infomartion' do
+      let(:reservation_params) { { booking_date: {
+        day: "#{Date.tomorrow.to_s}",
+        time: "8:00",
+        name: "",
+        tell: "",
+        menu: nil,
+        option: 0,
+        s_time: "8:00" 
+      } } }
+      it 'should not save booking incorrecting inormation' do
+        expect {
+          post booking_dates_path ,params: reservation_params
+        }.to_not change(BookingDate, :count)
+      end
     end
   end
 end

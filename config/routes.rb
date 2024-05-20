@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get "/booking_date" => "booking#index"
   get "/booking_date/new" => "booking#new"
   get "/booking_date/show/:id" => "booking#show", as:"booking_date_show"
-  post "/booking_date/create" => "booking#create"
+  post "/booking_dates" => "booking#create"
   get "/booking/host" => "booking#host"
   post "/booking/host/login" => "booking#host_login"
   post "/booking/logout" => "host#host_logout"

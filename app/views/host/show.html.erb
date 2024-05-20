@@ -9,7 +9,7 @@
       </div>
     <% end %>
     <div class="col-12 mt-3 content">
-      <%= form_with url:booking_date_create_path, class: 'form' do |form| %>
+      <%= form_with model: @reservation, class: 'form' do |form| %>
       <div class="day form-group">
         <%= form.label :day, '日付' %>
         <div class="form-box">
