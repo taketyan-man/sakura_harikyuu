@@ -47,7 +47,7 @@ class BookingController < ApplicationController
     first_time_num = @reservation.time
     @false_count = 0
     @reservation[:option] = 0 if @reservation.option != 1
-    if @reservation[:menu].nil? || @reservation[:name].nil? || @reservation[:tell].nil?
+    if @reservation.nil? || @reservation[:menu].nil? || @reservation[:name].nil? || @reservation[:tell].nil?
       flash[:notice] << "入力されていないものがあります。"
       @false_count = -1
     elsif @reservation[:name] == "ホスト"

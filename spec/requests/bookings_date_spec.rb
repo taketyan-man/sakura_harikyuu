@@ -102,8 +102,4 @@ RSpec.describe "BookingsDate", type: :request do
       end
     end
   end
-
-  describe 'DELETE /delete' do
-    
-  end
 end
