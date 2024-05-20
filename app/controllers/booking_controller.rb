@@ -39,15 +39,6 @@ class BookingController < ApplicationController
 
   
   def create
-    # @reservation = BookingDate.new(
-    #   day:        params[:day],
-    #   time:       params[:time],
-    #   name:       params[:name],
-    #   tell:       params[:tell],
-    #   menu:       params[:menu],
-    #   option:     params[:option],
-    #   s_time:     params[:time]
-    # )
     @reservation = BookingDate.new(reservation_params)
     flash[:success] = []
     flash[:notice] = []
@@ -103,20 +94,22 @@ class BookingController < ApplicationController
   end 
   
   def delete
-    date_time_now = params[:date_time]
-    @reservation = BookingDate.find_by(date_time: date_time_now)
-    if @reservation.menu == 10
+    @reservation = BookingDate.find_by(date_time: params[:date_time])
+    if @reservation && @reservation.menu == 10
       BookingDate.where(day: @reservation.day, name: @reservation.name).destroy_all
-      flash[:success] = "その日の予定は削除されました。"
+      flash[:success] = ["その日の予定は削除されました。"]
       redirect_to host_path
-    else
+    elsif @reservation
       BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time, name: @reservation.name).destroy_all
-      flash[:notice] = "予約は削除されました。"
+      flash[:notice] = ["予約は削除されました。"]
       if session[:user_id].is_a?(Integer) && session[:user_id] == 1 #ホストがログイン中ならhost_pathへ
         redirect_to host_path
       else  #ホスト以外の方ならbooking_date_pathへ
         redirect_to booking_date_path
       end
+    else
+      flash[:notice] = ["エラーが発生しました。", "院長に確認してください。"]
+      redirect_to booking_date
     end
   end
   
