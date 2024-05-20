@@ -11,6 +11,5 @@ class AddTellMenuCulm < ActiveRecord::Migration[7.0]
     add_column :booking_dates, :s_time,:string
     add_column :booking_dates, :e_time, :string
     add_column :booking_dates, :option, :integer
-    add_column :booking_dates, :start_time, :string
   end
 end

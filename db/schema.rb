@@ -21,7 +21,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_04_074736) do
     t.string "s_time"
     t.string "e_time"
     t.integer "option"
-    t.string "start_time"
   end
 
   create_table "hosts", force: :cascade do |t|

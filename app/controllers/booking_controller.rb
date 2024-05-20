@@ -3,6 +3,7 @@ class BookingController < ApplicationController
 
   def index
     @reservations = BookingDate.all.where("day >= ?", Date.current).where("day < ?", Date.current >> 3).order(day: :desc)
+    
   end
 
   def new
@@ -10,7 +11,6 @@ class BookingController < ApplicationController
     @day = params[:day]
     @time = params[:time]
     if @day && @time && @day.match(/\A\d{4}-\d{2}-\d{2}\z/)
-      @start_time = DateTime.parse(@day + " " + @time + " " + "JST")
       if @day.to_date.blank? || !(times.include?(@time))
         flash[:notice] = ["正しい日時が入力できてません"]
         redirect_to booking_date_path
@@ -42,7 +42,7 @@ class BookingController < ApplicationController
     @reservation = BookingDate.new(
       day:        params[:day],
       time:       params[:time],
-      start_time: params[:start_time],
+
       name:       params[:name],
       tell:       params[:tell],
       menu:       params[:menu],

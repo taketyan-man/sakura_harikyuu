@@ -34,4 +34,14 @@ RSpec.describe "BookingsDate", type: :request do
       expect(flash).to be_any 
     end
   end
+
+  describe "POST /create" do
+    it 'should post booking_date_create_path' do
+      post booking_date_create_path, params: {
+        day: "#{Date.tomorrow.to_s}",
+        time: "8:00"
+  
+      }
+    end
+  end
 end
