@@ -111,7 +111,9 @@ RSpec.describe "BookingsDate", type: :request do
       it 'should destroy booking correct information' do
         expect {
           post booking_delete_path ,params: {
-            date_time: "#{Date.tomorrow.to_s}" + "8:00"
+            date_time: "#{Date.tomorrow.to_s}" + "8:00",
+            name: "モデル",
+            tell: "00000000000"
           }
         }.to change(BookingDate, :count).by -5
       end
@@ -122,12 +124,14 @@ RSpec.describe "BookingsDate", type: :request do
         reservation()
       end
 
-      it 'should destroy booking incorrect information' do
+      it 'should destroy booking correct date_time and inncorrect name' do
         expect {
           post booking_delete_path, params: {
-            date_time: "#{Date.tomorrow.to_s}" + "9:00"
+            date_time: "#{Date.tomorrow.to_s}" + "8:00",
+            name: "",
+            tell: "00000000000"
           }
-        }.to 
+        }.to_not change(BookingDate, :count)
       end
     end
   end
