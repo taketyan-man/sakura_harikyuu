@@ -12,9 +12,16 @@ module ReservationSupport
   end
 
   module Request
-    def reservation(booking)
-      post login_path, params: { session: { email:    user.email,
-                                            password: user.password } }
+    def reservation()
+      post booking_dates_path, params: { booking_date: {
+        day: "#{Date.tomorrow.to_s}",
+        time: "8:00",
+        name: "モデル",
+        tell: "00000000000",
+        menu: 2,
+        option: 0,
+        s_time: "8:00"
+      } }
     end
   end
 end

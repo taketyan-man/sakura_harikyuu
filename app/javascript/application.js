@@ -43,4 +43,11 @@ $(function () {
         $('.schedule').hide();
       };
     });
+  $('#delete-btn').on('click', function() {
+    $('.delete-content').show();
+  });
+
+  $('#delete-content-out').on('click', function(){
+    $('.delete-content').hide();
+  });
 });

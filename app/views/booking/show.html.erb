@@ -17,10 +17,6 @@
         <p style="display:inline;" name="time"><%= @reservation.e_time %></p>
       </div>
       <div>
-        <p class="label"><strong>電話番号：</strong></p>
-        <p style="display:inline;" name="tell"><%= @reservation.tell %></p>
-      </div>
-      <div>
         <p class="label"><strong>メニュー：</strong></p>
         <p style="display:inline;" name="menu"><%= @menu %></p>
       </div>
@@ -30,16 +26,42 @@
         <p style="display:inline;" name="option"><%= @option %></p>
       </div>
       <div class="show-submit">
-        <%= form_with url:booking_delete_path, class: 'show-form' do |form| %>
-          <div class="text-right delete">
-            <%= form.submit  value: '削除', class: "show-delete"%>
-            <%= form.hidden_field  :date_time, name:'date_time', class: 'form-control', value: @reservation.date_time%>
-          </div>
-        <% end %>
+        <div class="text-right delete">
+          <a id="delete-btn" class="show-delete">削除</a>
+        </div>
         <div class="text-right confirma">
           <%= link_to '完了',booking_date_path, class: "show-confirma" %>
         </div>
       </div>
+    </div>
+    <div class="delete-content">
+      <h2>本当に削除しますか？</h2>
+      <h3>確認のため以下の入力してください</h3>
+      <%= form_with url:booking_delete_path do |f| %>
+        <div class="content">
+          <div class="name form-group">
+            <%= f.label :name,'名前' %>
+            <div class="form-box">
+              <%= f.text_field :name, name: "name",class: 'form-control'%>
+            </div>
+          </div>
+          <div class="tell form-group">
+            <%= f.label :tell,'電話番号' %>
+            <div class="form-box">
+              <%= f.text_field :tell, name: "tell",class: 'form-control', placeholder: '例)08011112222'%>
+            </div>
+          </div>
+        </div>
+        <div class="show-submit">
+          <div class="text-right delete"> 
+              <%= f.submit  value: '削除', class: "show-delete"%>
+              <%= f.hidden_field  :date_time, name:'date_time', class: 'form-control', value: @reservation.date_time %>
+          </div>
+          <div class="text-right confirma">
+            <a class="show-confirma" id="delete-content-out">戻る</a>
+          </div>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>

@@ -100,16 +100,21 @@ class BookingController < ApplicationController
       flash[:success] = ["その日の予定は削除されました。"]
       redirect_to host_path
     elsif @reservation
-      BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time, name: @reservation.name).destroy_all
-      flash[:notice] = ["予約は削除されました。"]
-      if session[:user_id].is_a?(Integer) && session[:user_id] == 1 #ホストがログイン中ならhost_pathへ
-        redirect_to host_path
-      else  #ホスト以外の方ならbooking_date_pathへ
-        redirect_to booking_date_path
+      if @reservation.name == params[:name] && @reservation.tell == params[:tell]
+        BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time, name: @reservation.name).destroy_all
+        flash[:notice] = ["予約は削除されました。"]
+        if session[:user_id].is_a?(Integer) && session[:user_id] == 1 #ホストがログイン中ならhost_pathへ
+          redirect_to host_path
+        else  #ホスト以外の方ならbooking_date_pathへ
+          redirect_to booking_date_path
+        end
+      else
+        flash[:notice] = ["確認用に入力していたものが違います。", "もう一度最初から入力してください。"]
+        redirect_to action: :show,id: @reservation.id 
       end
     else
       flash[:notice] = ["エラーが発生しました。", "院長に確認してください。"]
-      redirect_to booking_date
+      redirect_to booking_date_path
     end
   end
   

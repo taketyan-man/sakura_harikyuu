@@ -36,7 +36,7 @@ RSpec.describe "BookingsDate", type: :request do
   end
 
   describe "POST /create" do
-    context 'correct infomaration' do
+    context 'correct information' do
       let(:reservation_params) { { booking_date: {
         day: "#{Date.tomorrow.to_s}",
         time: "8:00",
@@ -85,7 +85,7 @@ RSpec.describe "BookingsDate", type: :request do
       end
     end
 
-    context 'incorrect infomartion' do
+    context 'incorrect information' do
       let(:reservation_params) { { booking_date: {
         day: "#{Date.tomorrow.to_s}",
         time: "8:00",
@@ -95,10 +95,39 @@ RSpec.describe "BookingsDate", type: :request do
         option: 0,
         s_time: "8:00" 
       } } }
-      it 'should not save booking incorrecting inormation' do
+      it 'should not save booking incorrecting information' do
         expect {
           post booking_dates_path ,params: reservation_params
         }.to_not change(BookingDate, :count)
+      end
+    end
+  end
+
+  describe 'DELETE /delete' do
+    context 'correct information' do
+      before do
+        reservation()
+      end
+      it 'should destroy booking correct information' do
+        expect {
+          post booking_delete_path ,params: {
+            date_time: "#{Date.tomorrow.to_s}" + "8:00"
+          }
+        }.to change(BookingDate, :count).by -5
+      end
+    end
+
+    context 'incorrect information' do
+      before do
+        reservation()
+      end
+
+      it 'should destroy booking incorrect information' do
+        expect {
+          post booking_delete_path, params: {
+            date_time: "#{Date.tomorrow.to_s}" + "9:00"
+          }
+        }.to 
       end
     end
   end

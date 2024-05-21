@@ -45,7 +45,7 @@ class HostController < BookingController
       s_time: s_time,
       e_time: e_time,
       name: 'ホスト',
-      tell:  "0000",
+      tell:  "00000000000",
       menu: 10,
       option: -1
     )
@@ -116,7 +116,7 @@ class HostController < BookingController
   def create_start_and_end_time(minute, hour)
     if minute == "30"
       create_minute = "30"
-    else 
+    else
       create_minute = "00"
     end
     @create_time = hour.to_s + ":"  + create_minute
