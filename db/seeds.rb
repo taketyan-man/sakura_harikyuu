@@ -5,4 +5,4 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
-reservation = BookingDate.create
+host = Host.create(password: "0214", password_confirmation: "0214")

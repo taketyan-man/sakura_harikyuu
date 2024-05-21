@@ -24,7 +24,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_04_074736) do
   end
 
   create_table "hosts", force: :cascade do |t|
-    t.string "password"
+    t.string "password_digest"
   end
 
 end

@@ -1,16 +1,16 @@
 <div class="booking-host-login">
   <h1 class="login-title">ホストログイン</h1>
-  <%= form_tag("/booking/host/login") do %>
-    <div class="login-con">
-      <div class="login-password form-group">
-        <p>パスワード</p>
-        <div class="form-box login-form-box">
-          <input type="password" name="password" class="form-control login-form"></input><br>
+  <%= form_with(url: booking_host_login_path, scope: :session) do |f| %>
+    <div class="col-12 mt-3 content" style="padding-left: 24px;">
+      <div class="day form-group">
+        <%= f.label :password, "パスワード" %>
+        <div class="form-box">
+          <%= f.password_field :password, class: 'form-control host-form' %>
         </div>
       </div>
-      <div class="login-submit">
-        <input type="submit" value="ログイン" class="login-btn">
-      </div>
+      <div class="submit" id="submit">
+        <%= f.submit "ログイン", class: "login-btn" %>
+      </div> 
     </div>
   <% end %>
 </div>

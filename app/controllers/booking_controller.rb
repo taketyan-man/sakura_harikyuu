@@ -123,15 +123,13 @@ class BookingController < ApplicationController
   end
   
   def host_login
-    @host = Host.new(
-      password: params[:password]
-    )
-    key = Host.find_by(id: 1)
-    if @host[:password] != key[:password]
-      redirect_to "/"
-    else
-      session[:user_id] = key[:id]
+    host = Host.find_by(id: 1)
+    if host.authenticate(params[:session][:password]) 
+      flash[:success] = "ホストログイン成功しました"
+      session[:user_id] = 1
       redirect_to host_path
+    else
+      redirect_to home_path
     end
   end
     
@@ -163,7 +161,6 @@ class BookingController < ApplicationController
     def reservation_params
       params.require(:booking_date).permit(:day, :time, :name, :tell, :menu, :option, :s_time)
     end
-
     def pre_create_cmd(first_time_num, minute_count, false_count)
       @reservation.e_time = times[first_time_num + minute_count]
       if @reservation.e_time.nil?
