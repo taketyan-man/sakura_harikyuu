@@ -31,19 +31,21 @@ module HostHelper
 
   def options
     options = [
-      "ボディケア 30分",
-      "鍼灸マッサージ 30分",
-      "アロマオイル 30分",
-      "期間限定 30分"
+      "なし",
+      "アロマオイル 20分"
     ]
   end
 
   def menus
-    menus = ['ボディケア 60分', 
-             'ボディケア 90分', 
-             '鍼灸マッサージ 60分', 
-             '鍼灸マッサージ 90分', 
-             '美容鍼 60分'
+    menus = [
+      "ボディケア 60分",
+      "ボディケア 90分",
+      "ボディケア 120分",
+      "鍼灸マッサージ 60分",
+      "鍼灸マッサージ 90分",
+      "鍼灸マッサージ 120分",
+      "美容鍼 60分",
+      "期間限定 60分"
     ]
   end
 
@@ -73,15 +75,10 @@ module HostHelper
   end
 
   def option_search
-    if @reservation.option < 0
+    if @reservation.option == 0
       @option = "なし"
-    else
+    elsif @reservation.option == 1
       @option = options[@reservation.option]
     end
-  end
-
-  def name_search 
-    name = @reservation.name
-    name_all = Bookingdate.where(name: params[:name])
   end
 end

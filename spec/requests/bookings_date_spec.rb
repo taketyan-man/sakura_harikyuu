@@ -106,6 +106,16 @@ RSpec.describe "BookingsDate", type: :request do
         s_time: "8:00" 
       } } }
 
+      let(:reservation_params_name) { { booking_date: {
+        day: "#{Date.tomorrow.to_s}",
+        time: "8:00",
+        name: "ホスト",
+        tell: "00000000000",
+        menu: 2,
+        option: 1,
+        s_time: "8:00"
+      } } }
+
       it 'should not save booking incorrecting information' do
         expect {
           post booking_dates_path, params: reservation_params
@@ -119,10 +129,10 @@ RSpec.describe "BookingsDate", type: :request do
         }.to_not change(BookingDate, :count)
       end
 
-      it 'should not save booking not equal time and s_time' do
+      it 'should not save booking name=ホスト' do
         expect {
-          post booking_dates_path,  params:
-            reservation_params_equal_time_s_time
+          post booking_dates_path, params:
+            reservation_params_name
         }.to_not change(BookingDate, :count)
       end
     end
@@ -158,6 +168,26 @@ RSpec.describe "BookingsDate", type: :request do
           }
         }.to_not change(BookingDate, :count)
       end
+    end
+  end
+
+  describe 'POST /host_login' do
+    let!(:host) { FactoryBot.create(:host) }
+    it 'should host login correct' do
+      post booking_host_login_path, params: {
+        session: { password: host.password }
+      }
+      expect(response).to redirect_to host_path
+      expect(flash[:success]).to eq( "ホストログイン成功しました")
+      expect(session[:user_id]).to eq(1)
+    end
+
+    it 'should not host login incorrect' do
+      post booking_host_login_path, params: {
+        session: { password: "foobar" }
+      }
+      expect(response).to redirect_to home_path
+      expect(session[:user_id]).to_not eq(1)
     end
   end
 end

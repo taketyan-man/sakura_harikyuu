@@ -125,7 +125,7 @@ class BookingController < ApplicationController
   def host_login
     host = Host.find_by(id: 1)
     if host.authenticate(params[:session][:password]) 
-      flash[:success] = "ホストログイン成功しました"
+      flash[:success] = "ホストにログインが成功しました"
       session[:user_id] = 1
       redirect_to host_path
     else
@@ -135,6 +135,7 @@ class BookingController < ApplicationController
     
   def host_logout
     session[:user_id] = nil
+    flash[:notice] = "ホストをログアウトしました"
     redirect_to home_path
   end
     
@@ -153,7 +154,7 @@ class BookingController < ApplicationController
     key = Host.find(1)
     if key.blank?
       flash[:notice] = "予期せぬエラーが発生しています。"
-      redirect_to "/"
+      redirect_to home_path
     end
   end
 
@@ -161,6 +162,7 @@ class BookingController < ApplicationController
     def reservation_params
       params.require(:booking_date).permit(:day, :time, :name, :tell, :menu, :option, :s_time)
     end
+    
     def pre_create_cmd(first_time_num, minute_count, false_count)
       @reservation.e_time = times[first_time_num + minute_count]
       if @reservation.e_time.nil?
