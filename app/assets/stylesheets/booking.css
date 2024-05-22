@@ -166,7 +166,12 @@ table {
 
 .submit_btn {
   color: black;
-  border: 2px solid;  
+  border: 2px solid;
+  height: 48px;
+  width: 60%;
+  margin-bottom: 4px;
+  font-size: 16px;
+  padding-left: 8px;  
 }
 
 .text-right {

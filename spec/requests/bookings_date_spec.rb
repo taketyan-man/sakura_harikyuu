@@ -86,6 +86,16 @@ RSpec.describe "BookingsDate", type: :request do
     end
 
     context 'incorrect information' do
+      let(:reservation_params_menu_nil) { { booking_date: {
+        day: "#{Date.tomorrow.to_s}",
+        time: "8:00",
+        name: "竹吉 塁",
+        tell: "00000000000",
+        menu: nil,
+        option: 0,
+        s_time: "8:00" 
+      } } }
+
       let(:reservation_params) { { booking_date: {
         day: "#{Date.tomorrow.to_s}",
         time: "8:00",
@@ -95,9 +105,24 @@ RSpec.describe "BookingsDate", type: :request do
         option: 0,
         s_time: "8:00" 
       } } }
+
       it 'should not save booking incorrecting information' do
         expect {
-          post booking_dates_path ,params: reservation_params
+          post booking_dates_path, params: reservation_params
+        }.to_not change(BookingDate, :count)
+      end
+
+      it 'should not save booking menu nil' do
+        expect {
+          post booking_dates_path, params:
+            reservation_params_menu_nil
+        }.to_not change(BookingDate, :count)
+      end
+
+      it 'should not save booking not equal time and s_time' do
+        expect {
+          post booking_dates_path,  params:
+            reservation_params_equal_time_s_time
         }.to_not change(BookingDate, :count)
       end
     end

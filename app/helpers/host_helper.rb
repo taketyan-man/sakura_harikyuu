@@ -48,21 +48,21 @@ module HostHelper
   end
 
 
-  # def check_reservation(reservations, day, time)
-  #   result = false
-  #   reservations_count = reservations.count
-  #   # 取得した予約データにdayとtimeが一致する場合はtrue,一致しない場合はfalseを返します
-  #   if reservations_count > 1
-  #     reservations.each do |reservation|
-  #       result = reservation[:day].strftime("%Y-%m-%d") == (day.strftime("%Y-%m-%d")) && reservation[:time] == (time)
-  #       return result if result
-  #     end
-  #   elsif reservations_count == 1
-  #     result = reservations[0][:day].strftime("%Y-%m-%d") == (day.strftime("%Y-%m-%d")) && reservations[0][:time] == (time)
-  #     return result if result
-  #   end
-  #   return result
-  # end
+  def check_reservation(reservations, day, time)
+    result = false
+    reservations_count = reservations.count
+    # 取得した予約データにdayとtimeが一致する場合はtrue,一致しない場合はfalseを返します
+    if reservations_count > 1
+      reservations.each do |reservation|
+        result = reservation[:day].strftime("%Y-%m-%d") == (day.strftime("%Y-%m-%d")) && times[reservation[:time]] == (time)
+        return result if result
+      end
+    elsif reservations_count == 1
+      result = reservations[0][:day].strftime("%Y-%m-%d") == (day.strftime("%Y-%m-%d")) && reservations[0][:s_time] == (time)
+      return result if result
+    end
+    return result
+  end
 
   def menu_search 
     if @reservation.menu == 10

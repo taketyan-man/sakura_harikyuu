@@ -32,7 +32,7 @@
       <p>2ヶ月先まで予約することができます。</p>
     </div>
     <div class="col-12 mt-3">
-      <%= week_calendar events: @reservations do |date, reservations| %>
+      <%= week_calendar attribute: :day, events: @reservations do |date, reservations| %>
         <%= date.month %>
         <a> /</a>
         <%= date.day %>
