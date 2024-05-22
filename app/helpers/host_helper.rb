@@ -69,8 +69,12 @@ module HostHelper
   def menu_search 
     if @reservation.menu == 10
       @menu = "予定"
-    else
-      @menu = menus[@reservation.menu]
+    elsif @reservation.menu == 9
+      @menu = menus[@reservation.menu - 2]
+    elsif  @reservation.menu <= 6
+      @menu = menus[@reservation.menu] 
+    else 
+      @menu = "期待していない値が出ました。"
     end
   end
 
@@ -79,6 +83,10 @@ module HostHelper
       @option = "なし"
     elsif @reservation.option == 1
       @option = options[@reservation.option]
+    elsif @reservation.option == -1
+      @option = ""
+    else
+      @option = "期待していない値が出ています。"
     end
   end
 end
