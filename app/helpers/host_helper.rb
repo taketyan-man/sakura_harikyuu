@@ -89,4 +89,12 @@ module HostHelper
       @option = "期待していない値が出ています。"
     end
   end
+
+  def check_this_reservation(reservation)
+    if reservation.name == "ホスト" && reservation.menu == "10" && reservation.option
+      return true
+    else
+      return false
+    end
+  end
 end

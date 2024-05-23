@@ -162,7 +162,7 @@ class BookingController < ApplicationController
     def reservation_params
       params.require(:booking_date).permit(:day, :time, :name, :tell, :menu, :option, :s_time)
     end
-    
+
     def pre_create_cmd(first_time_num, minute_count, false_count)
       @reservation.e_time = times[first_time_num + minute_count]
       if @reservation.e_time.nil?

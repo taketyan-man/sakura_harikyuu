@@ -80,9 +80,7 @@ table {
   padding-top: 12px;
 }
 
-
-form {
-  padding-top: 8px;
+.form {
   padding-left: 24px;
 }
 
@@ -181,12 +179,22 @@ form {
 
 @media (max-width:600px) {
   .content {
-    width: 100%;
+    width: calc(100% - 4px);
     background-color: white;
+    margin: 2px;
+  }
+
+  form {
+    padding-left: 0;
+    margin: 4px;
   }
 }
 
 /* show.html.erb レイアウト --------------*/
+.show-container {
+  padding-top: 32px;
+}
+
 .label{
   font-size: 24px;
   font-weight: 100;
@@ -216,6 +224,7 @@ form {
 }
 
 .show-delete {
+  cursor: pointer;
   font: 100%/1.5 'Avenir Next', 'Hiragino Sans', sans-serif;
   border: 1px solid black;
   color: black;
@@ -235,6 +244,7 @@ form {
   border-radius: 0%;
   width: 52px;
   height: 42px;
+  cursor: pointer;
 }
 
 .delete-content {
@@ -244,6 +254,7 @@ form {
   z-index: 2;
   display: none;
   position: fixed;
+  padding-top: 24px;
   top: 0;
   left: 0;
   h2 {

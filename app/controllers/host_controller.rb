@@ -103,6 +103,10 @@ class HostController < BookingController
     end
   end
 
+  def delete
+    
+  end
+
   def host_logout
     session[:user_id] = nil
     redirect_to home_path

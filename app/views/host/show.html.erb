@@ -55,14 +55,48 @@
         </div>
       </div>
     <% end %>
-    <%= form_with url:booking_delete_path, class: 'form' do |form| %>
-      <div class="delete" id="delete">
-        <%= form.submit value: '削除する', class: 'delete_btn submit_btn' %>
+    <div class="show-submit">
+      <div class="text-right delete">
+        <a id="delete-btn" class="show-delete">削除</a>
       </div>
-      <%= form.hidden_field  :date_time, name:'date_time', class: 'form-control', value: @reservation.date_time%>
-    <% end %>
-    <div class="col-12 text-right">
-      <%= link_to '戻る', host_path %>
+      <div class="text-right confirma">
+        <%= link_to '戻る', host_path, class: "show-confirma" %>
+      </div>
+    </div>
+    <div class="delete-content">
+      <h2>本当に削除しますか？</h2>
+      <h3><input type="checkbox" id="delete_check" />本当に削除する場合はチェックしてください</h3>
+      <% if check_this_reservation(@reservation) %>
+        <%= form_with url:host_booking_delete_path do |f| %>
+          <div class="content">
+            
+      <% else %> 
+        <%= form_with url:booking_delete_path do |f| %>
+          <div class="content">
+            <div class="name form-group">
+              <%= f.label :name,'名前' %>
+              <div class="form-box">
+                <%= f.text_field :name, name: "name",class: 'form-control', value: @reservation.name, readonly: true %>
+              </div>
+            </div>
+            <div class="tell form-group">
+              <%= f.label :tell,'電話番号' %>
+              <div class="form-box">
+                <%= f.text_field :tell, name: "tell",class: 'form-control', value: @reservation.tell, readonly: true %>
+              </div>
+            </div>
+          </div>
+          <div class="show-submit">
+            <div class="text-right delete"> 
+                <%= f.submit  value: '削除', class: " button-disabled", id: 'show_button_delete', disabled: true %>
+                <%= f.hidden_field  :date_time, name:'date_time', class: 'form-control',  value: @reservation.date_time %>
+            </div>
+            <div class="text-right confirma">
+              <a class="show-confirma" id="delete-content-out">戻る</a>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
     </div>
     </div>
   </div>

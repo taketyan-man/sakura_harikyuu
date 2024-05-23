@@ -1,7 +1,7 @@
 <div class="booking-host-login">
   <h1 class="login-title">ホストログイン</h1>
-  <%= form_with(url: booking_host_login_path, scope: :session) do |f| %>
-    <div class="col-12 mt-3 content">
+  <div class="col-12 mt-3 content">
+    <%= form_with(url: booking_host_login_path, scope: :session, class: "form") do |f|%>
       <div class="day form-group">
         <%= f.label :password, "パスワード" %>
         <div class="form-box">
@@ -11,6 +11,6 @@
       <div class="submit" id="submit">
         <%= f.submit "ログイン", class: "login-btn" %>
       </div> 
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>

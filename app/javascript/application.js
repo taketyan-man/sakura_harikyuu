@@ -50,4 +50,17 @@ $(function () {
   $('#delete-content-out').on('click', function(){
     $('.delete-content').hide();
   });
+
+  $('#delete_check').on('change', function(){
+    var $button = $('#show_button_delete')
+    if($(this).is(':checked')) {
+      $button.removeClass('button-disabled');
+      $button.addClass('show-delete');
+      $button.prop('disabled', false);
+    }else {
+      $button.removeClass('show-delete');
+      $button.addClass('button-disabled');
+      $button.prop('disabled', true);
+    }
+  })
 });
