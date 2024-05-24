@@ -53,6 +53,10 @@ class BookingController < ApplicationController
     elsif @reservation[:name] == "ホスト"
       flash[:notice] << "その名前では登録できません"
       @false_count = -1
+    elsif !(@reservation[:tell].to_i.integer?) || !(@reservation[:tell].length == 11)
+      @reservation.delete
+      flash[:notice] << "電話番号を間違えています"
+      @false_count -= 1
     elsif @reservation[:menu] % 3 == 0 && @reservation[:option] == 1 #60分のコース選んだ時オプションあり
       pre_create_cmd(@reservation.time, 3, @false_count)
     elsif @reservation[:menu] % 3 == 1 && @reservation[:option] == 1 #90分のコース選んだ時オプションあり
@@ -102,7 +106,7 @@ class BookingController < ApplicationController
     elsif @reservation
       if @reservation.name == params[:name] && @reservation.tell == params[:tell]
         BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time, name: @reservation.name).destroy_all
-        flash[:notice] = ["予約は削除されました。"]
+        flash[:notice] = "予約は削除されました。"
         if session[:user_id].is_a?(Integer) && session[:user_id] == 1 #ホストがログイン中ならhost_pathへ
           redirect_to host_path
         else  #ホスト以外の方ならbooking_date_pathへ

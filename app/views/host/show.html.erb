@@ -69,8 +69,12 @@
       <% if check_this_reservation(@reservation) %>
         <%= form_with url:host_booking_delete_path do |f| %>
           <div class="content">
-            
-      <% else %> 
+            <%= render 'hostform', f: f %>
+            <%= render 'formbutton', f: f %>
+          </div>
+        <% end %>
+        </div>   
+      <% else %>
         <%= form_with url:booking_delete_path do |f| %>
           <div class="content">
             <div class="name form-group">
@@ -86,15 +90,7 @@
               </div>
             </div>
           </div>
-          <div class="show-submit">
-            <div class="text-right delete"> 
-                <%= f.submit  value: '削除', class: " button-disabled", id: 'show_button_delete', disabled: true %>
-                <%= f.hidden_field  :date_time, name:'date_time', class: 'form-control',  value: @reservation.date_time %>
-            </div>
-            <div class="text-right confirma">
-              <a class="show-confirma" id="delete-content-out">戻る</a>
-            </div>
-          </div>
+          <%= render 'formbutton', f: f %>
         <% end %>
       <% end %>
     </div>

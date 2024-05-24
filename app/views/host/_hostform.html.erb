@@ -7,16 +7,16 @@
 <div class="host-new-time form-group">
   <p>開始時間</p>
   <div class="host-form-box">
-    <%= f.number_field :s_time_hour,in: 8..21, name: 's_time_hour', class: 'host-form-control'%>
+    <%= f.number_field :s_time_hour,in: 8..21, name: 's_time_hour', class: 'host-form-control', value: 8%>
     <a>:</a>
-    <%= f.number_field :s_time_minute,in: 0..30,step: 30, name: 's_time_minute', class: 'host-form-control'%>
+    <%= f.number_field :s_time_minute,in: 00..30,step: 30, name: 's_time_minute', class: 'host-form-control', value: 00 %>
   </div>
 </div>
 <div class="host-new-time  form-group">
   <p>終了時間</p>
   <div class="host-form-box">
-    <%= f.number_field :e_time_hour,in: 8..21, name: 'e_time_hour', class: 'host-form-control'%>
+    <%= f.number_field :e_time_hour,in: 8..21, name: 'e_time_hour', class: 'host-form-control', value: 21%>
     <a>:</a>
-    <%= f.number_field :e_time_minute,in: 0..30,step: 30, name: 'e_time_minute', class: 'host-form-control'%>
+    <%= f.number_field :e_time_minute,in: 00..30,step: 30, name: 'e_time_minute', class: 'host-form-control', value: 00 %>
   </div>
 </div>

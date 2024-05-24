@@ -26,6 +26,7 @@ class HostController < BookingController
   def show
     date_time_now = params[:date_time]
     @reservation = BookingDate.find_by(date_time: date_time_now)
+    @day = @reservation.day
   end
 
   def new 
@@ -34,12 +35,13 @@ class HostController < BookingController
     @time = params[:time]
   end
 
-  def create
-    create_start_and_end_time(params[:s_time_minute], params[:s_time_hour])
-    s_time = @create_time
-    create_start_and_end_time(params[:e_time_minute], params[:e_time_hour])
-    e_time = @create_time
-    @reservation = BookingDate.new(
+  def create 
+    if params[:s_time_hour].blank? || params[:s_time_minute].blank? || params[:e_time_hour].blank? || params[:e_time_minute].blank?
+      i = -2
+    else 
+      s_time = create_start_and_end_time(params[:s_time_minute], params[:s_time_hour])
+      e_time = create_start_and_end_time(params[:e_time_minute], params[:e_time_hour])
+      @reservation = BookingDate.new(
       day: params[:day],
       time: times.index(s_time),
       s_time: s_time,
@@ -57,16 +59,20 @@ class HostController < BookingController
     end
     i = end_num - start_num
     miss_count = 0
+    end
+    
     if i < 0
+      @day = params[:day]
+      @time = params[:time]
       flash[:notice] = ["入力方法が間違えています。", "最初からやり直してください。"]
-      redirect_to host_new_path
+      redirect_to host_new_path(day: @day)
     elsif i == 0
       if @reservation && @reservation.save 
         flash[:success] = ["#{s_time}に予定を入れました"]
         redirect_to host_path
       else
         flash[:notice] = ["予定を入れられませんでした。", "最初からやり直してください。"]
-        redirect_to host_new_path
+        redirect_to host_new_path(day: @day)
       end
     elsif i > 0
       i += 1
@@ -104,17 +110,32 @@ class HostController < BookingController
   end
 
   def delete
-    
+    day = params[:day]
+    s_time = create_start_and_end_time(params[:s_time_minute], params[:s_time_hour])
+    s_time_index = times.index(s_time)
+    e_time = create_start_and_end_time(params[:e_time_minute], params[:e_time_hour])
+    e_time_index = times.index(e_time)
+    delete_command(day, s_time_index, e_time_index)
+    if success_count == 0
+      flash[:notice] = "該当する予定がありませんでした"
+    elsif success > 0
+      flash[:success] = "該当する予定は削除されました"
+    else
+      flash[:notice] = ["問題が発生しました。"]
+    end
+    redirect_to host_path
   end
 
   def host_logout
     session[:user_id] = nil
+    flash[:notice] = "ホストをログアウトしました"
     redirect_to home_path
   end
 
   def move_to_signed_in
     if session[:user_id].nil?
       #サインインしていないユーザーはログインページが表示される
+      flash[:notice] = "もう一度ホストにログインしてください"
       redirect_to home_path
     end
   end
@@ -125,8 +146,8 @@ class HostController < BookingController
       create_minute = "30"
     else
       create_minute = "00"
-    end
-    @create_time = hour.to_s + ":"  + create_minute
+    end 
+    return create_time = hour.to_s + ":"  + create_minute
   end
 
   def times
@@ -158,5 +179,19 @@ class HostController < BookingController
              "20:30",
              "21:00"
             ]
+  end
+
+  def delete_command(day, s_time_index, e_time_index)
+    bookings = BookingDate.where(day: day, name: "ホスト", menu: 10, option: -1)
+    success_count = 0
+    bookings.each do |book|
+      (s_time_index .. e_time_index).each do |i|
+        if book.time == i
+          book.delete
+          success_count += 1
+        end
+      end
+    end
+    return success_count
   end
 end

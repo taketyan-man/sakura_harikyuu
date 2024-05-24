@@ -91,7 +91,7 @@ module HostHelper
   end
 
   def check_this_reservation(reservation)
-    if reservation.name == "ホスト" && reservation.menu == "10" && reservation.option
+    if reservation.name == "ホスト" && reservation.menu == 10 && reservation.option == -1
       return true
     else
       return false

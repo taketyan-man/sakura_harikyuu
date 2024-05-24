@@ -52,7 +52,7 @@ $(function () {
   });
 
   $('#delete_check').on('change', function(){
-    var $button = $('#show_button_delete')
+    var $button = $('#host_button')
     if($(this).is(':checked')) {
       $button.removeClass('button-disabled');
       $button.addClass('show-delete');

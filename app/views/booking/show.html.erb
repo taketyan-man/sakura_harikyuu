@@ -36,7 +36,7 @@
     </div>
     <div class="delete-content">
       <h2>本当に削除しますか？</h2>
-      <h3>確認のため以下の入力してください</h3>
+      <h3><input type="checkbox" id="delete_check" />確認のため以下の入力してください</h3>
       <%= form_with url:booking_delete_path do |f| %>
         <div class="content">
           <div class="name form-group">
@@ -52,15 +52,7 @@
             </div>
           </div>
         </div>
-        <div class="show-submit">
-          <div class="text-right delete"> 
-              <%= f.submit  value: '削除', class: "show-delete" %>
-              <%= f.hidden_field  :date_time, name:'date_time', class: 'form-control', value: @reservation.date_time %>
-          </div>
-          <div class="text-right confirma">
-            <a class="show-confirma" id="delete-content-out">戻る</a>
-          </div>
-        </div>
+        <%= render '/host/formbutton', f: f %>
       <% end %>
     </div>
   </div>

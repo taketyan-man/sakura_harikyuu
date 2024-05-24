@@ -16,5 +16,5 @@
   get "/host/show/:date_time" => "host#show", as: "user_show"
   get "/host/new" => "host#new", as:"host_new"
   post "/host/create" => "host#create"
-  
+  post "/host/delete" => "host#delete", as: "host_booking_delete"
 end

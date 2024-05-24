@@ -1,0 +1,9 @@
+<div class="show-submit">
+  <div class="text-right delete"> 
+    <%= f.submit  value: '削除', class: " button-disabled", id: 'host_button', disabled: true %>
+    <%= f.hidden_field  :date_time, name:'date_time', class: 'form-control',  value: @reservation.date_time %>
+  </div>
+  <div class="text-right confirma">
+    <a class="show-confirma" id="delete-content-out">戻る</a>
+  </div>
+</div>
