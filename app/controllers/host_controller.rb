@@ -35,30 +35,34 @@ class HostController < BookingController
     @time = params[:time]
   end
 
-  def create 
-    if params[:s_time_hour].blank? || params[:s_time_minute].blank? || params[:e_time_hour].blank? || params[:e_time_minute].blank?
+  def create
+    s_hour = params[:s_time_hour]
+    s_minute = params[:s_time_minute]
+    e_hour = params[:e_time_hour]
+    e_minute = params[:e_time_minute]
+    if s_time_and_e_time_create(s_hour, s_minute, e_hour, e_minute)
       i = -2
-    else 
-      s_time = create_start_and_end_time(params[:s_time_minute], params[:s_time_hour])
-      e_time = create_start_and_end_time(params[:e_time_minute], params[:e_time_hour])
+    else
+      s_time = @s_time
+      e_time = @e_time
       @reservation = BookingDate.new(
-      day: params[:day],
-      time: times.index(s_time),
-      s_time: s_time,
-      e_time: e_time,
-      name: 'ホスト',
-      tell:  "00000000000",
-      menu: 10,
-      option: -1
-    )
-    @reservation[:date_time] = @reservation.day.to_s + s_time
-    start_num = times.index(@reservation.s_time).to_i
-    end_num = times.index(@reservation.e_time).to_i
-    unless end_num
-      end_num = start_num
-    end
-    i = end_num - start_num
-    miss_count = 0
+        day: params[:day],
+        time: times.index(s_time),
+        s_time: s_time,
+        e_time: e_time,
+        name: 'ホスト',
+        tell:  "00000000000",
+        menu: 10,
+        option: -1
+      )
+      @reservation[:date_time] = @reservation.day.to_s + s_time
+      start_num = times.index(@reservation.s_time).to_i
+      end_num = times.index(@reservation.e_time).to_i
+      unless end_num
+        end_num = start_num
+      end
+      i = end_num - start_num
+      miss_count = 0
     end
     
     if i < 0
@@ -110,15 +114,23 @@ class HostController < BookingController
   end
 
   def delete
-    day = params[:day]
-    s_time = create_start_and_end_time(params[:s_time_minute], params[:s_time_hour])
-    s_time_index = times.index(s_time)
-    e_time = create_start_and_end_time(params[:e_time_minute], params[:e_time_hour])
-    e_time_index = times.index(e_time)
-    delete_command(day, s_time_index, e_time_index)
+    s_hour = params[:s_time_hour]
+    s_minute = params[:s_time_minute]
+    e_hour = params[:e_time_hour]
+    e_minute = params[:e_time_minute]
+    if s_time_and_e_time_create(s_hour, s_minute, e_hour, e_minute)
+      success_count = -1
+    else
+      day = params[:day]
+      s_time = @s_time
+      s_time_index = times.index(s_time)
+      e_time = @e_time
+      e_time_index = times.index(e_time)
+      delete_command(day, s_time_index, e_time_index)
+    end
     if success_count == 0
       flash[:notice] = "該当する予定がありませんでした"
-    elsif success > 0
+    elsif success_count > 0
       flash[:success] = "該当する予定は削除されました"
     else
       flash[:notice] = ["問題が発生しました。"]
@@ -132,22 +144,46 @@ class HostController < BookingController
     redirect_to home_path
   end
 
+  private
+  def create_start_and_end_time(hour, minute)
+    if minute == "30"
+      create_minute = "30"
+    else
+      create_minute = "00"
+    end 
+    return hour.to_s + ":"  + create_minute
+  end
+
+  def delete_command(day, s_time_index, e_time_index)
+    bookings = BookingDate.where(day: day, name: "ホスト", menu: 10, option: -1)
+    success_count = 0
+    bookings.each do |book|
+      (s_time_index .. e_time_index).each do |i|
+        if book.time == i
+          book.delete
+          success_count += 1
+        end
+      end
+    end
+    return success_count
+  end
+
+  def s_time_and_e_time_create(s_hour, s_minute, e_hour, e_minute)
+    if s_hour.blank? || s_minute.blank? || e_hour.blank? || e_minute.blank?
+      return true
+    else
+      @s_time = create_start_and_end_time(s_hour, s_minute)
+      @e_time = craete_start_and_end_time(e_hour, e_minute)
+      return false
+    end
+  end
+
   def move_to_signed_in
     if session[:user_id].nil?
       #サインインしていないユーザーはログインページが表示される
       flash[:notice] = "もう一度ホストにログインしてください"
       redirect_to home_path
     end
-  end
-
-  private
-  def create_start_and_end_time(minute, hour)
-    if minute == "30"
-      create_minute = "30"
-    else
-      create_minute = "00"
-    end 
-    return create_time = hour.to_s + ":"  + create_minute
   end
 
   def times
@@ -179,19 +215,5 @@ class HostController < BookingController
              "20:30",
              "21:00"
             ]
-  end
-
-  def delete_command(day, s_time_index, e_time_index)
-    bookings = BookingDate.where(day: day, name: "ホスト", menu: 10, option: -1)
-    success_count = 0
-    bookings.each do |book|
-      (s_time_index .. e_time_index).each do |i|
-        if book.time == i
-          book.delete
-          success_count += 1
-        end
-      end
-    end
-    return success_count
   end
 end

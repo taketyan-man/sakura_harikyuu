@@ -4,26 +4,26 @@
       <h1>予約詳細画面</h1>
     </div>
     <div class= "content show-content">
-      <div>
+      <div class="grid">
         <p class="label"><strong>日付：</strong></p>
-        <p style="display:inline;" name="day"><%= @reservation.day %></p>
+        <p style="display:inline;" name="day" class="show-inform"><%= @reservation.day %></p>
       </div>
-      <div>
+      <div class="grid">
         <p class="label"><strong>開始時間：</strong></p>
-        <p style="display:inline;" name="time"><%= @reservation.s_time %></p>
+        <p style="display:inline;" name="time" class="show-inform"><%= @reservation.s_time %></p>
       </div>
-      <div>
+      <div class="grid">
         <p class="label"><strong>終了時間：</strong></p>
-        <p style="display:inline;" name="time"><%= @reservation.e_time %></p>
+        <p style="display:inline;" name="time" class="show-inform"><%= @reservation.e_time %></p>
       </div>
-      <div>
-        <p class="label"><strong>メニュー：</strong></p>
-        <p style="display:inline;" name="menu"><%= @menu %></p>
+      <div class="grid">
+        <p class="label"><strong>メニュー：</strong></p> 
+        <p style="display:inline;" name="menu" class="show-inform"><%= @menu %></p>
       </div>
-      <div>
+      <div class="grid">
         <p class="label"
         ><strong>オプション：</strong></label>
-        <p style="display:inline;" name="option"><%= @option %></p>
+        <p style="display:inline;" name="option" class="show-inform"><%= @option %></p>
       </div>
       <div class="show-submit">
         <div class="text-right delete">
@@ -36,7 +36,8 @@
     </div>
     <div class="delete-content">
       <h2>本当に削除しますか？</h2>
-      <h3><input type="checkbox" id="delete_check" />確認のため以下の入力してください</h3>
+      <h3>確認のため以下の入力してください</h3>
+      <h3><input type="checkbox" id="delete_check" />本当に削除する場合はチェックしてください</h3>
       <%= form_with url:booking_delete_path do |f| %>
         <div class="content">
           <div class="name form-group">

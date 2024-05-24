@@ -32,7 +32,11 @@ class BookingController < ApplicationController
   
   def show
     @reservation = BookingDate.find(params[:id])
-    @menu = menus[@reservation.menu]
+    if @reservation.menu == 9
+      @menu = menus[7]
+    else
+      @menu = menus[@reservation.menu]
+    end
     @option = options[@reservation.option]
     flash.keep(:success)
   end
