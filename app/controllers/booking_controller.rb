@@ -87,6 +87,7 @@ class BookingController < ApplicationController
     elsif @false_count == 0
       flash[:success] << "予約が完了しました。"
       flash[:notice] = nil
+      send_line_notification
       redirect_to action: :show,id: @reservation.id
     elsif @false_count > 0
       BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time).destroy_all
@@ -209,6 +210,36 @@ class BookingController < ApplicationController
         end
       end
       @false_count = false_count
+    end
+
+    def send_line_notification
+      message = {
+        type: 'text',
+        text: "予約がされました\n#{details}"
+      }
+  
+      response = LINE_CLIENT.push_message(ENV['LINE_USER_ID'], message)
+      Rails.logger.info("LINE push message response: #{response.code} #{response.body}")
+      
+      if response.code != "200"
+        Rails.logger.error("Failed to send LINE message: #{response.body}")
+      end
+    end
+
+    def details
+      data = @reservation
+      if @reservation.menu == 9
+        menu = menus[7]
+      else
+        menu = menus[@reservation.menu]
+      end
+      "　名前:　　　　#{data.name}
+    電話番号:　　#{data.tell}
+    日付:　　　　#{data.day}
+    メニュー:　　#{menu}
+    オプション:　#{options[data.option]}
+    開始時間:　　#{data.s_time}
+    終了時間:　　#{data.e_time}"
     end
 
     def times 

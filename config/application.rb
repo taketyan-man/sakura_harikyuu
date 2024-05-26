@@ -8,6 +8,7 @@ Bundler.require(*Rails.groups)
 
 module Homepage
   class Application < Rails::Application
+    Dotenv::Railtie.load
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 7.0
 
