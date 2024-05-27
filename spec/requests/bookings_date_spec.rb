@@ -178,7 +178,7 @@ RSpec.describe "BookingsDate", type: :request do
         session: { password: host.password }
       }
       expect(response).to redirect_to host_path
-      expect(flash[:success]).to eq( "ホストログイン成功しました")
+      expect(flash[:success]).to eq( "ホストにログインが成功しました")
       expect(session[:user_id]).to eq(1)
     end
 

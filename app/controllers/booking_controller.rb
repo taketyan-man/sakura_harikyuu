@@ -20,8 +20,8 @@ class BookingController < ApplicationController
       elsif @day.to_date < (Date.current + 1)
         flash[:notice] = ["当日は選択できません","正しい日付を選択してください"]
         redirect_to booking_date_path
-      elsif (Date.current >> 3) < @day.to_date
-        flash[:notice] =  ["3ヶ月以降の日付は選択できません。正しい日付を選択してください。", "最初から選択してください"]
+      elsif (Date.current >> 2) < @day.to_date
+        flash[:notice] =  ["2ヶ月以降の日付は選択できません。正しい日付を選択してください。"]
         redirect_to booking_date_path
       end
     else
@@ -218,12 +218,12 @@ class BookingController < ApplicationController
         text: "予約がされました\n#{details}"
       }
   
-      response = LINE_CLIENT.push_message(ENV['LINE_USER_ID'], message)
-      Rails.logger.info("LINE push message response: #{response.code} #{response.body}")
+      # response = LINE_CLIENT.push_message(ENV['LINE_USER_ID'], message)
+      # Rails.logger.info("LINE push message response: #{response.code} #{response.body}")
       
-      if response.code != "200"
-        Rails.logger.error("Failed to send LINE message: #{response.body}")
-      end
+      # if response.code != "200"
+      #   # Rails.logger.error("Failed to send LINE message: #{response.body}")
+      # end
     end
 
     def details
