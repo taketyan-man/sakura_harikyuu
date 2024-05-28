@@ -49,22 +49,28 @@ header {
   z-index: 20;
   width: 100%;
   padding-top: 10px;
+  padding-bottom: 10px;
   margin-top: 5px;
   background-color: white;
 }
-
 
 .header-title {
   float: left;
   padding-left: 20px;
   color: rgb(0, 0, 0);
-  font-size: 22px;
+  font-size: 36px;
   line-height: 64px;
   font-family: "源界明朝";
 }
 
 .headder-menu-nav {
   display: none;
+}
+
+.home-box {
+  text-align: center;
+  width: 90%;
+  margin: auto;
 }
 
 .menu-icon {
@@ -101,15 +107,18 @@ header {
 .flash {
   width: 100%;
   margin: auto;
+  padding-top: 80px;
+}
+
+.notice {
   padding: 24px;
+  width: calc(100% - 48px);
   text-align: center;
   background-color: rgb(255, 0, 0);
   color: rgb(255, 255, 255);
 }
 
 .success {
-  width: 100%;
-  margin: auto;
   padding: 24px;
   text-align: center;
   background-color: rgb(0, 174, 255);
@@ -121,9 +130,6 @@ header {
 }
 
 main {
-  text-align: center;
-  width: 90%;
-  padding-top: 120px;
   margin: auto;
 }
 
@@ -140,7 +146,7 @@ main {
 
 .main-img-text {
   color: rgb(230, 230, 230);
-  font-size: 120%;
+  font-size: 36px;
   position: absolute;
   top: 60%;
   left: 15%;
@@ -331,7 +337,7 @@ footer {
 
 @media (max-width: 1000px) {
   .main-img-text {
-    font-size: 90%;
+    font-size: 24px;
   }
 
   .menu-nav {
@@ -377,13 +383,18 @@ footer {
   
   .headder-menu-nav {
     display: block;
-    padding-top: 8px;
+    padding-top: 12px;
     float: right;
     padding-right: 12px;
   }
 }
 
 @media (max-width: 780px) {
+  .header-title {
+    font-size: 24px;
+
+  }
+
   header {
     margin-top: 0;
     position: fixed;
@@ -426,6 +437,9 @@ footer {
   
   main {
     padding: 0;
+  }
+
+  .home-box {
     width: 100%;
   }
 

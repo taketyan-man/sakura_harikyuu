@@ -44,11 +44,11 @@ $(function () {
       };
     });
   $('#delete-btn').on('click', function() {
-    $('.delete-content').show();
+    $('.delete-box').show();
   });
 
   $('#delete-content-out').on('click', function(){
-    $('.delete-content').hide();
+    $('.delete-box').hide();
   });
 
   $('#delete_check').on('change', function(){

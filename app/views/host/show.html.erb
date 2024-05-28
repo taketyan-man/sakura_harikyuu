@@ -8,7 +8,7 @@
         <%= message %>
       </div>
     <% end %>
-    <div class="col-12 mt-3 content">
+    <div class="col-12 mt-3 host-content">
       <%= form_with model: @reservation, class: 'form' do |form| %>
       <div class="day form-group">
         <%= form.label :day, '日付' %>
@@ -63,12 +63,12 @@
         <%= link_to '戻る', host_path, class: "show-confirma" %>
       </div>
     </div>
-    <div class="delete-content">
+    <div class="delete-box">
       <h2>本当に削除しますか？</h2>
       <h3><input type="checkbox" id="delete_check" />本当に削除する場合はチェックしてください</h3>
       <% if check_this_reservation(@reservation) %>
         <%= form_with url:host_booking_delete_path do |f| %>
-          <div class="content">
+          <div class="content delete-content">
             <%= render 'hostform', f: f %>
             <%= render 'formbutton', f: f %>
           </div>
@@ -76,7 +76,7 @@
         </div>   
       <% else %>
         <%= form_with url:booking_delete_path do |f| %>
-          <div class="content">
+          <div class="content delete-content">
             <div class="name form-group">
               <%= f.label :name,'名前' %>
               <div class="form-box">

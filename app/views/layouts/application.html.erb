@@ -13,38 +13,66 @@
     <meta charset="utf-8">
   </head>
   <body>
-  <% if flash[:notice].nil? %>
-    <% a = 1 %>
-  <% else %>
+    <header>
+      <% if session[:user_id] %>
+        <div class="host-index-header">
+          <%= form_with url:booking_logout_path, class: 'form' do |form| %>
+            <%= form.submit value: 'ログアウト', class: 'logout-btn' %>
+          <% end %>
+          <ul class="host-nav-box">
+            <li class="host-nav nav-active" id="host-nav">予定入力</li>
+            <li class="host-nav" id="host-nav">予約確認</li>
+          </ul>
+        </div>
+      <% else %>
+        <%= link_to "さくら鍼灸室", '/', class: 'header-title' %>
+        <input type="checkbox" id="menu-btn-check">
+        <div class="headder-menu-nav">
+          <%= link_to("Web予約", "/booking_date", class:"booking_link") %>
+        </div>  
+        <div class="header-nav">
+          <ul>
+            <li><a href="#menu">診療メニュー</a></li>
+            <li><a href="#about">社長紹介</a></li>
+            <li><a href="#map">店舗概要</a></li>
+            <li><a href="#tel">電話予約</a></li>
+            <li><%= link_to("Web予約", "/booking_date", class:"booking_link") %></li>
+          </ul>
+        </div>
+      <% end %>
+    </header>
     <div class="flash">
-      <% if flash[:notice].instance_of?(Array) %>
-        <h2>以下のエラーが発生しました</h2>
-          <% flash[:notice].each do |message| %>
-            <div class="message">
-              <li><%= message %></li>
-            </div>
-          <% end %>    
-      <% else %>
-        <%= flash[:notice] %> 
+      <% if flash[:notice] %>
+        <div class="notice">
+          <% if flash[:notice].instance_of?(Array) %>
+            <h2>以下のエラーが発生しました</h2>
+              <% flash[:notice].each do |message| %>
+                <div class="message">
+                  <li><%= message %></li>
+                </div>
+              <% end %>    
+          <% else %>
+            <%= flash[:notice] %> 
+          <% end %>
+        </div>
       <% end %>
-    </div>
-  <% end %>
-  <% if flash[:success].nil? %>
-    <% a = 1 %>
-  <% else %>
-    <div class="success">
-      <% if flash[:success].instance_of?(Array) %>
-          <% flash[:success].each do |message| %>
-            <div class="message">
-              <li><%= message %></li>
-            </div>
-          <% end %>    
-      <% else %>
-        <%= flash[:success] %> 
+      <% if flash[:success] %>
+        <div class="success">
+          <% if flash[:success].instance_of?(Array) %>
+              <% flash[:success].each do |message| %>
+                <div class="message">
+                  <li><%= message %></li>
+                </div>
+              <% end %>    
+          <% else %>
+            <%= flash[:success] %> 
+          <% end %>
+        </div>
       <% end %>
-    </div>
-  <% end %>
-    <%= yield %>
+    </div>  
+    <main>
+      <%= yield %>
+    </main>
     <%= debug(params) if Rails.env.development? %>
   </body>
 </html>

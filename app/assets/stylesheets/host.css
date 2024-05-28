@@ -132,7 +132,7 @@
 
 @media (max-width:600px) {
   .host-content {
-    width: 100%;
+    width: calc(100% - 8px);
     background-color: white;
   }
 
@@ -178,4 +178,11 @@
   border-radius: 0%;
   width: 52px;
   height: 42px;
+}
+
+@media (max-width:600px) {
+  #delete_check {
+    transform:		scale(1.8);
+    margin-left: 24px;
+  }
 }

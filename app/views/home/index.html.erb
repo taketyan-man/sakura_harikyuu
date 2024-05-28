@@ -1,83 +1,42 @@
-<body>
-  <header>
-    <div class="header-title"><h1>さくら鍼灸室</h1></div>
-    <input type="checkbox" id="menu-btn-check">
-    <div class="headder-menu-nav">
-      <%= link_to("Web予約", "/booking_date", class:"booking_link") %>
-    </div>  
-    # <div class="menu-content">
-    #   <div class="menu-con-text">
-    #   </div>
-    #   <label class="btn-close" for="menu-btn-check"><i class="fa-solid fa-xmark fa-lg menu-icon close"></i></label>
-    #   <ul>
-    #     <li><a class="gnav_link" href="#menu">診療メニュー</a></li>
-    #     <li><a class="gnav_link" href="#about">社長紹介</a></li>
-    #     <li><a class="gnav_link" href="#map">店舗概要</a></li>
-    #     <li><a class="gnav_link" href="#tel">電話予約</a></li>
-    #     <li><%= link_to("Web予約", "/booking_date", class:"booking-link") %></li>
-    #   </ul>
-    # </div>
-    <div class="header-nav">
-      <ul>
-        <li><a href="#menu">診療メニュー</a></li>
-        <li><a href="#about">社長紹介</a></li>
-        <li><a href="#map">店舗概要</a></li>
-        <li><a href="#tel">電話予約</a></li>
-        <li><%= link_to("Web予約", "/booking_date", class:"booking_link") %>
-        </li>
-      </ul>
-    </div>
-  </header>
-  <% if flash[:notice] %>
-    <div class="flash">
-      <div class="message">
-        <li>
-          <%= flash[:notice] %>
-        </li>
-      </div> 
-    </div>
-  <% end %>
-  <main>
-    <div class="main-img">
+<div class="home-box">
+  <div class="main-img">
     <%= image_tag asset_path('main-img.jpeg', class: 'main_img') %>
-    </div>
-    <div class="main-img-text">
-      <h1>〜 ようこそ　さくら鍼灸室へ 〜</h1>
-    </div>
-    <div class="menu" id="menu">
-      <h1>MENU</h1>
-      <p>診療メニュー</p>
-      <ul class="menu-nav">
-        <div class="menu-con1">
-          <li><div class="menu-img"><%= image_tag "/menu-img1.webp" %></div><h3>ボディケア</h3><p>60分 6500円</p><p>90分 9500円</p><p>120分 13000円</p></li>
-          <li><div class="menu-img"><%= image_tag "/menu-img2.webp" %></div><h3>鍼灸マッサージ</h3><p>60分 6500円</p><p>90分 9500円</p><p>120分 13500円</p></li>
-        </div>
-        <div class="menu-con2">
-          <li><div class="menu-img"><%= image_tag "/menu-img3.webp" %></div><h3>美容鍼</h3><p>60分 10000円</p></li>
-          <li><div class="menu-img"><%= image_tag "/menu3_2.jpg" %></div><h3>アロマオイル</h3><p>20分 3000円</p></li>
-        </div>
-      </ul>
-    </div>
-    <div class="about" id="about">
-      <div class="about-logo">
-        <h1>ABOUT ME</h1>
-        <p>社長紹介</p>
+  </div>
+  <h1 class="main-img-text">〜 ようこそ　さくら鍼灸室へ 〜</h1>
+  <div class="menu" id="menu">
+    <h1>MENU</h1>
+    <p>診療メニュー</p>
+    <ul class="menu-nav">
+      <div class="menu-con1">
+        <li><div class="menu-img"><%= image_tag "/menu-img1.webp" %></div><h3>ボディケア</h3><p>60分 6500円</p><p>90分 9500円</p><p>120分 13000円</p></li>
+        <li><div class="menu-img"><%= image_tag "/menu-img2.webp" %></div><h3>鍼灸マッサージ</h3><p>60分 6500円</p><p>90分 9500円</p><p>120分 13500円</p></li>
       </div>
-      <div class="about-main">
-        <div class="about-img"><%= image_tag "/about-img2.jpeg", class:"about_img" %></div>
-        <div class="about-text"><p>[プロフィール]</p>
-          <p class="about_text">
-          鍼師。灸師。あん摩マッサージ指圧<br>
-          2022年5月に品川区中延にさくら鍼灸室を開業しました。<br>
-          鍼が初めてな方も安心して受けていただくためインフォームドコンセントを大事にしてます。<br>
-          優しい鍼からはじめていきますのでなんでもお話しください。注目の美容鍼やアロマオイルマッサージも行っています。<br>
-          日頃頑張っている皆様の固まった筋肉の改善やメンテナンスに貢献できればと思っています。<br><br>
-          よろしくお願いします。
-          </p><h2>竹吉　桜</h2>
-        </div>
+      <div class="menu-con2">
+        <li><div class="menu-img"><%= image_tag "/menu-img3.webp" %></div><h3>美容鍼</h3><p>60分 10000円</p></li>
+        <li><div class="menu-img"><%= image_tag "/menu3_2.jpg" %></div><h3>アロマオイル</h3><p>20分 3000円</p></li>
+      </div>
+    </ul>
+  </div>
+  <div class="about" id="about">
+    <div class="about-logo">
+      <h1>ABOUT ME</h1>
+      <p>社長紹介</p>
+    </div>
+    <div class="about-main">
+      <div class="about-img"><%= image_tag "/about-img2.jpeg", class:"about_img" %></div>
+      <div class="about-text"><p>[プロフィール]</p>
+        <p class="about_text">
+        鍼師。灸師。あん摩マッサージ指圧<br>
+        2022年5月に品川区中延にさくら鍼灸室を開業しました。<br>
+        鍼が初めてな方も安心して受けていただくためインフォームドコンセントを大事にしてます。<br>
+        優しい鍼からはじめていきますのでなんでもお話しください。注目の美容鍼やアロマオイルマッサージも行っています。<br>
+        日頃頑張っている皆様の固まった筋肉の改善やメンテナンスに貢献できればと思っています。<br><br>
+        よろしくお願いします。
+        </p><h2>竹吉　桜</h2>
       </div>
     </div>
-  </main>
+  </div>
+</div>
   <div class="footer">
     <div class="map" id="map">
     
@@ -87,7 +46,7 @@
         </div>
         <p>
           住所： 東京都品川区<br>
-                 <span class="br1">中延1-9-8
+                  <span class="br1">中延1-9-8
           　ベルウッド102</span><br>
           電話： <a id="tel" href="tel:09026460684">090-2646-0684<br>
           <span class="br">時間：
@@ -97,12 +56,12 @@
         </p>
       </div>
       <div class="map-img">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d202.72412187842366!2d139.71160054206848!3d35.61327881797155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188b3d382ac503%3A0x5882e217b7421c16!2z44GV44GP44KJ6Y2854G45a6k!5e0!3m2!1sja!2sjp!4v1712043585194!5m2!1sja!2sjp" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d202.72412187842366!2d139.71160054206848!3d35.61327881797155!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188b3d382ac503%3A0x5882e217b7421c16!2z44GV44GP44KJ6Y2854G45a6k!5e0!3m2!1sja!2sjp!4v1712043585194!5m2!1sja!2sjp" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
       </div>
     </div>
   </div>
-  <footer id="click">
-    <span id="count">0</span>
-    <p class="right">© All rights reserved by takechanmancampany.</p>
-    <%= link_to("© All rights reserved by takechanmancampany.", "/booking/host", class: "host-link") %>
-  </footer>
+<footer id="click">
+  <span id="count">0</span>
+  <p class="right">© All rights reserved by takechanmancampany.</p>
+  <%= link_to("© All rights reserved by takechanmancampany.", "/booking/host", class: "host-link") %>
+</footer>
