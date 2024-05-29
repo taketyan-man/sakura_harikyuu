@@ -1,15 +1,14 @@
-<div class="new-container">
-  <div class="row">
-    <div class="col-12 text-center title">
-      <h1>予約詳細</h1>
+<div class="container">
+  <div class="col-12 text-center title">
+    <h1>予約詳細</h1>
+  </div>
+  <% @reservation.errors.full_messages.each do |message| %>
+    <div class="form-error">
+      <%= message %>
     </div>
-    <% @reservation.errors.full_messages.each do |message| %>
-      <div class="form-error">
-        <%= message %>
-      </div>
-    <% end %>
-    <div class="col-12 mt-3 host-content">
-      <%= form_with model: @reservation, class: 'form' do |form| %>
+  <% end %>
+  <div class="col-12 mt-3 host-content">
+    <%= form_with model: @reservation, class: 'form' do |form| %>
       <div class="day form-group">
         <%= form.label :day, '日付' %>
         <div class="form-box">
@@ -93,7 +92,6 @@
           <%= render 'formbutton', f: f %>
         <% end %>
       <% end %>
-    </div>
     </div>
   </div>
 </div>

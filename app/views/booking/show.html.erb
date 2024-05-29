@@ -1,60 +1,58 @@
-<div class="container show-container">
-  <div class="row">
-    <div class="col-12 text-center title">
-      <h1>予約詳細画面</h1>
+<div class="container">
+  <div class="col-12 text-center title">
+    <h1>予約詳細画面</h1>
+  </div>
+  <div class= "content show-content">
+    <div class="grid">
+      <p class="label"><strong>日付：</strong></p>
+      <p style="display:inline;" name="day" class="show-inform"><%= @reservation.day %></p>
     </div>
-    <div class= "content show-content">
-      <div class="grid">
-        <p class="label"><strong>日付：</strong></p>
-        <p style="display:inline;" name="day" class="show-inform"><%= @reservation.day %></p>
+    <div class="grid">
+      <p class="label"><strong>開始時間：</strong></p>
+      <p style="display:inline;" name="time" class="show-inform"><%= @reservation.s_time %></p>
+    </div>
+    <div class="grid">
+      <p class="label"><strong>終了時間：</strong></p>
+      <p style="display:inline;" name="time" class="show-inform"><%= @reservation.e_time %></p>
+    </div>
+    <div class="grid">
+      <p class="label"><strong>メニュー：</strong></p> 
+      <p style="display:inline;" name="menu" class="show-inform"><%= @menu %></p>
+    </div>
+    <div class="grid">
+      <p class="label"
+      ><strong>オプション：</strong></label>
+      <p style="display:inline;" name="option" class="show-inform"><%= @option %></p>
+    </div>
+    <div class="show-submit">
+      <div class="text-right delete">
+        <a id="delete-btn" class="show-delete">削除</a>
       </div>
-      <div class="grid">
-        <p class="label"><strong>開始時間：</strong></p>
-        <p style="display:inline;" name="time" class="show-inform"><%= @reservation.s_time %></p>
-      </div>
-      <div class="grid">
-        <p class="label"><strong>終了時間：</strong></p>
-        <p style="display:inline;" name="time" class="show-inform"><%= @reservation.e_time %></p>
-      </div>
-      <div class="grid">
-        <p class="label"><strong>メニュー：</strong></p> 
-        <p style="display:inline;" name="menu" class="show-inform"><%= @menu %></p>
-      </div>
-      <div class="grid">
-        <p class="label"
-        ><strong>オプション：</strong></label>
-        <p style="display:inline;" name="option" class="show-inform"><%= @option %></p>
-      </div>
-      <div class="show-submit">
-        <div class="text-right delete">
-          <a id="delete-btn" class="show-delete">削除</a>
-        </div>
-        <div class="text-right confirma">
-          <%= link_to '完了',booking_date_path, class: "show-confirma" %>
-        </div>
+      <div class="text-right confirma">
+        <%= link_to '完了',booking_date_path, class: "show-confirma" %>
       </div>
     </div>
-    <div class="delete-box">
-      <h2>本当に削除しますか？</h2>
-      <h3>確認のため以下の入力してください</h3>
-      <h3><input type="checkbox" id="delete_check" />本当に削除する場合はチェックしてください</h3>
-      <%= form_with url:booking_delete_path do |f| %>
-        <div class="content delete-content">
-          <div class="name form-group">
-            <%= f.label :name,'名前' %>
-            <div class="form-box">
-              <%= f.text_field :name, name: "name",class: 'form-control'%>
-            </div>
-          </div>
-          <div class="tell form-group">
-            <%= f.label :tell,'電話番号' %>
-            <div class="form-box">
-              <%= f.text_field :tell, name: "tell",class: 'form-control', placeholder: '例)08011112222'%>
-            </div>
+  </div>
+  <div class="delete-box">
+    <h2>本当に削除しますか？</h2>
+    <h3>確認のため以下の入力してください</h3>
+    <h3><input type="checkbox" id="delete_check" />本当に削除する場合はチェックしてください</h3>
+    <%= form_with url:booking_delete_path do |f| %>
+      <div class="content delete-content">
+        <div class="name form-group">
+          <%= f.label :name,'名前' %>
+          <div class="form-box">
+            <%= f.text_field :name, name: "name",class: 'form-control'%>
           </div>
         </div>
-        <%= render '/host/formbutton', f: f %>
-      <% end %>
-    </div>
+        <div class="tell form-group">
+          <%= f.label :tell,'電話番号' %>
+          <div class="form-box">
+            <%= f.text_field :tell, name: "tell",class: 'form-control', placeholder: '例)08011112222'%>
+          </div>
+        </div>
+      </div>
+      <%= render '/host/formbutton', f: f %>
+    <% end %>
   </div>
 </div>

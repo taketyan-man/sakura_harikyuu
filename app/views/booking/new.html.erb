@@ -1,19 +1,17 @@
-<div class="new-container">
-  <div class="row">
-    <div class="col-12 text-center title">
-      <h1>新規予約画面</h1>
+<div class="container">
+  <div class="col-12 text-center title">
+    <h1>新規予約画面</h1>
+  </div>
+  <h3 class="text-center time-atent">※施術時間に施術服に着替えていただく時間(30分)は含まれません</h3>
+  <% @reservation.errors.full_messages.each do |message| %>
+    <div class="form-error">
+      <%= message %>
     </div>
-    <h3 class="text-center time-atent">※施術時間に施術服に着替えていただく時間(30分)は含まれません</h3>
-    <% @reservation.errors.full_messages.each do |message| %>
-      <div class="form-error">
-        <%= message %>
-      </div>
-    <% end %>
-    <div class="col-12 mt-3 content" style="padding-left: 24px;">
-      <%= render 'form' %>
-      <div class="col-12 text-right">
-        <%= link_to '戻る', booking_date_path %>
-      </div>
+  <% end %>
+  <div class="col-12 mt-3 content" style="padding-left: 24px;">
+    <%= render 'form' %>
+    <div class="col-12 text-right">
+      <%= link_to '戻る', booking_date_path %>
     </div>
   </div>
 </div>

@@ -1,29 +1,27 @@
-<div class="new-container">
-  <div class="row">
-    <div class="col-12 text-center title">
-      <h1>予定入力</h1>
+<div class="container">
+  <div class="col-12 text-center title">
+    <h1>予定入力</h1>
+  </div>
+  <% @reservation.errors.full_messages.each do |message| %>
+    <div class="form-error">
+      <%= message %>
     </div>
-    <% @reservation.errors.full_messages.each do |message| %>
-      <div class="form-error">
-        <%= message %>
+  <% end %>
+  <div class="col-12 mt-3 host-content">
+    <%= form_with url:host_create_path, class: 'form' do |f| %>
+      <%= render 'hostform', f: f  %>
+      <%= f.hidden_field :tell,  value: @tell %>
+      <%= f.hidden_field :name,  value: @name %>
+      <%= f.hidden_field :time,  value: @time %>
+  
+      <div class="menu_select form-group">
+        <div class="host-submit" id="submit">
+          <%= f.submit value: '予定を入れる', class: 'submit_btn' %>
+        </div>
       </div>
     <% end %>
-    <div class="col-12 mt-3 host-content">
-      <%= form_with url:host_create_path, class: 'form' do |f| %>
-        <%= render 'hostform', f: f  %>
-        <%= f.hidden_field :tell,  value: @tell %>
-        <%= f.hidden_field :name,  value: @name %>
-        <%= f.hidden_field :time,  value: @time %>
-    
-        <div class="menu_select form-group">
-          <div class="host-submit" id="submit">
-            <%= f.submit value: '予定を入れる', class: 'submit_btn' %>
-          </div>
-        </div>
-      <% end %>
-      <div class="col-12 text-right">
-        <%= link_to '戻る', host_path %>
-      </div>
+    <div class="col-12 text-right">
+      <%= link_to '戻る', host_path %>
     </div>
   </div>
 </div>

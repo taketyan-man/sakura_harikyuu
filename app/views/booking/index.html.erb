@@ -1,17 +1,15 @@
 <div class="container">
-  <div class="row">
-    <div class="col-12 text-center">
-      <h1>予約画面</h1>
-      <p>2ヶ月先まで予約することができます。</p>
-      <p>当日の場合は電話でご確認ください。</p>
-      <h3 class="text-center time-atent">※施術時間に施術服に着替えていただく時間(30分)は含まれません</h3>
-    </div>
-    <div class="col-12 mt-3">
-      <%= week_calendar attribute: :day, events: @reservations do |date, reservations| %>
-        <%= date.month %>
-        <a> /</a>
-        <%= date.day %>
-      <% end %>
-    </div>
+  <div class="col-12 text-center">
+    <h1>予約画面</h1>
+    <p>2ヶ月先まで予約することができます。</p>
+    <p>当日の場合は電話でご確認ください。</p>
+    <h3 class="text-center time-atent">※施術時間に施術服に着替えていただく時間(30分)は含まれません</h3>
+  </div>
+  <div class="col-12 mt-3">
+    <%= week_calendar attribute: :day, events: @reservations do |date, reservations| %>
+      <%= date.month %>
+      <a> /</a>
+      <%= date.day %>
+    <% end %>
   </div>
 </div>
