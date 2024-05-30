@@ -59,7 +59,7 @@ RSpec.describe "Host", type: :request do
         expect(response).to redirect_to host_path
       end
 
-      it 'should not save if booking reservation' do
+      it 'should be booking count of flash host save between s_time and e_time' do
         reservation()
         host_is
         post host_create_path, params: {
@@ -90,17 +90,70 @@ RSpec.describe "Host", type: :request do
   end
 
   describe 'POST /delete' do
-    it 'should delete correct information' do
-      host_is
-      host_create
-      post host_booking_delete_path, params: {
-        s_time_hour: 8,
-        s_time_minute: 0,
-        e_time_hour: 12,
-        e_time_minute: 30,
-        day: "#{Date.tomorrow.to_s}"
-      }
-      expect(flash[:success]).to eq("該当する予定は削除されました")
+    context 'correct information' do
+      it 'should delete correct information' do
+        host_is
+        host_create
+        expect {
+          host_delete
+        }.to change(BookingDate, :count).by -27
+        expect(flash[:success]).to eq("該当する予定は削除されました")
+      end
+
+      it 'should not delete booking if booking is between s_time and e_time and should delte host' do
+        post booking_dates_path, params: { booking_date: {
+          day: "#{Date.tomorrow.to_s}",
+          time: "12:00",
+          name: "テスト",
+          tell: "00000000000",
+          menu: 2,
+          option: 0,
+          s_time: "12:00"
+        }}
+        expect {
+          host_is
+          host_create
+          host_delete
+        }.to_not change(BookingDate, :count)
+      end
+    end
+
+    context 'incorrect information' do
+      it 'should not delete inrcorrect informaiton' do
+        host_is
+        host_create 
+        expect {
+          post host_booking_delete_path, params: {
+            day: "#{(Date.tomorrow + 1).to_s}",
+            s_time_hour: 8,
+            s_time_minute: 00,
+            e_time_hour: 21,
+            e_time_minute: 00
+        }}.to_not change(BookingDate, :count)
+      end
+
+      it 'should be flash[:notice] if incorrect information' do
+        host_is
+        host_create
+        post host_booking_delete_path, params: {
+          day: "#{(Date.tomorrow + 1).to_s}",
+          s_time_hour: 8,
+          s_time_minute: 00,
+          e_time_hour: 21,
+          e_time_minute: 00
+      } 
+      expect(flash[:notice]).to eq("該当する予定がありませんでした")
+      end
+
+      it "should be flash[:notice] if nil information" do
+        host_is 
+        post host_booking_delete_path, params: {
+          day: "#{Date.tomorrow.to_s}",
+          s_time_hour: 8,
+          e_time_hour: 21,
+        }
+        expect(flash[:notice]).to eq(["入力方法を間違えています。"])
+      end
     end
   end
 

@@ -17,6 +17,16 @@ module HostSupport
       }
     end
 
+    def host_delete
+      post host_booking_delete_path, params: {
+        s_time_hour: 8,
+        s_time_minute: 00,
+        e_time_hour: 21,
+        e_time_minute: 00,
+        day: "#{Date.tomorrow.to_s}"
+      }
+    end
+
     def reservation()
       post booking_dates_path, params: { booking_date: {
         day: "#{Date.tomorrow.to_s}",
