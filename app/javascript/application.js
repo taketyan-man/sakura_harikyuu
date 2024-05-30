@@ -7,20 +7,20 @@ window.$ = jquery
 //= require jquery
 //= require jquery_ujs
 $(function () {
-    $('.btn').click(function(){
+    $('.btn').on('click', function(){
       $('.menu-content').fadeIn();
     });
-    $('.btn-close').click(function(){
+    $('.btn-close').on('click', function(){
       $('.menu-content').fadeOut();
     });
-    $('.gnav_link').click(function(){
+    $('.gnav_link').on('click', function(){
       var id = $(this).attr('href');
       var position = $(id).offset().top;
       $('.menu-content').fadeOut();
       $('html body').scrollTop(position);
     });
 
-    $('#click').click(function(){
+    $('#click').on('click', function(){
       var thisCount = $("#count").html();
         thisCount = Number(thisCount);
         thisCount = thisCount + 1;
@@ -31,7 +31,7 @@ $(function () {
       $("#count").html(thisCount);
     });
 
-    $('.host-nav').click(function(){
+    $('.host-nav').on('click', function(){
       var index = $('.host-nav').index(this);
       $('.nav-active').removeClass('nav-active');
       $(this).addClass('nav-active');

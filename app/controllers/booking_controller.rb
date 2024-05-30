@@ -3,7 +3,6 @@ class BookingController < ApplicationController
 
   def index
     @reservations = BookingDate.all.where("day >= ?", Date.current).where("day < ?", Date.current >> 3).order(day: :desc)
-    
   end
 
   def new
