@@ -3,7 +3,12 @@ module ReservationSupport
     def booking_new_rand()
       row_rand = rand(1..27)
       row = all('tbody tr')[row_rand]
-      row.all('a', text: '○')[0].click
+      weekday = Date.today.wday
+      if weekday == 0
+        weekday = 7
+      end
+      rule_rand = rand(weekday..7)
+      row.all('a', text: '○')[rule_rand].click
     end
   end
 
