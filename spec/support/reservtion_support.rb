@@ -4,11 +4,41 @@ module ReservationSupport
       row_rand = rand(1..27)
       row = all('tbody tr')[row_rand]
       weekday = Date.today.wday
-      if weekday == 0
-        weekday = 7
-      end
-      rule_rand = rand(weekday..7)
+      rule_rand = rand(weekday..6)
       row.all('a', text: '○')[rule_rand].click
+      @time_test = times[row_rand - 1]
+      @week_test = Date.today + rule_rand - weekday + 1
+    end
+
+    def times
+      times = ["8:00",
+               "8:30",
+               "9:00",
+               "9:30",
+               "10:00",
+               "10:30",
+               "11:00",
+               "11:30",
+               "12:00",
+               "12:30",
+               "13:00",
+               "13:30",
+               "14:00",
+               "14:30",
+               "15:00",
+               "15:30",
+               "16:00",
+               "16:30",
+               "17:00",
+               "17:30",
+               "18:00",
+               "18:30",
+               "19:00",
+               "19:30",
+               "20:00",
+               "20:30",
+               "21:00"
+              ]
     end
   end
 
