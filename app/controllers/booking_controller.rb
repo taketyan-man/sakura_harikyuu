@@ -89,7 +89,7 @@ class BookingController < ApplicationController
       send_line_notification
       redirect_to action: :show,id: @reservation.id
     elsif @false_count > 0
-      BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time).destroy_all
+      BookingDate.where(day: @reservation.day, s_time: @reservation.s_time, e_time: @reservation.e_time, name: @reservation.name).destroy_all
       flash[:success] = nil
       flash[:notice].push("すでに予約が入っています。", "他の時間で予約してください。")
       redirect_to booking_date_path
@@ -181,7 +181,7 @@ class BookingController < ApplicationController
           if @reservation.save
             create_cmd(first_time_num, minute_count, false_count)
           else
-            flash[:notice] << "何か問題が発生しています。"
+            flash[:notice].push("もう予約が入っています。", "日時の選択からやり直してください。")
             @false_count -= 1
           end
         end

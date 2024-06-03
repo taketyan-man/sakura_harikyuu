@@ -35,4 +35,57 @@ RSpec.describe "booking_dates", type: :system do
       expect(time_value).to eq("#{@time_test}")
     end
   end
+
+  describe 'GET /booking_date_new' do
+    before do
+      visit booking_date_new_path(day: "#{Date.tomorrow}", time: "8:00")
+    end
+
+    it "should show correct day and time" do
+      day_value = find('#booking_date_day').value
+      time_value = find('#booking_date_time').value
+      expect(day_value).to eq("#{Date.tomorrow.to_s}")
+      expect(time_value).to eq("8:00")
+    end
+
+    context 'correct information' do
+      it 'should save correct information' do
+        reservation()
+        day_value = find('[name=day]')
+        menu_value = find('[name=menu]')
+        option_value = find('[name=option]')
+        expect(day_value.text).to eq("#{Date.tomorrow.to_s}")
+        expect(menu_value.text).to eq('ボディケア 120分')
+        expect(option_value.text).to eq('アロマオイル 20分')
+      end
+    end
+
+    context 'incorrect information' do
+      it 'should show flash with incorrect information' do    
+        click_button '予約する'
+
+        expect(page.body).to include("入力されていないものがあります。")
+      end
+
+      it 'should not save double booking' do
+        reservation
+        visit booking_date_new_path(day: "#{Date.tomorrow.to_s}", time: "8:00")
+        fill_in 'booking_date_name', with: 'テスト'
+        fill_in 'booking_date_tell', with: '0' * 11
+        select  'ボディケア 120分',  from: 'booking_date_menu'
+        select 'アロマオイル 20分', from: 'booking_date_option'
+
+        click_button '予約する'
+
+        expect(page.body).to include("もう予約が入っています。")
+        expect(page.body).to include("日時の選択からやり直してください。")
+      end
+    end
+  end
+
+  describe 'GET /booking_date_show' do
+    before do
+      reservation()
+    end
+  end
 end

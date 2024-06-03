@@ -4,10 +4,20 @@ module ReservationSupport
       row_rand = rand(1..27)
       row = all('tbody tr')[row_rand]
       weekday = Date.today.wday
-      rule_rand = rand(weekday..6)
+      rule_rand = rand(0..(6 - weekday))
       row.all('a', text: '○')[rule_rand].click
       @time_test = times[row_rand - 1]
-      @week_test = Date.today + rule_rand - weekday + 1
+      @week_test = Date.today + rule_rand - weekday + 2
+    end
+
+    def reservation()
+      visit booking_date_new_path(day: "#{Date.tomorrow.to_s}", time: "8:00")
+      fill_in 'booking_date_name', with: 'テスト'
+      fill_in 'booking_date_tell', with: '0' * 11
+      select  'ボディケア 120分',  from: 'booking_date_menu'
+      select 'アロマオイル 20分', from: 'booking_date_option'
+
+      click_button '予約する'
     end
 
     def times
