@@ -92,6 +92,10 @@ RSpec.describe "booking_dates", type: :system do
       cell_text = find("table tr:nth-child(2) td:nth-child(#{weekday + 2})").text
       expect(cell_text).to eq('x')
     end
+
+    if 'should change correctly if random booking save' do
+      
+    end
   end
 
   describe 'GET /booking_date_show' do

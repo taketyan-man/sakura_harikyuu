@@ -20,6 +20,45 @@ module ReservationSupport
       click_button '予約する'
     end
 
+    def reservation_rand()
+      @random_date = Date.today + rand(1..59)
+      @random_wday = random_date.wday
+      @random_time = times[rand(0..21)]
+      random_menu = menus.sample
+      random_option = options.sample
+
+      visit booking_date_new_path(day: "#{random_date.to_s}", time: "#{random_time}")
+
+      fill_in 'booking_date_name', with: 'テスト'
+      fill_in 'booking_date_tell', with: '0' * 11
+      select "#{random_menu}", from: 'booking_date_menu'
+      select "#{random_option}", from: 'booking_date_option'
+
+      click_button '予約する'
+    end
+
+    def check_menu(random_menu, random_option)
+      menu_index = menus.index(random_menu)
+      option_index = options.index(random_option)
+      if option_index == 1
+        if menu_index < 4
+          return 4
+        elsif menu_index < 6
+          return 5
+        elsif menu_index <= 8
+          return 6
+        end
+      elsif option_index == 0
+        if menu_index < 4
+          return 3
+        elsif menu_index < 6
+          return 4
+        elsif menu_index <= 8
+          return 5
+        end
+      end
+    end
+
     def times
       times = ["8:00",
                "8:30",
@@ -49,6 +88,26 @@ module ReservationSupport
                "20:30",
                "21:00"
               ]
+    end
+
+    def menus 
+      menus = [
+        "ボディケア 60分",
+        "鍼灸マッサージ 60分",
+        "美容鍼 60分",
+        "期間限定 60分",
+        "鍼灸マッサージ 90分",
+        "ボディケア 90分",
+        "ボディケア 120分",
+        "鍼灸マッサージ 120分"
+      ]
+    end
+
+    def options
+      options = [
+        "なし",
+        "アロマオイル 20分"
+      ]
     end
   end
 
