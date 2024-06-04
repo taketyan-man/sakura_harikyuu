@@ -50,7 +50,7 @@ RSpec.describe "booking_dates", type: :system do
 
     context 'correct information' do
       it 'should save correct information' do
-        reservation
+        reservation()
         day_value = find('[name=day]')
         menu_value = find('[name=menu]')
         option_value = find('[name=option]')
@@ -83,15 +83,14 @@ RSpec.describe "booking_dates", type: :system do
     end
 
     it 'should change booking_date_path if booking save' do
-      reseravtion()
+      reservation()
       visit booking_date_path
       weekday = Date.today.wday
       if weekday == 0
         click_link '次週'
       end
-      row = all('tbody tr')[0]
-      expect(row[weekday + 1].text).to eq('x')
-
+      cell_text = find("table tr:nth-child(2) td:nth-child(#{weekday + 2})").text
+      expect(cell_text).to eq('x')
     end
   end
 
