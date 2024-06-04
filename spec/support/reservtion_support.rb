@@ -7,7 +7,7 @@ module ReservationSupport
       rule_rand = rand(0..(6 - weekday))
       row.all('a', text: '○')[rule_rand].click
       @time_test = times[row_rand - 1]
-      @week_test = Date.today + rule_rand - weekday + 2
+      @week_test = Date.today + rule_rand + 1
     end
 
     def reservation()

@@ -50,7 +50,7 @@ RSpec.describe "booking_dates", type: :system do
 
     context 'correct information' do
       it 'should save correct information' do
-        reservation()
+        reservation
         day_value = find('[name=day]')
         menu_value = find('[name=menu]')
         option_value = find('[name=option]')
@@ -80,6 +80,18 @@ RSpec.describe "booking_dates", type: :system do
         expect(page.body).to include("もう予約が入っています。")
         expect(page.body).to include("日時の選択からやり直してください。")
       end
+    end
+
+    it 'should change booking_date_path if booking save' do
+      reseravtion()
+      visit booking_date_path
+      weekday = Date.today.wday
+      if weekday == 0
+        click_link '次週'
+      end
+      row = all('tbody tr')[0]
+      expect(row[weekday + 1].text).to eq('x')
+
     end
   end
 
@@ -144,4 +156,5 @@ RSpec.describe "booking_dates", type: :system do
       end
     end
   end
+
 end
