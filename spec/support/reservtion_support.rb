@@ -35,6 +35,8 @@ module ReservationSupport
       select "#{random_option}", from: 'booking_date_option'
 
       click_button '予約する'
+      check_menu(random_menu, random_option)
+      
     end
 
     def check_menu(random_menu, random_option)
