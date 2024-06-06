@@ -37,6 +37,7 @@ module ReservationSupport
       click_button '予約する'
       check_menu(random_menu, random_option)
       
+      
     end
 
     def check_menu(random_menu, random_option)
