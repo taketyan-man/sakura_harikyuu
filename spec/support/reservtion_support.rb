@@ -23,11 +23,12 @@ module ReservationSupport
     def reservation_rand()
       @random_date = Date.today + rand(1..59)
       @random_wday = random_date.wday
-      @random_time = times[rand(0..21)]
+      @random_time_index = rand(0..21)
+      random_time = times[@random_time_index]
       random_menu = menus.sample
       random_option = options.sample
 
-      visit booking_date_new_path(day: "#{random_date.to_s}", time: "#{random_time}")
+      visit booking_date_new_path(day: "#{@random_date.to_s}", time: "#{random_time}")
 
       fill_in 'booking_date_name', with: 'テスト'
       fill_in 'booking_date_tell', with: '0' * 11
@@ -37,7 +38,13 @@ module ReservationSupport
       click_button '予約する'
       check_menu(random_menu, random_option)
       
-      
+      visit booking_date_path(start_date: "#{@random_date.to_s}")
+      if @random_wday == 0
+        @random_wday = 9
+      else
+        @random_wday += 2
+      end
+      @random_time_index += 2
     end
 
     def check_menu(random_menu, random_option)
@@ -45,20 +52,25 @@ module ReservationSupport
       option_index = options.index(random_option)
       if option_index == 1
         if menu_index < 4
-          return 4
+          return times = 4
         elsif menu_index < 6
-          return 5
+          return times = 5
         elsif menu_index <= 8
-          return 6
+          return times = 6
         end
       elsif option_index == 0
         if menu_index < 4
-          return 3
+          return times = 3
         elsif menu_index < 6
-          return 4
+          return times = 4
         elsif menu_index <= 8
-          return 5
+          return times = 5
         end
+      end
+      cell_text = []
+      times.times do |i|
+        @random_time_index += 1
+        cell_text(find("table tr:nth-child(#{@random_time_index}) td:nth-child(#{@random_wday})"))
       end
     end
 

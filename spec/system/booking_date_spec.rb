@@ -93,8 +93,9 @@ RSpec.describe "booking_dates", type: :system do
       expect(cell_text).to eq('x')
     end
 
-    if 'should change correctly if random booking save' do
-      
+    it 'should change correctly if random booking save' do
+      reservation_rand()
+      expect(cell_text).to eq('x')
     end
   end
 
