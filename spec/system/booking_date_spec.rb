@@ -95,7 +95,11 @@ RSpec.describe "booking_dates", type: :system do
 
     it 'should change correctly if random booking save' do
       reservation_rand()
-      expect(cell_text).to eq('x')
+      @times.times do |i|
+        cell_text = find("table tr:nth-child(#{@random_time_index}) td:nth-child(#{@random_wday})").text
+        expect(cell_text).to eq('x')
+        @random_time_index += 1
+      end
     end
   end
 

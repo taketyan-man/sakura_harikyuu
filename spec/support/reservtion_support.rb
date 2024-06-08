@@ -22,12 +22,12 @@ module ReservationSupport
 
     def reservation_rand()
       @random_date = Date.today + rand(1..59)
-      @random_wday = random_date.wday
+      @random_wday = @random_date.wday
       @random_time_index = rand(0..21)
       random_time = times[@random_time_index]
       random_menu = menus.sample
       random_option = options.sample
-
+  
       visit booking_date_new_path(day: "#{@random_date.to_s}", time: "#{random_time}")
 
       fill_in 'booking_date_name', with: 'テスト'
@@ -40,9 +40,9 @@ module ReservationSupport
       
       visit booking_date_path(start_date: "#{@random_date.to_s}")
       if @random_wday == 0
-        @random_wday = 9
+        @random_wday = 8
       else
-        @random_wday += 2
+        @random_wday += 1
       end
       @random_time_index += 2
     end
@@ -52,25 +52,20 @@ module ReservationSupport
       option_index = options.index(random_option)
       if option_index == 1
         if menu_index < 4
-          return times = 4
+          return @times = 4
         elsif menu_index < 6
-          return times = 5
+          return @times = 5
         elsif menu_index <= 8
-          return times = 6
+          return @times = 6
         end
       elsif option_index == 0
         if menu_index < 4
-          return times = 3
+          return @times = 3
         elsif menu_index < 6
-          return times = 4
+          return @times = 4
         elsif menu_index <= 8
-          return times = 5
+          return @times = 5
         end
-      end
-      cell_text = []
-      times.times do |i|
-        @random_time_index += 1
-        cell_text(find("table tr:nth-child(#{@random_time_index}) td:nth-child(#{@random_wday})"))
       end
     end
 
