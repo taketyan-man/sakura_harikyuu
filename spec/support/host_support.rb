@@ -39,6 +39,19 @@ module HostSupport
       } }
     end
   end
+
+  module System
+    def host_reservation()
+      visit host_new_path(day: "#{Date.tomorrow.to_s}", time: "8:00")
+
+      fill_in '', with: '08'
+      fill_in '', with: '00'
+      fill_in '', with: '21'
+      fill_in '', with: '00'
+
+      click_button '予定を'
+    end
+  end
 end
  
 RSpec.configure do |config|
