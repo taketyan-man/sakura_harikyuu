@@ -137,6 +137,6 @@ module ReservationSupport
 end
  
 RSpec.configure do |config|
-  config.include ReservationSupport::System, type: :system
+  config.include ReservationSupport::System,  type: :system
   config.include ReservationSupport::Request, type: :request
 end

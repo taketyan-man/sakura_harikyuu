@@ -26,34 +26,41 @@ module HostSupport
         day: "#{Date.tomorrow.to_s}"
       }
     end
-
-    def reservation()
-      post booking_dates_path, params: { booking_date: {
-        day: "#{Date.tomorrow.to_s}",
-        time: "8:00",
-        name: "モデル",
-        tell: "00000000000",
-        menu: 2,
-        option: 0,
-        s_time: "8:00"
-      } }
-    end
   end
 
   module System
+    def host_is()
+      visit booking_host_path
+      fill_in 'session_password', with: 'password' 
+
+      click_button 'ログイン' 
+      visit host_path
+    end
+
+    def reservation()
+      visit booking_date_new_path(day: "#{Date.tomorrow.to_s}", time: "8:00")
+      fill_in 'booking_date_name', with: 'テスト'
+      fill_in 'booking_date_tell', with: '0' * 11
+      select  'ボディケア 120分',  from: 'booking_date_menu'
+      select 'アロマオイル 20分', from: 'booking_date_option'
+
+      click_button '予約する'
+    end
+
     def host_reservation()
       visit host_new_path(day: "#{Date.tomorrow.to_s}", time: "8:00")
 
-      fill_in '', with: '08'
-      fill_in '', with: '00'
-      fill_in '', with: '21'
-      fill_in '', with: '00'
+      fill_in 's_time_hour', with: '08'
+      fill_in 's_time_minute', with: '00'
+      fill_in 'e_time_hour', with: '21'
+      fill_in 'e_time_minute', with: '00'
 
-      click_button '予定を'
+      click_button '予定を入れる'
     end
   end
 end
  
 RSpec.configure do |config|
   config.include HostSupport::Request, type: :request
+  config.include HostSupport::System,  type: :system
 end
