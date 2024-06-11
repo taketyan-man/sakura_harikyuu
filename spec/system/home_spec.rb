@@ -20,8 +20,9 @@ RSpec.describe "Home", type: :system do
 
     it 'should have redirecting booking_host_path' do
       expect(page).to_not have_link "© All rights reserved by takechanmancampany.", href: booking_host_path
+      hostSwitch = find('#click')
       10.times do 
-        click_link "© All rights reserved by takechanmancampany."
+        hostSwitch.click
       end
       expect(page).to have_link "© All rights reserved by takechanmancampany.", href: booking_host_path
       click_link "© All rights reserved by takechanmancampany."
