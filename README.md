@@ -10,11 +10,14 @@
 * Test     -RSpec 3.13
 * DB       -開発環境-sqlite3 本番環境-MySQL
 * インフラ -AWS
+
 <p>サービスのURL</p>
 http://sakura-harikyuu.com:3000/
 
+
 <h2>なぜ作ったか</h2>
 依頼者が既存のsaasがとても高くて効果が見れなかったため作って欲しいと依頼されたため
+
 
 <h2>概要</h2>
 <div display="flex">
@@ -24,13 +27,16 @@ http://sakura-harikyuu.com:3000/
 <image src="./app/assets/images/host.index1.png" width="40%">
 <image src="./app/assets/images/host.index2.png" width="40%">
 </div>
+  
 <h2>ER図</h2>
 <image src="./app/assets/images/桜鍼灸　ER図.png" width="540px">
+
 
 <h2>こだわった点</h2>
 このサイトはwebアプリをあまり慣れてない人が使うのが見込まれるので、すごく単純に作った。
 ログインなどでユーザーごとに予約を管理しても良かったが、慣れてない人からしてみれば、ユーザー登録やユーザーログインは難しいと思った
 そのため、ユーザー側は予約しかできないように、一度登録したらホストしか予約を削除できないようにした。
+
 
 <h2>反省点</h2>
 初めてのアプリだったためコードが汚かったりDBが汚いと思う今後は、本場の綺麗な書き方をエッセンスなどを学んでから、リファクタリングしようと思う。
@@ -43,6 +49,7 @@ line-bot-api導入！！ホスト側がユーザーが予約した時に通知�
 内容としては開始時間、終了時間、名前、日付、予約メニュー、オプションの有無です。
 
 Rspecの導入!!そもそもtestは書いていなかったがRailsTutorialを見てからtestコードを書こうと決めた。Rspecを使用した理由は現場で多く使われているためだ。
+
 
 <h2>参考文献様たち</h2>
 https://qiita.com/Takao_/items/b18234b8db4cda97a113
