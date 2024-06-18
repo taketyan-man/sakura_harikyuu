@@ -32,7 +32,6 @@ module HostSupport
     def host_is()
       visit booking_host_path
       fill_in 'session_password', with: 'password' 
-
       click_button 'ログイン' 
       visit host_path
     end
@@ -43,18 +42,15 @@ module HostSupport
       fill_in 'booking_date_tell', with: '0' * 11
       select  'ボディケア 120分',  from: 'booking_date_menu'
       select 'アロマオイル 20分',  from: 'booking_date_option'
-
       click_button '予約する'
     end
 
     def host_reservation()
       visit host_new_path(day: "#{Date.tomorrow.to_s}", time: "8:00")
-
       fill_in 's_time_hour',   with: '08'.to_i
       fill_in 's_time_minute', with: '00'.to_i
       fill_in 'e_time_hour',   with: '21'.to_i
       fill_in 'e_time_minute', with: '00'.to_i
-
       click_button '予定を入れる'
     end
   end

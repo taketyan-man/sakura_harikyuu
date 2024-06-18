@@ -63,7 +63,6 @@ RSpec.describe "booking_dates", type: :system do
     context 'incorrect information' do
       it 'should show flash with incorrect information' do    
         click_button '予約する'
-
         expect(page.body).to include("入力されていないものがあります。")
       end
 
@@ -74,9 +73,7 @@ RSpec.describe "booking_dates", type: :system do
         fill_in 'booking_date_tell', with: '0' * 11
         select  'ボディケア 120分',  from: 'booking_date_menu'
         select 'アロマオイル 20分', from: 'booking_date_option'
-
         click_button '予約する'
-
         expect(page.body).to include("もう予約が入っています。")
         expect(page.body).to include("日時の選択からやり直してください。")
       end
@@ -132,7 +129,6 @@ RSpec.describe "booking_dates", type: :system do
         checkbox.check
         fill_in 'name', with: 'テスト'
         fill_in 'tell', with: "0" * 11
-
         deletebtn.click
         expect(page.body).to include('予約画面')
       end
@@ -145,7 +141,6 @@ RSpec.describe "booking_dates", type: :system do
         deletebtn = find('input[id=host_button]')
         fill_in 'name', with: 'テスト'
         fill_in 'tell', with: "0" * 11
-
         deletebtn.click
         expect(page).to have_css('div.delete-box', visible: true)
       end
@@ -158,11 +153,9 @@ RSpec.describe "booking_dates", type: :system do
         checkbox.check
         fill_in 'name', with: ''
         fill_in 'tell', with: "0" * 11
-
         deletebtn.click
         expect(page.body).to include('以下のエラーが発生しました', '確認用に入力していたものが違います。', 'もう一度最初から入力してください。')
       end
     end
   end
-
 end
