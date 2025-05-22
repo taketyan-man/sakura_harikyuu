@@ -119,4 +119,9 @@ RSpec.describe "booking_dates", type: :system do
     end
     
   end
+
+  it 'should screan if out ' do
+    visit home_path
+    expect(page.body).to include('予約じゃgjリアフォえhjg')
+  end
 end
