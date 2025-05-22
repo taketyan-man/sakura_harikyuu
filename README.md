@@ -8,8 +8,8 @@
 * Unicorn
 * Nginx
 * Test     -RSpec 3.13
-* DB       -開発環境-sqlite3 本番環境-MySQL
-* インフラ -AWS
+* DB       -開発環境-sqlite3 本番環境-PosgreSQL-16
+* インフラ -Render
 
 サービスのURL<br>
 http://sakura-harikyuu.com:3000/
