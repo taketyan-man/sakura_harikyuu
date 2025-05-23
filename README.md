@@ -13,9 +13,7 @@
 
 サービスのURL<br>
 https://sakura-harikyuu.onrender.com
-<br><br>
-<h2>なぜ作ったか</h2>
-依頼者が既存のsaasの値段がとても高くて効果が見れなかったため作って欲しいと依頼されたため
+
 <br><br>
 <h2>概要</h2>
 <div display="flex">
